@@ -6,5 +6,5 @@ import (
 )
 
 func TestEverything(t *testing.T) {
-  dom.ParseString();
+  dom.ParseString("");
 }

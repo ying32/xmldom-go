@@ -1,6 +1,7 @@
-TARGET = gograph
-# order matters?
-SOURCES = dom.go dom_test.go test.go
+TARGET = testdom
+INCLUDE = ./
+GFLAGS = -I $(INCLUDE)
+SOURCES = *.go
 OBJECTS = $(shell echo $(SOURCES) | sed -e 's,\.go,\.6,g')
 CC = 6g
 LD = 6l
@@ -10,7 +11,7 @@ $(TARGET): $(OBJECTS)
 	$(LD) -o $(TARGET) $(OBJECTS)
 
 %.6 : %.go
-	$(CC) $^
+	$(CC) $(GFLAGS) $^
 
 clean:
 	rm -f $(TARGET) $(OBJECTS)
