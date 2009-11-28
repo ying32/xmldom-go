@@ -23,16 +23,17 @@ type Document interface {
   DocumentElement() Element;
 }
 
-// internal structures that implements the above public interfaces
-type elementImpl struct {}
-func (e *elementImpl) NodeName() string { return ""; }
-func (e *elementImpl) TagName() string { return e.NodeName(); }
+// internal structures that implement the above public interfaces
 
-type documentImpl struct {}
-func (d *documentImpl) NodeName() string { return ""; }
-func (d *documentImpl) DocumentElement() Element { return new(elementImpl); }
+type elem struct {}
+func (e *elem) NodeName() string { return "elem.NodeName() not implemented"; }
+func (e *elem) TagName() string { return e.NodeName(); }
 
-func ParseString(s string) *documentImpl {
-  var d = new(documentImpl);
+type doc struct {}
+func (d *doc) NodeName() string { return ""; }
+func (d *doc) DocumentElement() Element { return new(elem); }
+
+func ParseString(s string) Document {
+  var d = new(doc);
   return d;
 }
