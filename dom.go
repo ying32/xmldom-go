@@ -35,7 +35,7 @@ func (e *elem) TagName() string { return e.NodeName(); }
 
 // doc is our internal implementation of the Document interface
 type doc struct {}
-func (d *doc) NodeName() string { return ""; }
+func (d *doc) NodeName() string { return "doc.nodeName() not implemented"; }
 func (d *doc) DocumentElement() Element { return new(elem); }
 
 func ParseString(s string) (d *Document){
