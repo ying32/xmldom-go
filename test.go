@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-  dom.ParseString("");
+  dom.ParseString("<bar></bar>");
 }
