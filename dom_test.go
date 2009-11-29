@@ -14,6 +14,14 @@ func TestDocumentNodeName(t *testing.T) {
   }
 }
 
+// Document.nodeType should be 9
+func TestDocumentNodeType(t *testing.T) {
+  var d = dom.ParseString("<foo></foo>");
+  if (d.NodeType() != 9) {
+    t.Errorf("Document.nodeType not equal to 9");
+  }
+}
+
 // Document.documentElement should return an object implementing Element
 func TestDocumentElementIsAnElement(t *testing.T) {
   var d = dom.ParseString("<foo></foo>");
@@ -31,3 +39,11 @@ func TestDocumentElementNodeName(t *testing.T) {
   }
 }
 
+// Element.nodeType should be 1
+func TestElementNodeType(t *testing.T) {
+  var d = dom.ParseString("<foo></foo>");
+  root,_ := (d.DocumentElement()).(dom.Element);
+  if (root.NodeType() != 1) {
+    t.Errorf("Element.nodeType not equal to 1");
+  }
+}
