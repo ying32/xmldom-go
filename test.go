@@ -1,7 +1,7 @@
 package main
 
 import (
-  "./dom"
+  "./dom";
 )
 
 func main() {

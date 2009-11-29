@@ -35,11 +35,11 @@ func (e *elem) TagName() string { return e.NodeName(); }
 
 // doc is our internal implementation of the Document interface
 type doc struct {}
-func (d *doc) NodeName() string { return "doc.nodeName() not implemented"; }
+func (d *doc) NodeName() string { return "#document"; }
 func (d *doc) DocumentElement() Element { return new(elem); }
 
-func ParseString(s string) (d *Document){
-  d = new(Document);
+func ParseString(s string) Document {
+  var d = new(doc);
   r := strings.NewReader(s);
   p := xml.NewParser(r);
   _,_ = p.Token(); // todo: get the data token by token
