@@ -2,9 +2,13 @@ package dom_test
 
 import (
   "testing";
-  "./dom";
+  "xml/dom";
 )
 
-func TestEverything(t *testing.T) {
-  dom.ParseString("<foo></foo>");
+func TestDocumentNodeName(t *testing.T) {
+  var d = dom.ParseString("<foo></foo>");
+  if (d.NodeName() != "#document") {
+    t.Errorf("Document.nodeName != #document");
+  }
 }
+
