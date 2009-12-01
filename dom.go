@@ -38,22 +38,27 @@ type _elem struct {
   *_node;
   n xml.Name; // name
 }
-// FIXME: return e.n.Local causes a crash when NodeName() is called
-func (e *_elem) NodeName() string { return "blah"; }// e.n.Local; }
+func (e *_elem) NodeName() string { return e.n.Local; }
 func (e *_elem) NodeType() int { return 1; }
 func (e *_elem) TagName() string { return e.NodeName(); }
+
+func newElem(token xml.StartElement) (e *_elem) {
+  e = new(_elem);
+  e.n = token.Name;
+  return;
+}
 
 // implements the Document interface
 type _doc struct {
   *_node;
-  root *_elem;
+  root Element;
 }
 func (d *_doc) NodeName() string { return "#document"; }
 func (d *_doc) NodeType() int { return 9; }
 func (d *_doc) DocumentElement() Element { return d.root; }
-func (d *_doc) setRoot(n *_elem) Element {
-  d.root = n;
-  return n;
+func (d *_doc) setRoot(r Element) Element {
+  d.root = r;
+  return r;
 }
 
 func ParseString(s string) Document {
@@ -63,14 +68,9 @@ func ParseString(s string) Document {
   d := new(_doc);
   e := (Element)(nil); // e is the current parent
   for t != nil {
-    t, err = p.Token();
-//    fmt.Println("t=",t,",err=", err);
-    switch t1 := t.(type) {
+    switch token := t.(type) {
       case xml.StartElement:
-      	tokElem,_ := t.(xml.StartElement);
-        newElem := new(_elem);
-        newElem.n = tokElem.Name;
-        
+        newElem := newElem(token);
         if e == nil {
           // set doc root
           e = d.setRoot(newElem);
@@ -80,7 +80,11 @@ func ParseString(s string) Document {
         }
       case xml.EndElement:
       	// TODO: go up to parent
+      default:
+        fmt.Println("Unknown type");
     }
+    // get the next token
+    t, err = p.Token();
   }
   if err != os.EOF {
     fmt.Println(err.String());
