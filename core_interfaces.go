@@ -14,6 +14,7 @@ package dom
 type Node interface {
 	NodeName() string;
 	NodeType() int;
+  AppendChild(child *Node) (*Node);
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
