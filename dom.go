@@ -41,6 +41,7 @@ type _elem struct {
 func (e *_elem) NodeName() string { return e.n.Local; }
 func (e *_elem) NodeType() int { return 1; }
 func (e *_elem) TagName() string { return e.NodeName(); }
+func (e *_elem) GetAttribute(name string) string { return "Element.getAttribute() not implemented"; }
 
 func newElem(token xml.StartElement) (e *_elem) {
   e = new(_elem);
