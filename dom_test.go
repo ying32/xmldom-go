@@ -55,3 +55,12 @@ func TestElementGetAttribute(t *testing.T) {
   	t.Errorf("Element.getAttribute() did not return the attribute value");
   }
 }
+
+func TestElementSetAttribute(t *testing.T) {
+  var d = dom.ParseString("<foo></foo>");
+  root,_ := (d.DocumentElement()).(dom.Element);
+  root.SetAttribute("bar", "baz");
+  if (root.GetAttribute("bar") != "baz") {
+  	t.Errorf("Element.getAttribute() did not return the attribute value");
+  }
+}
