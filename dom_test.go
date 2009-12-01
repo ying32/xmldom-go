@@ -47,3 +47,11 @@ func TestElementNodeType(t *testing.T) {
     t.Errorf("Element.nodeType not equal to 1");
   }
 }
+
+func TestElementGetAttribute(t *testing.T) {
+  var d = dom.ParseString("<foo bar='baz'></foo>");
+  root,_ := (d.DocumentElement()).(dom.Element);
+  if (root.GetAttribute("bar") != "baz") {
+  	t.Errorf("Element.getAttribute() did not return the attribute value");
+  }
+}

@@ -21,7 +21,7 @@ type Node interface {
 type Element interface {
 	Node;
 	TagName() string;
-	//GetAttribute(name string) string;
+	GetAttribute(name string) string;
 	//SetAttribute(name string, value string);
 }
 
