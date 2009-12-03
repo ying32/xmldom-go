@@ -30,7 +30,7 @@ func (nl *_nodelist) Item(index int) Node {
 
 // ====================================
 type _node struct {
-  p *_node; // parent
+  p Node; // parent
   c vector.Vector; // children
 }
 func (n *_node) NodeName() string { return "Node.NodeName() not implemented"; }
@@ -43,6 +43,7 @@ func (n *_node) ChildNodes() NodeList {
   return new(_nodelist);
 }
 
+// TODO: never called now?
 func newNode() (n *_node) {
   n = new(_node);
   return;
@@ -70,11 +71,14 @@ func (e *_elem) SetAttribute(attrname string, attrval string) {
   e.attribs[attrname]=attrval;
 }
 
-func newElem(token xml.StartElement) (e *_elem) {
-  e = new(_elem);
-  e.n = token.Name;
-  e.attribs = make(map[string] string);
-  return;
+// this is our _elem constructor, it takes care to create
+// the initialize the unnamed *_node field
+func newElem(token xml.StartElement) (*_elem) {
+  return &_elem {
+        new(_node), 
+        token.Name, 
+        make(map[string] string)
+      };
 }
 // ====================================
 
@@ -91,33 +95,41 @@ func (d *_doc) setRoot(r Element) Element {
   d.root = r;
   return r;
 }
+func newDoc() (*_doc) {
+  return &_doc {
+        new(_node), 
+        nil
+        };
+}
 // ====================================
 
 func ParseString(s string) Document {
   r := strings.NewReader(s);
   p := xml.NewParser(r);
   t, err := p.Token();
-  d := new(_doc);
+  d := newDoc();
   e := (Element)(nil); // e is the current parent
   for t != nil {
     switch token := t.(type) {
       case xml.StartElement:
         el := newElem(token);
         for ar := range(token.Attr) {
-          //fmt.Println("ar ",ar," attr ",token.Attr[ar].Name.Local);
           el.SetAttribute(token.Attr[ar].Name.Local, token.Attr[ar].Value);
         }
         if e == nil {
           // set doc root
           e = d.setRoot(el);
+          el.p = d;
         } else {
           // this element is a child of e, the last element we found
+          el.p = e;
           e,_ = e.AppendChild(el).(Element);
         }
       case xml.EndElement:
       	// TODO: go up to parent
       default:
-        fmt.Println("Unknown type");
+      	// TODO: add handling for other types (text nodes, etc)
+//        fmt.Println("Unknown type");
     }
     // get the next token
     t, err = p.Token();

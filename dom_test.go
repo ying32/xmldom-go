@@ -66,7 +66,11 @@ func TestElementSetAttribute(t *testing.T) {
 }
 
 func TestNodeListLength(t *testing.T) {
-  var d = dom.ParseString("<foo><bar/><baz/></foo>");
+  var d = dom.ParseString(
+  	`<foo>
+  		<bar></bar>
+  		<baz></baz>
+  	</foo>`);
   root,_ := (d.DocumentElement()).(dom.Element);
   children := root.ChildNodes();
   if (children.Length() != 2) {
