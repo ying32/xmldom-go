@@ -71,8 +71,8 @@ func (e *_elem) SetAttribute(attrname string, attrval string) {
   e.attribs[attrname]=attrval;
 }
 
-// this is our _elem constructor, it takes care to create
-// the initialize the unnamed *_node field
+// this is our _elem constructor, it takes care to initialize
+// the unnamed *_node field
 func newElem(token xml.StartElement) (*_elem) {
   return &_elem {
         new(_node), 

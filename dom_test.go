@@ -77,3 +77,17 @@ func TestNodeListLength(t *testing.T) {
   	t.Errorf("NodeList.length did not return the correct number of children");
   }
 }
+
+func TestNodeListItem(t *testing.T) {
+  var d = dom.ParseString(
+  	`<foo>
+  		<bar></bar>
+  		<baz></baz>
+  	</foo>`);
+  root,_ := (d.DocumentElement()).(dom.Element);
+  children := root.ChildNodes();
+  if (children.Item(1).NodeName() != "baz" ||
+      children.Item(0).NodeName() != "bar") {
+  	t.Errorf("NodeList.item(i) did not return the correct child");
+  }
+}
