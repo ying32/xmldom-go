@@ -12,21 +12,28 @@ package dom
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247
 type Node interface {
-	NodeName() string;
-	NodeType() int;
-	AppendChild(Node) Node;
+  NodeName() string;
+  NodeType() int;
+  AppendChild(Node) Node;
+  ChildNodes() NodeList;
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
 type Element interface {
-	Node;
-	TagName() string;
-	GetAttribute(name string) string;
-	SetAttribute(name string, value string);
+  Node;
+  TagName() string;
+  GetAttribute(name string) string;
+  SetAttribute(name string, value string);
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
 type Document interface {
-	Node;
-	DocumentElement() Element;
+  Node;
+  DocumentElement() Element;
+}
+
+// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
+type NodeList interface {
+  Length() int;
+  Item(index int) Node;
 }

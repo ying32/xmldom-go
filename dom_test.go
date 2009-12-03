@@ -64,3 +64,12 @@ func TestElementSetAttribute(t *testing.T) {
   	t.Errorf("Element.getAttribute() did not return the attribute value");
   }
 }
+
+func TestNodeListLength(t *testing.T) {
+  var d = dom.ParseString("<foo><bar/><baz/></foo>");
+  root,_ := (d.DocumentElement()).(dom.Element);
+  children := root.ChildNodes();
+  if (children.Length() != 2) {
+  	t.Errorf("NodeList.length did not return the correct number of children");
+  }
+}

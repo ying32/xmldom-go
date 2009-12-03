@@ -16,23 +16,40 @@ import (
   "os";
 )
 
+// ====================================
+// NodeList implementation
+type _nodelist struct {
+}
+func (nl *_nodelist) Length() int {
+  return 0;
+}
+func (nl *_nodelist) Item(index int) Node {
+  return new(_node);
+}
+// ====================================
+
+// ====================================
 type _node struct {
   p *_node; // parent
   c vector.Vector; // children
 }
-
 func (n *_node) NodeName() string { return "Node.NodeName() not implemented"; }
 func (n *_node) NodeType() int { return -1; }
 func (n *_node) AppendChild(child Node) Node {
   n.c.Push(child);
   return child;
 }
+func (n *_node) ChildNodes() NodeList {
+  return new(_nodelist);
+}
 
 func newNode() (n *_node) {
   n = new(_node);
   return;
 }
+// ====================================
 
+// ====================================
 // implements the Element interface
 type _elem struct {
   *_node;
@@ -59,7 +76,9 @@ func newElem(token xml.StartElement) (e *_elem) {
   e.attribs = make(map[string] string);
   return;
 }
+// ====================================
 
+// ====================================
 // implements the Document interface
 type _doc struct {
   *_node;
@@ -72,6 +91,7 @@ func (d *_doc) setRoot(r Element) Element {
   d.root = r;
   return r;
 }
+// ====================================
 
 func ParseString(s string) Document {
   r := strings.NewReader(s);
