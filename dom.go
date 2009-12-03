@@ -37,16 +37,26 @@ func newNode() (n *_node) {
 type _elem struct {
   *_node;
   n xml.Name; // name
+  attribs map[string] string; // attributes of the element
 }
 func (e *_elem) NodeName() string { return e.n.Local; }
 func (e *_elem) NodeType() int { return 1; }
 func (e *_elem) TagName() string { return e.NodeName(); }
-func (e *_elem) GetAttribute(name string) string { return "Element.getAttribute() not implemented"; }
-func (e *_elem) SetAttribute(attrname string, attrval string) { }
+func (e *_elem) GetAttribute(name string) string {
+  val, ok := e.attribs[name];
+  if (!ok) {
+    val = "";
+  }
+  return val;
+}
+func (e *_elem) SetAttribute(attrname string, attrval string) {
+  e.attribs[attrname]=attrval;
+}
 
 func newElem(token xml.StartElement) (e *_elem) {
   e = new(_elem);
   e.n = token.Name;
+  e.attribs = make(map[string] string);
   return;
 }
 
@@ -72,13 +82,17 @@ func ParseString(s string) Document {
   for t != nil {
     switch token := t.(type) {
       case xml.StartElement:
-        newElem := newElem(token);
+        el := newElem(token);
+        for ar := range(token.Attr) {
+          //fmt.Println("ar ",ar," attr ",token.Attr[ar].Name.Local);
+          el.SetAttribute(token.Attr[ar].Name.Local, token.Attr[ar].Value);
+        }
         if e == nil {
           // set doc root
-          e = d.setRoot(newElem);
+          e = d.setRoot(el);
         } else {
           // this element is a child of e, the last element we found
-          e,_ = e.AppendChild(newElem).(Element);
+          e,_ = e.AppendChild(el).(Element);
         }
       case xml.EndElement:
       	// TODO: go up to parent
