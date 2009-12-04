@@ -242,7 +242,6 @@ func TestAppendChildExisting(t *testing.T) {
 func TestToXml(t *testing.T) {
   d1 := dom.ParseString(`<parent attr="val"><child><grandchild></grandchild></child></parent>`);
   s := dom.ToXml(d1);
-  fmt.Println(s);
   d2 := dom.ParseString(s);
   
   if (d1.DocumentElement().NodeName() != d2.DocumentElement().NodeName() ||

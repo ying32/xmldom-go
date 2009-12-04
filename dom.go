@@ -190,18 +190,25 @@ func ParseString(s string) Document {
 
 // called recursively
 func toXml(n Node) string {
-  s := "<" + n.NodeName();
+  s := "";
+  switch n.NodeType() {
+    case 1: // Element Nodes
+      s += "<" + n.NodeName();
   
-  // TODO: iterate over attributes
+      // TODO: iterate over attributes
   
-  s += ">";
+      s += ">";
   
-  // iterate over children
-  for ch := uint(0); ch < n.ChildNodes().Length(); ch++ {
-    s += toXml(n.ChildNodes().Item(ch));
+      // iterate over children
+      for ch := uint(0); ch < n.ChildNodes().Length(); ch++ {
+        s += toXml(n.ChildNodes().Item(ch));
+      }
+  
+      s += "</" + n.NodeName() + ">";
+      
+    case 3: // Text Nodes
+      break;
   }
-  
-  s += "</" + n.NodeName() + ">";
   return s;
 }
 
