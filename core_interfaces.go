@@ -32,6 +32,7 @@ type Element interface {
 type Document interface {
   Node;
   DocumentElement() Element;
+  CreateElement(tagName string) Element;
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
