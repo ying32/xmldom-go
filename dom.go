@@ -64,6 +64,14 @@ func (n *_node) AppendChild(child Node) Node {
   n.c.Push(child);
   return child;
 }
+func (n *_node) RemoveChild(child Node) {
+  for i := n.c.Len() ; i > 0 ; i-- {
+    if n.c.At(i).(Node) == child {
+      n.c.Delete(i);
+      break;
+    }
+  }
+}
 
 func (n *_node) ChildNodes() NodeList {
   return newChildNodelist(n);
@@ -142,6 +150,28 @@ func newDoc() (*_doc) {
         };
 }
 // ====================================
+
+type _text struct {
+}
+func (*_text) SplitText(offset uint) Text {
+  // stub
+  return new(*_text);
+}
+func (*_text) IsElementContentWhitespace() bool {
+  // stub
+  return false;
+}
+func (*_text) WholeText() string {
+  // stub
+  return "";
+}
+func (*_text) ReplaceWholeText(content string) Text {
+  // stub
+  return new(*_text);
+}
+
+// ====================================
+
 
 func ParseString(s string) Document {
   r := strings.NewReader(s);
