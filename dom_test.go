@@ -34,7 +34,7 @@ func TestDocumentElementIsAnElement(t *testing.T) {
 
 func TestDocumentElementNodeName(t *testing.T) {
   var d = dom.ParseString("<foo></foo>");
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement();
   if (root.NodeName() != "foo") {
   	t.Errorf("Element.nodeName not set correctly");
   }
@@ -43,7 +43,7 @@ func TestDocumentElementNodeName(t *testing.T) {
 // Element.nodeType should be 1
 func TestElementNodeType(t *testing.T) {
   var d = dom.ParseString("<foo></foo>");
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement();
   if (root.NodeType() != 1) {
     t.Errorf("Element.nodeType not equal to 1");
   }
@@ -51,7 +51,7 @@ func TestElementNodeType(t *testing.T) {
 
 func TestElementGetAttribute(t *testing.T) {
   var d = dom.ParseString("<foo bar='baz'></foo>");
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement();
   if (root.GetAttribute("bar") != "baz") {
   	t.Errorf("Element.getAttribute() did not return the attribute value");
   }
@@ -59,7 +59,7 @@ func TestElementGetAttribute(t *testing.T) {
 
 func TestElementSetAttribute(t *testing.T) {
   var d = dom.ParseString("<foo></foo>");
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement();
   root.SetAttribute("bar", "baz");
   if (root.GetAttribute("bar") != "baz") {
   	t.Errorf("Element.getAttribute() did not return the attribute value");
@@ -72,7 +72,7 @@ func TestNodeListLength(t *testing.T) {
   		<bar></bar>
   		<baz></baz>
   	</foo>`);
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement();
   children := root.ChildNodes();
   l := int(children.Length());
   if ( l != 2) {
@@ -86,7 +86,7 @@ func TestNodeListItem(t *testing.T) {
   		<bar></bar>
   		<baz></baz>
   	</foo>`);
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement();
   children := root.ChildNodes();
   if (children.Item(1).NodeName() != "baz" ||
       children.Item(0).NodeName() != "bar") {
@@ -100,7 +100,7 @@ func TestNodeListItemForNull(t *testing.T) {
   		<bar></bar>
   		<baz></baz>
   	</foo>`);
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement();
   children := root.ChildNodes();
   if (children.Item(2) != nil ||
       children.Item(100000) != nil) {
@@ -116,13 +116,13 @@ func TestNodeParentNode(t *testing.T) {
   		</bar>
   	</foo>`);
   
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement().(dom.Node);
   child := root.ChildNodes().Item(0);
   grandchild := child.ChildNodes().Item(0);
   
-  if (child.ParentNode() != root.(dom.Node) ||
+  if (child.ParentNode() != root ||
       grandchild.ParentNode() != child ||
-      grandchild.ParentNode().ParentNode() != root.(dom.Node)) {
+      grandchild.ParentNode().ParentNode() != root) {
   	t.Errorf("Node.ParentNode() did not return the correct parent");
   }
 }
@@ -130,7 +130,7 @@ func TestNodeParentNode(t *testing.T) {
 func TestNodeParentNodeOnRoot(t *testing.T) {
   var d = dom.ParseString(`<foo></foo>`);
   
-  root,_ := (d.DocumentElement()).(dom.Element);
+  root := d.DocumentElement().(dom.Node);
   
   if (root.ParentNode() != d.(dom.Node)) {
   	t.Errorf("documentElement.ParentNode() did not return the document");
@@ -154,8 +154,8 @@ func TestNodeDocumentChildNodesLength(t *testing.T) {
 
 func TestNodeDocumentChildNodeIsRoot(t *testing.T) {
   var d = dom.ParseString(`<foo></foo>`);
-  root,_ := (d.DocumentElement()).(dom.Element);
-  if (d.ChildNodes().Item(0) != root.(dom.Node)) {
+  root := d.DocumentElement().(dom.Node);
+  if (d.ChildNodes().Item(0) != root) {
   	t.Errorf("document.ChildNodes().Item(0) is not the documentElement");
   }
 }
