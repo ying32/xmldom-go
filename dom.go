@@ -64,6 +64,14 @@ func (n *_node) AppendChild(child Node) Node {
   n.c.Push(child);
   return child;
 }
+func (n *_node) RemoveChild(child Node) {
+  for i := n.c.Len() ; i > 0 ; i-- {
+    if n.c.At(i).(Node) == child {
+      n.c.Delete(i);
+      break;
+    }
+  }
+}
 
 func (n *_node) ChildNodes() NodeList {
   return newChildNodelist(n);
