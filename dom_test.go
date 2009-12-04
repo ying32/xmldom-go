@@ -159,3 +159,11 @@ func TestNodeDocumentChildNodeIsRoot(t *testing.T) {
   	t.Errorf("document.ChildNodes().Item(0) is not the documentElement");
   }
 }
+
+func TestDocumentCreateElement(t *testing.T) {
+  var d = dom.ParseString(`<foo></foo>`);
+  var ne = d.CreateElement("child");
+  if (ne.NodeName() != "child") {
+  	t.Errorf("document.CreateNode('child') did not create a <child> Element");
+  }
+}
