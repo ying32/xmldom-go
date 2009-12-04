@@ -15,6 +15,7 @@ type Node interface {
   NodeName() string;
   NodeType() int;
   AppendChild(Node) Node;
+  RemoveChild(Node);
   ChildNodes() NodeList;
   // attributes
   ParentNode() Node;
@@ -39,4 +40,12 @@ type Document interface {
 type NodeList interface {
   Length() uint;
   Item(index uint) Node;
+}
+
+// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
+type Text interface {
+  SplitText(offset uint) Text;
+  IsElementContentWhitespace() bool;
+  WholeText() string;
+  ReplaceWholeText(content string) Text;
 }
