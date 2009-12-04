@@ -39,7 +39,7 @@ func (nl *_childNodelist) Length() int {
 }
 func (nl *_childNodelist) Item(index int) Node {
   n := Node(nil);
-  if (nl.p.c.Len() < index) {
+  if index < nl.p.c.Len() {
     // TODO: what if index == nl.p.c.Len() -1 and a node is deleted right now?
     n = nl.p.c.At(index).(Node);
   }
@@ -61,12 +61,7 @@ type _node struct {
 func (n *_node) NodeName() string { return "Node.NodeName() not implemented"; }
 func (n *_node) NodeType() int { return -1; }
 func (n *_node) AppendChild(child Node) Node {
-  //fmt.Println(n,":: Append ", child);
   n.c.Push(child);
-  //l := n.c.Len();
-  //for i := 0; i < l; i++ {
-  //  fmt.Println(i,".. ", n.c.At(i));
-  //}
   return child;
 }
 
@@ -144,7 +139,6 @@ func ParseString(s string) Document {
   t, err := p.Token();
   d := newDoc();
   e := (Element)(nil); // e is the current parent
-  //fmt.Println("** Start00");
   for t != nil {
     switch token := t.(type) {
       case xml.StartElement:
@@ -166,12 +160,8 @@ func ParseString(s string) Document {
         switch q := e.ParentNode().(type) {
           case Document:
             e = nil;
-            //fmt.Println(" parent doc ",q);
           case Element:
             e = q;
-            //fmt.Println(" parent element ",q);
-        default:
-            //fmt.Println("unkown parent type",q);
         }
       default:
       	// TODO: add handling for other types (text nodes, etc)
