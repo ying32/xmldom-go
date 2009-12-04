@@ -180,3 +180,43 @@ func TestAppendChild(t *testing.T) {
   	t.Errorf("Node.appendChild() did not add the new element");
   }
 }
+
+func TestRemoveChild(t *testing.T) {
+  d := dom.ParseString(
+  	`<parent>
+  	  <child1><grandchild></grandchild></child1>
+  	  <child2></child2>
+  	</parent>`);
+
+  root := d.DocumentElement();
+  child1 := root.ChildNodes().Item(0);
+  grandchild := child1.ChildNodes().Item(0);
+
+  child1.RemoveChild(grandchild);
+
+  if (child1.ChildNodes().Length() != 0)
+  {
+  	t.Errorf("Node.removeChild() did not remove child");
+  }
+}
+
+func TestAppendChildExisting(t *testing.T) {
+  d := dom.ParseString(
+  	`<parent>
+  	  <child1><grandchild></grandchild></child1>
+  	  <child2></child2>
+  	</parent>`);
+
+  root := d.DocumentElement();
+  child1 := root.ChildNodes().Item(0);
+  child2 := root.ChildNodes().Item(1);
+  grandchild := child1.ChildNodes().Item(0);
+
+  child2.AppendChild(grandchild);
+  
+  if (child1.ChildNodes().Length() != 0 ||
+      child2.ChildNodes().Length() != 1)
+  {
+  	t.Errorf("Node.appendChild() did not remove existing child from old parent");
+  }
+}
