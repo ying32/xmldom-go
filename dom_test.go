@@ -67,11 +67,7 @@ func TestElementSetAttribute(t *testing.T) {
 }
 
 func TestNodeListLength(t *testing.T) {
-  var d = dom.ParseString(
-  	`<foo>
-  		<bar></bar>
-  		<baz></baz>
-  	</foo>`);
+  var d = dom.ParseString(`<foo><bar></bar><baz></baz></foo>`);
   root := d.DocumentElement();
   children := root.ChildNodes();
   l := int(children.Length());
@@ -81,11 +77,7 @@ func TestNodeListLength(t *testing.T) {
 }
 
 func TestNodeListItem(t *testing.T) {
-  var d = dom.ParseString(
-  	`<foo>
-  		<bar></bar>
-  		<baz></baz>
-  	</foo>`);
+  var d = dom.ParseString(`<foo><bar></bar><baz></baz></foo>`);
   root := d.DocumentElement();
   children := root.ChildNodes();
   if (children.Item(1).NodeName() != "baz" ||
@@ -95,11 +87,7 @@ func TestNodeListItem(t *testing.T) {
 }
 
 func TestNodeListItemForNull(t *testing.T) {
-  var d = dom.ParseString(
-  	`<foo>
-  		<bar></bar>
-  		<baz></baz>
-  	</foo>`);
+  var d = dom.ParseString(`<foo><bar></bar><baz></baz></foo>`);
   root := d.DocumentElement();
   children := root.ChildNodes();
   if (children.Item(2) != nil ||
@@ -109,12 +97,7 @@ func TestNodeListItemForNull(t *testing.T) {
 }
 
 func TestNodeParentNode(t *testing.T) {
-  var d = dom.ParseString(
-  	`<foo>
-  		<bar>
-          <baz></baz>  		
-  		</bar>
-  	</foo>`);
+  var d = dom.ParseString(`<foo><bar><baz></baz></bar></foo>`);
   
   root := d.DocumentElement().(dom.Node);
   child := root.ChildNodes().Item(0);
@@ -182,11 +165,7 @@ func TestAppendChild(t *testing.T) {
 }
 
 func TestRemoveChild(t *testing.T) {
-  d := dom.ParseString(
-  	`<parent>
-  	  <child1><grandchild></grandchild></child1>
-  	  <child2></child2>
-  	</parent>`);
+  d := dom.ParseString(`<parent><child1><grandchild></grandchild></child1><child2></child2></parent>`);
 
   root := d.DocumentElement();
   child1 := root.ChildNodes().Item(0);
@@ -201,11 +180,7 @@ func TestRemoveChild(t *testing.T) {
 }
 
 func TestRemoveChildReturned(t *testing.T) {
-  d := dom.ParseString(
-  	`<parent>
-  	  <child1><grandchild></grandchild></child1>
-  	  <child2></child2>
-  	</parent>`);
+  d := dom.ParseString(`<parent><child1><grandchild></grandchild></child1><child2></child2></parent>`);
 
   root := d.DocumentElement();
   child1 := root.ChildNodes().Item(0);
