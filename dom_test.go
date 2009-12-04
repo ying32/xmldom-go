@@ -153,7 +153,7 @@ func TestNodeDocumentChildNodesLength(t *testing.T) {
 }
 
 func TestNodeDocumentChildNodeIsRoot(t *testing.T) {
-  var d = dom.ParseString(`<foo></foo>`);
+  d := dom.ParseString(`<foo></foo>`);
   root := d.DocumentElement().(dom.Node);
   if (d.ChildNodes().Item(0) != root) {
   	t.Errorf("document.ChildNodes().Item(0) is not the documentElement");
@@ -161,9 +161,22 @@ func TestNodeDocumentChildNodeIsRoot(t *testing.T) {
 }
 
 func TestDocumentCreateElement(t *testing.T) {
-  var d = dom.ParseString(`<foo></foo>`);
-  var ne = d.CreateElement("child");
+  d := dom.ParseString(`<foo></foo>`);
+  ne := d.CreateElement("child");
   if (ne.NodeName() != "child") {
   	t.Errorf("document.CreateNode('child') did not create a <child> Element");
+  }
+}
+
+func TestAppendChild(t *testing.T) {
+  d := dom.ParseString(`<parent></parent>`);
+  root := d.DocumentElement();
+  ne := d.CreateElement("child");
+  appended := root.AppendChild(ne).(dom.Element);
+  if (appended != ne ||
+      root.ChildNodes().Length() != 1 ||
+      root.ChildNodes().Item(0) != ne.(dom.Node))
+  {
+  	t.Errorf("Node.appendChild() did not add the new element");
   }
 }
