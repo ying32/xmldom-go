@@ -35,13 +35,13 @@ type _childNodelist struct {
 }
 
 func (nl *_childNodelist) Length() uint {
-  return nl.p.c.Len();
+  return uint(nl.p.c.Len());
 }
 func (nl *_childNodelist) Item(index uint) Node {
   n := Node(nil);
-  if index < nl.p.c.Len() {
+  if index < uint(nl.p.c.Len()) {
     // TODO: what if index == nl.p.c.Len() -1 and a node is deleted right now?
-    n = nl.p.c.At(index).(Node);
+    n = nl.p.c.At(int(index)).(Node);
   }
   return n;
 }
