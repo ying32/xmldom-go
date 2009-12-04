@@ -51,6 +51,10 @@ func (n *_node) ParentNode() Node {
   return n.p;
 }
 
+func (n *_node) Attributes() NamedNodeMap {
+  return NamedNodeMap(nil);
+}
+
 // TODO: never called now?
 func newNode() (n *_node) {
   n = new(_node);
