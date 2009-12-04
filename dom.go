@@ -187,3 +187,8 @@ func ParseString(s string) Document {
   }
   return d;
 }
+
+
+func ToXml(doc Document) string {
+  return "<NotImplemented/>";
+}

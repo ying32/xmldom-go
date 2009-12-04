@@ -237,3 +237,14 @@ func TestAppendChildExisting(t *testing.T) {
   	t.Errorf("Node.appendChild() did not remove existing child from old parent");
   }
 }
+
+func TestToXml(t *testing.T) {
+  d1 := dom.ParseString(`<parent><child><grandchild></grandchild></child></parent>`);
+  d2 := dom.ParseString(dom.ToXml(d1));
+  
+  if (d1.DocumentElement().NodeName() != d2.DocumentElement().NodeName() ||
+      d1.DocumentElement().ChildNodes().Length() != d2.DocumentElement().ChildNodes().Length())
+  {
+  	t.Errorf("ToXml() did not serialize the DOM to text");
+  }
+}
