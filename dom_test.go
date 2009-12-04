@@ -164,6 +164,17 @@ func TestAppendChild(t *testing.T) {
   }
 }
 
+func TestAppendChildParent(t *testing.T) {
+  d := dom.ParseString(`<parent></parent>`);
+  root := d.DocumentElement();
+  ne := d.CreateElement("child");
+  root.AppendChild(ne);
+  if (ne.ParentNode() != root.(dom.Node))
+  {
+  	t.Errorf("Node.appendChild() did not set the parent node");
+  }
+}
+
 func TestRemoveChild(t *testing.T) {
   d := dom.ParseString(`<parent><child1><grandchild></grandchild></child1><child2></child2></parent>`);
 
