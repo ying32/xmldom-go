@@ -116,19 +116,23 @@ func newElem(token xml.StartElement) (*_elem) {
 // implements the Document interface
 type _doc struct {
   *_node;
-  root Element;
 }
 func (d *_doc) NodeName() string { return "#document"; }
 func (d *_doc) NodeType() int { return 9; }
-func (d *_doc) DocumentElement() Element { return d.root; }
+func (d *_doc) DocumentElement() Element {
+  return d.c.At(0).(Element);
+}
 func (d *_doc) setRoot(r Element) Element {
-  d.root = r;
+  // empty the children vector
+  if d.c.Len() > 0 {
+    os.Exit(-1);
+  }
+  d.AppendChild(r);
   return r;
 }
 func newDoc() (*_doc) {
   return &_doc {
-        new(_node), 
-        nil
+        new(_node)
         };
 }
 // ====================================
@@ -148,8 +152,8 @@ func ParseString(s string) Document {
         }
         if e == nil {
           // set doc root
-          e = d.setRoot(el);
           el.p = d;
+          e = d.setRoot(el);
         } else {
           // this element is a child of e, the last element we found
           el.p = e;
