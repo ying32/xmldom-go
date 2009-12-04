@@ -188,7 +188,23 @@ func ParseString(s string) Document {
   return d;
 }
 
+// called recursively
+func toXml(n Node) string {
+  s := "<" + n.NodeName();
+  
+  // TODO: iterate over attributes
+  
+  s += ">";
+  
+  // iterate over children
+  for ch := uint(0); ch < n.ChildNodes().Length(); ch++ {
+    s += toXml(n.ChildNodes().Item(ch));
+  }
+  
+  s += "</" + n.NodeName() + ">";
+  return s;
+}
 
 func ToXml(doc Document) string {
-  return "<NotImplemented/>";
+  return toXml(doc.DocumentElement());
 }

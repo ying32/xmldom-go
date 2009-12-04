@@ -1,6 +1,7 @@
 package dom_test
 
 import (
+  "fmt";
   "testing";
   "xml/dom";
   "strconv";
@@ -239,11 +240,14 @@ func TestAppendChildExisting(t *testing.T) {
 }
 
 func TestToXml(t *testing.T) {
-  d1 := dom.ParseString(`<parent><child><grandchild></grandchild></child></parent>`);
-  d2 := dom.ParseString(dom.ToXml(d1));
+  d1 := dom.ParseString(`<parent attr="val"><child><grandchild></grandchild></child></parent>`);
+  s := dom.ToXml(d1);
+  fmt.Println(s);
+  d2 := dom.ParseString(s);
   
   if (d1.DocumentElement().NodeName() != d2.DocumentElement().NodeName() ||
-      d1.DocumentElement().ChildNodes().Length() != d2.DocumentElement().ChildNodes().Length())
+      d1.DocumentElement().ChildNodes().Length() != d2.DocumentElement().ChildNodes().Length() ||
+      d1.DocumentElement().GetAttribute("attr") != d2.DocumentElement().GetAttribute("attr"))
   {
   	t.Errorf("ToXml() did not serialize the DOM to text");
   }
