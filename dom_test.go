@@ -74,7 +74,7 @@ func TestNodeListLength(t *testing.T) {
   	</foo>`);
   root,_ := (d.DocumentElement()).(dom.Element);
   children := root.ChildNodes();
-  l := children.Length();
+  l := int(children.Length());
   if ( l != 2) {
   	t.Errorf("NodeList.length did not return the correct number of children ("+strconv.Itoa(l)+" instead of 2)");
   }
@@ -105,5 +105,42 @@ func TestNodeListItemForNull(t *testing.T) {
   if (children.Item(2) != nil ||
       children.Item(100000) != nil) {
   	t.Errorf("NodeList.item(i) did not return nil");
+  }
+}
+
+func TestNodeParentNode(t *testing.T) {
+  var d = dom.ParseString(
+  	`<foo>
+  		<bar>
+          <baz></baz>  		
+  		</bar>
+  	</foo>`);
+  
+  root,_ := (d.DocumentElement()).(dom.Element);
+  child := root.ChildNodes().Item(0);
+  grandchild := child.ChildNodes().Item(0);
+  
+  if (child.ParentNode() != root.(dom.Node) ||
+      grandchild.ParentNode() != child ||
+      grandchild.ParentNode().ParentNode() != root.(dom.Node)) {
+  	t.Errorf("Node.ParentNode() did not return the correct parent");
+  }
+}
+
+func TestNodeParentNodeOnRoot(t *testing.T) {
+  var d = dom.ParseString(`<foo></foo>`);
+  
+  root,_ := (d.DocumentElement()).(dom.Element);
+  
+  if (root.ParentNode() != d.(dom.Node)) {
+  	t.Errorf("documentElement.ParentNode() did not return the document");
+  }
+}
+
+func TestNodeParentNodeOnDocument(t *testing.T) {
+  var d = dom.ParseString(`<foo></foo>`);
+  
+  if (d.ParentNode() != nil) {
+  	t.Errorf("document.ParentNode() did not return nil");
   }
 }
