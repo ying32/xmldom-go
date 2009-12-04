@@ -3,6 +3,7 @@ package dom_test
 import (
   "testing";
   "xml/dom";
+  "strconv";
 )
 
 // Document.nodeName should be #document
@@ -73,8 +74,9 @@ func TestNodeListLength(t *testing.T) {
   	</foo>`);
   root,_ := (d.DocumentElement()).(dom.Element);
   children := root.ChildNodes();
-  if (children.Length() != 2) {
-  	t.Errorf("NodeList.length did not return the correct number of children");
+  l := children.Length();
+  if ( l != 2) {
+  	t.Errorf("NodeList.length did not return the correct number of children ("+strconv.Itoa(l)+" instead of 2)");
   }
 }
 
