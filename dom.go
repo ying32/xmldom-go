@@ -26,6 +26,31 @@ func (nl *_nodelist) Length() int {
 func (nl *_nodelist) Item(index int) Node {
   return new(_node);
 }
+
+// A _childNodelist only stores a reference to its parent node.
+// This way the list can be live, each time Length() or Item is
+// called, fresh results are returned.
+type _childNodelist struct {
+  p *_node;
+}
+
+func (nl *_childNodelist) Length() int {
+  return nl.p.c.Len();
+}
+func (nl *_childNodelist) Item(index int) Node {
+  n := Node(nil);
+  if (nl.p.c.Len() < index) {
+    // TODO: what if index == nl.p.c.Len() -1 and a node is deleted right now?
+    n = nl.p.c.At(index).(Node);
+  }
+  return n;
+}
+func newChildNodelist(p *_node) (*_childNodelist) {
+  nl := new(_childNodelist);
+  nl.p = p;
+  return nl;
+}
+
 // ====================================
 
 // ====================================
@@ -36,11 +61,21 @@ type _node struct {
 func (n *_node) NodeName() string { return "Node.NodeName() not implemented"; }
 func (n *_node) NodeType() int { return -1; }
 func (n *_node) AppendChild(child Node) Node {
+  //fmt.Println(n,":: Append ", child);
   n.c.Push(child);
+  //l := n.c.Len();
+  //for i := 0; i < l; i++ {
+  //  fmt.Println(i,".. ", n.c.At(i));
+  //}
   return child;
 }
+
 func (n *_node) ChildNodes() NodeList {
-  return new(_nodelist);
+  return newChildNodelist(n);
+}
+
+func (n *_node) ParentNode() Node {
+  return n.p;
 }
 
 // TODO: never called now?
@@ -109,6 +144,7 @@ func ParseString(s string) Document {
   t, err := p.Token();
   d := newDoc();
   e := (Element)(nil); // e is the current parent
+  //fmt.Println("** Start00");
   for t != nil {
     switch token := t.(type) {
       case xml.StartElement:
@@ -126,7 +162,17 @@ func ParseString(s string) Document {
           e,_ = e.AppendChild(el).(Element);
         }
       case xml.EndElement:
-      	// TODO: go up to parent
+        // up the tree
+        switch q := e.ParentNode().(type) {
+          case Document:
+            e = nil;
+            //fmt.Println(" parent doc ",q);
+          case Element:
+            e = q;
+            //fmt.Println(" parent element ",q);
+        default:
+            //fmt.Println("unkown parent type",q);
+        }
       default:
       	// TODO: add handling for other types (text nodes, etc)
 //        fmt.Println("Unknown type");

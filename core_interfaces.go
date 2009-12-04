@@ -16,6 +16,8 @@ type Node interface {
   NodeType() int;
   AppendChild(Node) Node;
   ChildNodes() NodeList;
+  // attributes
+  ParentNode() Node;
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
