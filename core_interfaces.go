@@ -42,10 +42,11 @@ type NodeList interface {
   Item(index uint) Node;
 }
 
+type CharacterData interface {
+  Node;
+}
+
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
 type Text interface {
-  SplitText(offset uint) Text;
-  IsElementContentWhitespace() bool;
-  WholeText() string;
-  ReplaceWholeText(content string) Text;
+  CharacterData;
 }
