@@ -17,6 +17,7 @@ import (
 )
 
 // ====================================
+
 type _node struct {
   p Node; // parent
   c vector.Vector; // children
@@ -115,9 +116,25 @@ func newDoc() (*_doc) {
 }
 // ====================================
 
-type _text struct {
+type _cdata struct {
+  *_node;
+  content []byte;
 }
 
+type _text struct {
+  *_cdata;
+}
+
+func newText(token xml.CharData) (*_text) {
+  cd := &_cdata{
+    new(_node),
+    token
+  };
+  
+  return &_text {
+    cd      
+  };
+}
 // ====================================
 
 
@@ -143,6 +160,8 @@ func ParseString(s string) Document {
           el.p = e;
           e,_ = e.AppendChild(el).(Element);
         }
+      case xml.CharData:
+        e.AppendChild(newText(token));
       case xml.EndElement:
         // up the tree
         switch q := e.ParentNode().(type) {
