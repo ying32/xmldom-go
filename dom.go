@@ -25,6 +25,11 @@ type _node struct {
 func (n *_node) NodeName() string { return "Node.NodeName() not implemented"; }
 func (n *_node) NodeType() int { return -1; }
 func (n *_node) AppendChild(child Node) Node {
+  // if the child is already in the tree somewhere,
+  // remove it before reparenting
+  if child.ParentNode() != nil {
+    child.ParentNode().RemoveChild(child);
+  }
   n.c.Push(child);
   return child;
 }
