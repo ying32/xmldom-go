@@ -139,8 +139,23 @@ func TestNodeParentNodeOnRoot(t *testing.T) {
 
 func TestNodeParentNodeOnDocument(t *testing.T) {
   var d = dom.ParseString(`<foo></foo>`);
-  
   if (d.ParentNode() != nil) {
   	t.Errorf("document.ParentNode() did not return nil");
+  }
+}
+
+// the root node of the document is a child node
+func TestNodeDocumentChildNodesLength(t *testing.T) {
+  var d = dom.ParseString(`<foo></foo>`);
+  if (d.ChildNodes().Length() != 1) {
+  	t.Errorf("document.ChildNodes().Length() did not return the number of children");
+  }
+}
+
+func TestNodeDocumentChildNodeIsRoot(t *testing.T) {
+  var d = dom.ParseString(`<foo></foo>`);
+  root,_ := (d.DocumentElement()).(dom.Element);
+  if (d.ChildNodes().Item(0) != root.(dom.Node)) {
+  	t.Errorf("document.ChildNodes().Item(0) is not the documentElement");
   }
 }
