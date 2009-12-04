@@ -93,3 +93,17 @@ func TestNodeListItem(t *testing.T) {
   	t.Errorf("NodeList.item(i) did not return the correct child");
   }
 }
+
+func TestNodeListItemForNull(t *testing.T) {
+  var d = dom.ParseString(
+  	`<foo>
+  		<bar></bar>
+  		<baz></baz>
+  	</foo>`);
+  root,_ := (d.DocumentElement()).(dom.Element);
+  children := root.ChildNodes();
+  if (children.Item(2) != nil ||
+      children.Item(100000) != nil) {
+  	t.Errorf("NodeList.item(i) did not return nil");
+  }
+}
