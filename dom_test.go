@@ -200,6 +200,25 @@ func TestRemoveChild(t *testing.T) {
   }
 }
 
+func TestRemoveChildReturned(t *testing.T) {
+  d := dom.ParseString(
+  	`<parent>
+  	  <child1><grandchild></grandchild></child1>
+  	  <child2></child2>
+  	</parent>`);
+
+  root := d.DocumentElement();
+  child1 := root.ChildNodes().Item(0);
+  grandchild := child1.ChildNodes().Item(0);
+
+  re := child1.RemoveChild(grandchild);
+
+  if (grandchild != re)
+  {
+  	t.Errorf("Node.removeChild() did not return the removed node");
+  }
+}
+
 func TestAppendChildExisting(t *testing.T) {
   d := dom.ParseString(
   	`<parent>
