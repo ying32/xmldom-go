@@ -1,7 +1,6 @@
 package dom_test
 
 import (
-  "fmt";
   "testing";
   "xml/dom";
   "strconv";
