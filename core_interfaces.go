@@ -36,6 +36,6 @@ type Document interface {
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
 type NodeList interface {
-  Length() int;
-  Item(index int) Node;
+  Length() uint;
+  Item(index uint) Node;
 }
