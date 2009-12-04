@@ -194,6 +194,22 @@ func TestRemoveChildReturned(t *testing.T) {
   }
 }
 
+func TestRemoveChildParentNull(t *testing.T) {
+  d := dom.ParseString(`<parent><child></child></parent>`);
+
+  root := d.DocumentElement();
+  child := root.ChildNodes().Item(0);
+
+  root.RemoveChild(child);
+
+  if (child.ParentNode() != nil)
+  {
+  	t.Errorf("Node.removeChild() did not null out the parentNode");
+  }
+}
+
+// See http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-184E7107
+// "If the newChild is already in the tree, it is first removed."
 func TestAppendChildExisting(t *testing.T) {
   d := dom.ParseString(`<parent><child1><grandchild></grandchild></child1><child2></child2></parent>`);
 
