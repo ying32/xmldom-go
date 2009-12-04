@@ -195,11 +195,7 @@ func TestRemoveChildReturned(t *testing.T) {
 }
 
 func TestAppendChildExisting(t *testing.T) {
-  d := dom.ParseString(
-  	`<parent>
-  	  <child1><grandchild></grandchild></child1>
-  	  <child2></child2>
-  	</parent>`);
+  d := dom.ParseString(`<parent><child1><grandchild></grandchild></child1><child2></child2></parent>`);
 
   root := d.DocumentElement();
   child1 := root.ChildNodes().Item(0);
