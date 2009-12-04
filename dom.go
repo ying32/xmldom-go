@@ -151,6 +151,28 @@ func newDoc() (*_doc) {
 }
 // ====================================
 
+type _text struct {
+}
+func (*_text) SplitText(offset uint) Text {
+  // stub
+  return new(*_text);
+}
+func (*_text) IsElementContentWhitespace() bool {
+  // stub
+  return false;
+}
+func (*_text) WholeText() string {
+  // stub
+  return "";
+}
+func (*_text) ReplaceWholeText(content string) Text {
+  // stub
+  return new(*_text);
+}
+
+// ====================================
+
+
 func ParseString(s string) Document {
   r := strings.NewReader(s);
   p := xml.NewParser(r);
