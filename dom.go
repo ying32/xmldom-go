@@ -130,9 +130,12 @@ func (d *_doc) setRoot(r Element) Element {
   d.AppendChild(r);
   return r;
 }
-func (d *_doc) CreateElement(tagName string) Element {
-  return &_elem{};
+func (d *_doc) CreateElement( tag string ) Element {
+  return newElem(
+    xml.StartElement { xml.Name { "", tag }, nil });
 }
+  
+  
 func newDoc() (*_doc) {
   return &_doc {
         new(_node)
