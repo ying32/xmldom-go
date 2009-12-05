@@ -25,6 +25,7 @@ func (nl *_childNodelist) Item(index uint) Node {
   }
   return n;
 }
+
 func newChildNodelist(p *_node) (*_childNodelist) {
   nl := new(_childNodelist);
   nl.p = p;
