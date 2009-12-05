@@ -259,6 +259,19 @@ func TestAttributesOnElement(t *testing.T) {
   }
 }
 
+func TestAttributesSetting(t *testing.T) {
+  d := dom.ParseString(`<parent attr1="val" attr2="val"><child></child></parent>`);
+  r := d.DocumentElement();
+  
+  prelen := r.Attributes().Length();
+  
+  r.SetAttribute("foo", "bar");
+  
+  if (prelen != 2 || r.Attributes().Length() != 3) {
+    t.Errorf("Element.attributes() not updated when setting a new attribute");
+  }
+}
+
 func TestToXml(t *testing.T) {
   d1 := dom.ParseString(`<parent attr="val"><child><grandchild></grandchild></child></parent>`);
   s := dom.ToXml(d1);

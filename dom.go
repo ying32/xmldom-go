@@ -82,6 +82,10 @@ func (e *_elem) GetAttribute(name string) string {
 func (e *_elem) SetAttribute(attrname string, attrval string) {
   e.attribs[attrname]=attrval;
 }
+func (e *_elem) Attributes() NamedNodeMap {
+  return newAttrNamedNodeMap(e);
+}
+
 
 // this is our _elem constructor, it takes care to initialize
 // the unnamed *_node field
