@@ -238,6 +238,25 @@ func TestAppendChildExisting(t *testing.T) {
   }
 }
 
+func TestAttributesOnDocument(t *testing.T) {
+  d := dom.ParseString(`<parent></parent>`);
+  
+  if (d.Attributes() != nil)
+  {
+  	t.Errorf("Document.attributes() does not return null");
+  }
+}
+
+func TestAttributesOnElement(t *testing.T) {
+  d := dom.ParseString(`<parent attr1="val" attr2="val"></parent>`);
+  r := d.DocumentElement();
+  
+  if (r.Attributes() == nil || r.Attributes().Length() != 2)
+  {
+  	t.Errorf("Element.attributes().length did not return the proper value");
+  }
+}
+
 func TestToXml(t *testing.T) {
   d1 := dom.ParseString(`<parent attr="val"><child><grandchild></grandchild></child></parent>`);
   s := dom.ToXml(d1);
