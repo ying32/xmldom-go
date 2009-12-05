@@ -248,10 +248,12 @@ func TestAttributesOnDocument(t *testing.T) {
 }
 
 func TestAttributesOnElement(t *testing.T) {
-  d := dom.ParseString(`<parent attr1="val" attr2="val"></parent>`);
+  d := dom.ParseString(`<parent attr1="val" attr2="val"><child></child></parent>`);
   r := d.DocumentElement();
+  c := r.ChildNodes().Item(0);
   
-  if (r.Attributes() == nil || r.Attributes().Length() != 2)
+  if (r.Attributes() == nil || r.Attributes().Length() != 2 ||
+      c.Attributes() == nil || c.Attributes().Length() != 0)
   {
   	t.Errorf("Element.attributes().length did not return the proper value");
   }
