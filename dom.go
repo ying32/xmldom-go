@@ -19,11 +19,43 @@ import (
 // ====================================
 
 type _node struct {
+  T int; // node type
   p Node; // parent
   c vector.Vector; // children
+  n xml.Name; // name
+  attribs map[string] string; // attributes of the element
+  content []byte;
 }
-func (n *_node) NodeName() string { return "Node.NodeName() not implemented"; }
-func (n *_node) NodeType() int { return -1; }
+func (n *_node) SetParent(_p Node) {
+  n.p = _p;
+}
+func (n *_node) NodeName() string {
+  switch n.T {
+    case 1: return n.n.Local;
+    case 9: return "#document";
+  }
+  return "Node.NodeName() not implemented";
+}
+func (n *_node) TagName() string { return n.NodeName(); }
+func (n *_node) NodeType() int { return n.T; }
+
+func (n *_node) DocumentElement() Node {
+  return n.c.At(0).(Node);
+}
+
+func (n *_node) setRoot(r Node) Node {
+  // empty the children vector
+  if n.c.Len() > 0 {
+    os.Exit(-1);
+  }
+  n.AppendChild(r);
+  return r;
+}
+
+func (n *_node) CreateElement(tag string) Node {
+  return Node(newElem(xml.StartElement { xml.Name { "", tag }, nil }));
+}
+
 func (n *_node) AppendChild(child Node) Node {
   // if the child is already in the tree somewhere,
   // remove it before reparenting
@@ -31,6 +63,7 @@ func (n *_node) AppendChild(child Node) Node {
     child.ParentNode().RemoveChild(child);
   }
   n.c.Push(child);
+  child.SetParent(n);
   return child;
 }
 func (n *_node) RemoveChild(child Node) Node {
@@ -40,127 +73,80 @@ func (n *_node) RemoveChild(child Node) Node {
       break;
     }
   }
+  child.SetParent(nil);
   return child;
 }
 
 func (n *_node) ChildNodes() NodeList {
   return newChildNodelist(n);
 }
-
 func (n *_node) ParentNode() Node {
   return n.p;
 }
-
-func (n *_node) Attributes() NamedNodeMap {
-  return NamedNodeMap(nil);
-}
-
-// TODO: never called now?
-func newNode() (n *_node) {
-  n = new(_node);
-  return;
-}
-// ====================================
-
-// ====================================
-// implements the Element interface
-type _elem struct {
-  *_node;
-  n xml.Name; // name
-  attribs map[string] string; // attributes of the element
-}
-func (e *_elem) NodeName() string { return e.n.Local; }
-func (e *_elem) NodeType() int { return 1; }
-func (e *_elem) TagName() string { return e.NodeName(); }
-func (e *_elem) GetAttribute(name string) string {
-  val, ok := e.attribs[name];
+func (n *_node) GetAttribute(name string) string {
+  val, ok := n.attribs[name];
   if (!ok) {
     val = "";
   }
   return val;
 }
-func (e *_elem) SetAttribute(attrname string, attrval string) {
-  e.attribs[attrname]=attrval;
-}
-func (e *_elem) Attributes() NamedNodeMap {
-  return newAttrNamedNodeMap(e);
+func (n *_node) SetAttribute(attrname string, attrval string) {
+  n.attribs[attrname]=attrval;
 }
 
-
-// this is our _elem constructor, it takes care to initialize
-// the unnamed *_node field
-func newElem(token xml.StartElement) (*_elem) {
-  return &_elem {
-        new(_node), 
-        token.Name, 
-        make(map[string] string)
-      };
-}
-// ====================================
-
-// ====================================
-// implements the Document interface
-type _doc struct {
-  *_node;
-}
-func (d *_doc) NodeName() string { return "#document"; }
-func (d *_doc) NodeType() int { return 9; }
-func (d *_doc) DocumentElement() Element {
-  return d.c.At(0).(Element);
-}
-func (d *_doc) setRoot(r Element) Element {
-  // empty the children vector
-  if d.c.Len() > 0 {
-    os.Exit(-1);
+func (n *_node) Attributes() NamedNodeMap {
+  if (n.NodeType() == 1) {
+    return newAttrNamedNodeMap(n);
   }
-  d.AppendChild(r);
-  return r;
+  return NamedNodeMap(nil);
 }
-func (d *_doc) CreateElement( tag string ) Element {
-  return newElem(
-    xml.StartElement { xml.Name { "", tag }, nil });
-}
-  
-  
-func newDoc() (*_doc) {
-  return &_doc {
-        new(_node)
-        };
-}
-// ====================================
 
+func newNode(_t int) (n *_node) {
+  n = new(_node);
+  n.T = _t;
+  return;
+}
+
+func newElem(token xml.StartElement) (*_node) {
+  n := newNode(1);
+  n.n = token.Name;
+  n.attribs = make(map[string] string);
+  return n;
+}
+  
+func newDoc() (*_node) {
+  return newNode(9);
+}
+
+/*
 type _cdata struct {
   *_node;
-  content []byte;
 }
 
 type _text struct {
   *_cdata;
 }
+*/
 
-func newText(token xml.CharData) (*_text) {
-  cd := &_cdata{
-    new(_node),
-    token
-  };
-  
-  return &_text {
-    cd      
-  };
+func newText(token xml.CharData) (*_node) {
+  text := newNode(3);
+  text.content = token;
+  return text;
 }
 // ====================================
 
 
-func ParseString(s string) Document {
+func ParseString(s string) Node {
   r := strings.NewReader(s);
   p := xml.NewParser(r);
   t, err := p.Token();
   d := newDoc();
-  e := (Element)(nil); // e is the current parent
+  e := (Node)(nil); // e is the current parent
   for t != nil {
     switch token := t.(type) {
       case xml.StartElement:
         el := newElem(token);
+//        fmt.Println("Starting ", el.NodeName());
         for ar := range(token.Attr) {
           el.SetAttribute(token.Attr[ar].Name.Local, token.Attr[ar].Value);
         }
@@ -171,18 +157,12 @@ func ParseString(s string) Document {
         } else {
           // this element is a child of e, the last element we found
           el.p = e;
-          e,_ = e.AppendChild(el).(Element);
+          e = e.AppendChild(el);
         }
       case xml.CharData:
         e.AppendChild(newText(token));
       case xml.EndElement:
-        // up the tree
-        switch q := e.ParentNode().(type) {
-          case Document:
-            e = nil;
-          case Element:
-            e = q;
-        }
+        e = e.ParentNode();
       default:
       	// TODO: add handling for other types (text nodes, etc)
 //        fmt.Println("Unknown type");
@@ -220,6 +200,6 @@ func toXml(n Node) string {
   return s;
 }
 
-func ToXml(doc Document) string {
+func ToXml(doc Node) string {
   return toXml(doc.DocumentElement());
 }
