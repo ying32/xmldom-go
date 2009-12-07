@@ -1,7 +1,6 @@
 package dom_test
 
 import (
-  "fmt";
   "testing";
   "xml/dom";
   "strconv";
@@ -241,7 +240,6 @@ func TestAppendChildExisting(t *testing.T) {
 
 func TestAttributesOnDocument(t *testing.T) {
   d := dom.ParseString(`<parent></parent>`);
-  fmt.Println(d.Attributes());
   if (d.Attributes() != (dom.NamedNodeMap)(nil))
   {
   	t.Errorf("Document.attributes() does not return null");

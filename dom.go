@@ -23,6 +23,7 @@ type _node struct {
   p Node; // parent
   c vector.Vector; // children
   n xml.Name; // name
+  v string; // value (for attr)
   attribs map[string] string; // attributes of the element
   content []byte;
 }
@@ -32,9 +33,16 @@ func (n *_node) SetParent(_p Node) {
 func (n *_node) NodeName() string {
   switch n.T {
     case 1: return n.n.Local;
+    case 2: return n.n.Local;
     case 9: return "#document";
   }
   return "Node.NodeName() not implemented";
+}
+func (n *_node) NodeValue() string {
+  switch n.T {
+    case 2: return n.v;
+  }
+  return "Node.NodeValue() not implemented";
 }
 func (n *_node) TagName() string { return n.NodeName(); }
 func (n *_node) NodeType() int { return n.T; }
@@ -118,6 +126,13 @@ func newDoc() (*_node) {
   return newNode(9);
 }
 
+func newAttr(name string, val string) (*_node) {
+  a := newNode(2);
+  a.n = xml.Name{"", name};
+  a.v = val;
+  return a;
+}
+
 /*
 type _cdata struct {
   *_node;
@@ -146,7 +161,6 @@ func ParseString(s string) Node {
     switch token := t.(type) {
       case xml.StartElement:
         el := newElem(token);
-//        fmt.Println("Starting ", el.NodeName());
         for ar := range(token.Attr) {
           el.SetAttribute(token.Attr[ar].Name.Local, token.Attr[ar].Value);
         }
@@ -165,7 +179,6 @@ func ParseString(s string) Node {
         e = e.ParentNode();
       default:
       	// TODO: add handling for other types (text nodes, etc)
-//        fmt.Println("Unknown type");
     }
     // get the next token
     t, err = p.Token();
@@ -184,6 +197,10 @@ func toXml(n Node) string {
       s += "<" + n.NodeName();
   
       // TODO: iterate over attributes
+      for i := uint(0); i < n.Attributes().Length(); i++ {
+        a := n.Attributes().Item(i);
+        s += " " + a.NodeName() + "=\"" + a.NodeValue() + "\"";
+      }
   
       s += ">";
   

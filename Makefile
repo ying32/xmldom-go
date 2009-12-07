@@ -3,7 +3,6 @@ include $(GOROOT)/src/Make.$(GOARCH)
 TARG=xml/dom
 GOFILES=\
 	core_interfaces.go \
-	attr.go \
 	nodelists.go \
 	namednodemap.go \
 	dom.go
