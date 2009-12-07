@@ -17,6 +17,7 @@ type Node interface {
   RemoveChild(Node) Node;
   // attributes
   NodeName() string;
+  NodeValue() string;
   NodeType() int;
   ParentNode() Node;
   ChildNodes() NodeList;
