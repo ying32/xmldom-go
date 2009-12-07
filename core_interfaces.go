@@ -12,6 +12,7 @@ package dom
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247
 type Node interface {
+  SetParent(Node);
   AppendChild(Node) Node;
   RemoveChild(Node) Node;
   // attributes
@@ -20,42 +21,17 @@ type Node interface {
   ParentNode() Node;
   ChildNodes() NodeList;
   Attributes() NamedNodeMap;
-}
-
-// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
-type Element interface {
-  Node;
   TagName() string;
   GetAttribute(name string) string;
   SetAttribute(name string, value string);
-}
-
-// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
-type Document interface {
-  Node;
-  DocumentElement() Element;
-  CreateElement(tagName string) Element;
+  DocumentElement() Node;
+  CreateElement(tagName string) Node;
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
 type NodeList interface {
   Length() uint;
   Item(index uint) Node;
-}
-
-// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306
-type CharacterData interface {
-  Node;
-}
-
-// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
-type Text interface {
-  CharacterData;
-}
-
-// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
-type Attr interface {
-  Node;
 }
 
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1780488922

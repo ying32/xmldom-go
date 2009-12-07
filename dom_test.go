@@ -1,6 +1,7 @@
 package dom_test
 
 import (
+  "fmt";
   "testing";
   "xml/dom";
   "strconv";
@@ -26,8 +27,8 @@ func TestDocumentNodeType(t *testing.T) {
 // Document.documentElement should return an object implementing Element
 func TestDocumentElementIsAnElement(t *testing.T) {
   var d = dom.ParseString("<foo></foo>");
-  _,ok := (d.DocumentElement()).(dom.Element);
-  if (!ok) {
+  n,ok := (d.DocumentElement()).(dom.Node);
+  if (!ok || n.NodeType() != 1) {
   	t.Errorf("Document.documentElement did not return an Element");
   }
 }
@@ -155,7 +156,7 @@ func TestAppendChild(t *testing.T) {
   d := dom.ParseString(`<parent></parent>`);
   root := d.DocumentElement();
   ne := d.CreateElement("child");
-  appended := root.AppendChild(ne).(dom.Element);
+  appended := root.AppendChild(ne).(dom.Node);
   if (appended != ne ||
       root.ChildNodes().Length() != 1 ||
       root.ChildNodes().Item(0) != ne.(dom.Node))
@@ -240,8 +241,8 @@ func TestAppendChildExisting(t *testing.T) {
 
 func TestAttributesOnDocument(t *testing.T) {
   d := dom.ParseString(`<parent></parent>`);
-  
-  if (d.Attributes() != nil)
+  fmt.Println(d.Attributes());
+  if (d.Attributes() != (dom.NamedNodeMap)(nil))
   {
   	t.Errorf("Document.attributes() does not return null");
   }
