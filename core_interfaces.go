@@ -10,9 +10,10 @@ package dom
  * Copyright (c) 2009, Jeff Schiller
  */ 
 
+// TODO: split this out into separate interfaces again eventually
+
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247
 type Node interface {
-  SetParent(Node);
   AppendChild(Node) Node;
   RemoveChild(Node) Node;
   // attributes
@@ -22,11 +23,41 @@ type Node interface {
   ParentNode() Node;
   ChildNodes() NodeList;
   Attributes() NamedNodeMap;
+
+  // internal interface methods needed for implementations (not part of the DOM)
+  setParent(Node);
+  insertChildAt(Node,uint);
+  removeChild(Node);
+}
+
+// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
+type Element interface {
+  Node;
   TagName() string;
   GetAttribute(name string) string;
   SetAttribute(name string, value string);
-  DocumentElement() Node;
-  CreateElement(tagName string) Node;
+}
+
+// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
+type Document interface {
+  Node;
+  DocumentElement() Element;
+  CreateElement(tagName string) Element;
+}
+
+// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306
+type CharacterData interface {
+  Node;
+}
+
+// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
+type Text interface {
+  CharacterData;
+}
+
+// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
+type Attr interface {
+  Node;
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177

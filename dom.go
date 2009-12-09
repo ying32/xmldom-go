@@ -9,149 +9,48 @@ package dom
  */
 
 import (
-  "container/vector";
   "strings";
   "xml";
   "fmt";
   "os";
 )
 
-// ====================================
-
-type _node struct {
-  T int; // node type
-  p Node; // parent
-  c vector.Vector; // children
-  n xml.Name; // name
-  v string; // value (for attr)
-  attribs map[string] string; // attributes of the element
-  content []byte;
-}
-func (n *_node) SetParent(_p Node) {
-  n.p = _p;
-}
-func (n *_node) NodeName() string {
-  switch n.T {
-    case 1: return n.n.Local;
-    case 2: return n.n.Local;
-    case 9: return "#document";
-  }
-  return "Node.NodeName() not implemented";
-}
-func (n *_node) NodeValue() string {
-  switch n.T {
-    case 2: return n.v;
-  }
-  return "Node.NodeValue() not implemented";
-}
-func (n *_node) TagName() string { return n.NodeName(); }
-func (n *_node) NodeType() int { return n.T; }
-
-func (n *_node) DocumentElement() Node {
-  return n.c.At(0).(Node);
-}
-
-func (n *_node) setRoot(r Node) Node {
-  // empty the children vector
-  if n.c.Len() > 0 {
-    os.Exit(-1);
-  }
-  n.AppendChild(r);
-  return r;
-}
-
-func (n *_node) CreateElement(tag string) Node {
-  return Node(newElem(xml.StartElement { xml.Name { "", tag }, nil }));
-}
-
-func (n *_node) AppendChild(child Node) Node {
-  // if the child is already in the tree somewhere,
-  // remove it before reparenting
-  if child.ParentNode() != nil {
-    child.ParentNode().RemoveChild(child);
-  }
-  n.c.Push(child);
-  child.SetParent(n);
-  return child;
-}
-func (n *_node) RemoveChild(child Node) Node {
-  for i := n.c.Len()-1 ; i >= 0 ; i-- {
-    if n.c.At(i).(Node) == child {
-      n.c.Delete(i);
-      break;
-    }
-  }
-  child.SetParent(nil);
-  return child;
-}
-
-func (n *_node) ChildNodes() NodeList {
-  return newChildNodelist(n);
-}
-func (n *_node) ParentNode() Node {
-  return n.p;
-}
-func (n *_node) GetAttribute(name string) string {
-  val, ok := n.attribs[name];
-  if (!ok) {
-    val = "";
-  }
-  return val;
-}
-func (n *_node) SetAttribute(attrname string, attrval string) {
-  n.attribs[attrname]=attrval;
-}
-
-func (n *_node) Attributes() NamedNodeMap {
-  if (n.NodeType() == 1) {
-    return newAttrNamedNodeMap(n);
-  }
-  return NamedNodeMap(nil);
-}
-
-func newNode(_t int) (n *_node) {
-  n = new(_node);
-  n.T = _t;
-  return;
-}
-
-func newElem(token xml.StartElement) (*_node) {
-  n := newNode(1);
-  n.n = token.Name;
-  n.attribs = make(map[string] string);
-  return n;
-}
-  
-func newDoc() (*_node) {
-  return newNode(9);
-}
-
-func newAttr(name string, val string) (*_node) {
-  a := newNode(2);
-  a.n = xml.Name{"", name};
-  a.v = val;
-  return a;
-}
-
-/*
 type _cdata struct {
   *_node;
 }
 
 type _text struct {
   *_cdata;
+  content []byte;
 }
-*/
 
-func newText(token xml.CharData) (*_node) {
-  text := newNode(3);
-  text.content = token;
-  return text;
+func newText(token xml.CharData) (*_text) {
+  return &_text{ &_cdata{newNode(3)}, token };
 }
 // ====================================
 
+// these are the package-level functions that are the real workhorses
+// they only use interface types
 
-func ParseString(s string) Node {
+func appendChild(p Node, c Node) Node {
+  // if the child is already in the tree somewhere,
+  // remove it before reparenting
+  if c.ParentNode() != nil {
+    removeChild(c.ParentNode(), c);
+  }
+  i := p.ChildNodes().Length();
+  p.insertChildAt(c, i);
+  c.setParent(p);
+  return c;
+}
+
+func removeChild(p Node, c Node) Node {
+  p.removeChild(c);
+  c.setParent(nil);
+  return c;
+}
+
+func ParseString(s string) Document {
   r := strings.NewReader(s);
   p := xml.NewParser(r);
   t, err := p.Token();
@@ -166,11 +65,10 @@ func ParseString(s string) Node {
         }
         if e == nil {
           // set doc root
-          el.p = d;
+          // this element is a child of e, the last element we found
           e = d.setRoot(el);
         } else {
           // this element is a child of e, the last element we found
-          el.p = e;
           e = e.AppendChild(el);
         }
       case xml.CharData:
@@ -217,6 +115,6 @@ func toXml(n Node) string {
   return s;
 }
 
-func ToXml(doc Node) string {
+func ToXml(doc Document) string {
   return toXml(doc.DocumentElement());
 }
