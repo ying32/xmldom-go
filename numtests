@@ -1,0 +1,1 @@
+cat dom_test.go | grep "func Test" | wc -l
