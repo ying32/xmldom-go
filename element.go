@@ -16,6 +16,7 @@ type _elem struct {
   attribs map[string] string; // attributes of the element
 }
 
+func (e *_elem) NodeValue() string { return ""; }
 func (e *_elem) AppendChild(c Node) Node { return appendChild(e,c); }
 func (e *_elem) RemoveChild(c Node) Node { return removeChild(e,c); }
 func (e *_elem) TagName() string { return e.NodeName(); }

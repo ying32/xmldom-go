@@ -13,7 +13,6 @@ type _attr struct {
   v string; // value (for attr)
 }
 
-func (a *_attr) NodeType() int { return 2; }
 func (a *_attr) NodeValue() string { return a.v; }
 func (a *_attr) AppendChild(n Node) Node { return n; }
 func (a *_attr) RemoveChild(n Node) Node { return n; }

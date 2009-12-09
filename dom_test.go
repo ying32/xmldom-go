@@ -23,6 +23,13 @@ func TestDocumentNodeType(t *testing.T) {
   }
 }
 
+func TestDocumentNodeValue(t *testing.T) {
+  var d = dom.ParseString("<foo></foo>");
+  if (d.NodeValue() != "") {
+    t.Errorf("Document.nodeValue not empty");
+  }
+}
+
 // Document.documentElement should return an object implementing Element
 func TestDocumentElementIsAnElement(t *testing.T) {
   var d = dom.ParseString("<foo></foo>");
@@ -54,6 +61,14 @@ func TestElementNodeType(t *testing.T) {
   root := d.DocumentElement();
   if (root.NodeType() != 1) {
     t.Errorf("Element.nodeType not equal to 1");
+  }
+}
+
+func TestElementNodeValue(t *testing.T) {
+  var d = dom.ParseString("<foo></foo>");
+  root := d.DocumentElement();
+  if (root.NodeValue() != "") {
+    t.Errorf("Element.nodeValue not empty");
   }
 }
 
@@ -265,6 +280,28 @@ func TestAttributesOnElement(t *testing.T) {
       c.Attributes() == nil || c.Attributes().Length() != 0)
   {
   	t.Errorf("Element.attributes().length did not return the proper value");
+  }
+}
+
+func TestAttrNodeName(t *testing.T) {
+  d := dom.ParseString(`<parent attr1="val" attr2="val"/>`);
+  r := d.DocumentElement();
+  
+  if (r.Attributes().Item(0).NodeName() == "attr1" || 
+      r.Attributes().Item(1).NodeName() == "attr2")
+  {
+  	t.Errorf("Element.attributes().item(i).nodeName did not return the proper value");
+  }
+}
+
+func TestAttrNodeValue(t *testing.T) {
+  d := dom.ParseString(`<parent attr1="val1" attr2="val2"/>`);
+  r := d.DocumentElement();
+  
+  if (r.Attributes().Item(0).NodeValue() == "val1" || 
+      r.Attributes().Item(1).NodeValue() == "val2")
+  {
+  	t.Errorf("Element.attributes().item(i).nodeValue did not return the proper value");
   }
 }
 
