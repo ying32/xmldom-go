@@ -8,7 +8,7 @@ package dom
 
 // used to return the live attributes of a node
 type _attrnamednodemap struct {
-  e *_node;
+  e *_elem;
 }
 
 func (m *_attrnamednodemap) Length() uint {
@@ -27,7 +27,7 @@ func (m *_attrnamednodemap) Item(index uint) Node {
   return Node(nil);
 }
 
-func newAttrNamedNodeMap(e *_node) (*_attrnamednodemap) {
+func newAttrNamedNodeMap(e *_elem) (*_attrnamednodemap) {
   nm := new(_attrnamednodemap);
   nm.e = e;
   return nm;

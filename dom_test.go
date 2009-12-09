@@ -26,7 +26,7 @@ func TestDocumentNodeType(t *testing.T) {
 // Document.documentElement should return an object implementing Element
 func TestDocumentElementIsAnElement(t *testing.T) {
   var d = dom.ParseString("<foo></foo>");
-  n,ok := (d.DocumentElement()).(dom.Node);
+  n,ok := (d.DocumentElement()).(dom.Element);
   if (!ok || n.NodeType() != 1) {
   	t.Errorf("Document.documentElement did not return an Element");
   }
@@ -37,6 +37,14 @@ func TestDocumentElementNodeName(t *testing.T) {
   root := d.DocumentElement();
   if (root.NodeName() != "foo") {
   	t.Errorf("Element.nodeName not set correctly");
+  }
+}
+
+func TestDocumentElementTagName(t *testing.T) {
+  var d = dom.ParseString("<foo></foo>");
+  root := d.DocumentElement().(dom.Element);
+  if (root.TagName() != "foo") {
+  	t.Errorf("Element.tagName not set correctly");
   }
 }
 
@@ -102,10 +110,12 @@ func TestNodeParentNode(t *testing.T) {
   root := d.DocumentElement().(dom.Node);
   child := root.ChildNodes().Item(0);
   grandchild := child.ChildNodes().Item(0);
-  
-  if (child.ParentNode() != root ||
-      grandchild.ParentNode() != child ||
-      grandchild.ParentNode().ParentNode() != root) {
+    
+  if ( d.(dom.Node) != root.ParentNode()
+  		|| child.ParentNode() != root
+      || grandchild.ParentNode() != child
+      || grandchild.ParentNode().ParentNode() != root
+      ) {
   	t.Errorf("Node.ParentNode() did not return the correct parent");
   }
 }
@@ -154,11 +164,11 @@ func TestDocumentCreateElement(t *testing.T) {
 func TestAppendChild(t *testing.T) {
   d := dom.ParseString(`<parent></parent>`);
   root := d.DocumentElement();
-  ne := d.CreateElement("child");
-  appended := root.AppendChild(ne).(dom.Node);
+  ne := d.CreateElement("child").(dom.Node);
+  appended := root.AppendChild(ne);
   if (appended != ne ||
       root.ChildNodes().Length() != 1 ||
-      root.ChildNodes().Item(0) != ne.(dom.Node))
+      root.ChildNodes().Item(0) != ne)
   {
   	t.Errorf("Node.appendChild() did not add the new element");
   }

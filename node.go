@@ -1,0 +1,59 @@
+package dom
+
+/*
+ * Node implementation
+ *
+ * Copyright (c) 2009, Rob Russell
+ * Copyright (c) 2009, Jeff Schiller
+ */
+
+import (
+  "container/vector";
+  "xml";
+)
+
+type _node struct {
+  T int; // node type
+  p Node; // parent
+  c vector.Vector; // children
+  n xml.Name; // name
+}
+
+// internal methods used so that our workhorses can do the real work
+func (n *_node) setParent(p Node) {
+  n.p = p;
+}
+func (n *_node) insertChildAt(c Node, i uint) {
+  n.c.Insert(int(i), c);
+}
+func (n *_node) removeChild(c Node) {
+  for i := n.c.Len()-1 ; i >= 0 ; i-- {
+    if n.c.At(i).(Node) == c {
+      n.c.Delete(i);
+      break;
+    }
+  }
+}
+
+func (n *_node) NodeName() string {
+  switch n.T {
+    case 1: return n.n.Local;
+    case 2: return n.n.Local;
+    case 9: return "#document";
+  }
+  return "Node.NodeName() not implemented";
+}
+func (n *_node) NodeValue() string { return "Node.NodeValue() not implemented"; }
+func (n *_node) TagName() string { return n.NodeName(); }
+func (n *_node) NodeType() int { return n.T; }
+func (n *_node) AppendChild(c Node) Node { return appendChild(n,c); }
+func (n *_node) RemoveChild(c Node) Node { return removeChild(n,c); }
+func (n *_node) ChildNodes() NodeList { return newChildNodelist(n); }
+func (n *_node) ParentNode() Node { return n.p; }
+func (n *_node) Attributes() NamedNodeMap { return NamedNodeMap(nil); }
+
+func newNode(_t int) (n *_node) {
+  n = new(_node);
+  n.T = _t;
+  return;
+}
