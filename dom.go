@@ -7,6 +7,9 @@ package dom
  * Copyright (c) 2009, Rob Russell
  * Copyright (c) 2009, Jeff Schiller
  */
+ 
+// FIXME: we use the empty string "" to denote a 'null' value when the data type
+// according to the DOM API is expected to be a string. Perhaps return a pointer to a string?
 
 import (
   "strings";

@@ -7,6 +7,10 @@ package dom
  * Copyright (c) 2009, Jeff Schiller
  */
 
+// TODO: think about how to make this class a bit more generic to promote extensibility
+//       (for instance, this class has to know about Attr, Element and Document types to
+//        implement NodeName() among other things)
+
 import (
   "container/vector";
   "xml";

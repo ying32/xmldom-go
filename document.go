@@ -16,6 +16,7 @@ type _doc struct {
   *_node;
 }
 
+func (d *_doc) NodeValue() string { return ""; }
 func (d *_doc) AppendChild(c Node) Node { return appendChild(d,c); }
 func (d *_doc) RemoveChild(c Node) Node { return removeChild(d,c); }
 func (d *_doc) DocumentElement() Element { return d.ChildNodes().Item(0).(Element); }
