@@ -1,7 +1,7 @@
 package dom
 
 /*
- * Node implementation
+ * Text node implementation
  *
  * Copyright (c) 2009, Rob Russell
  * Copyright (c) 2009, Jeff Schiller
@@ -19,6 +19,10 @@ type _cdata struct {
 type _text struct {
   *_cdata;
   content []byte;
+}
+
+func (t *_text) NodeName() (s string) {
+  return "#text";
 }
 
 func (t *_text) NodeValue() (s string) {
