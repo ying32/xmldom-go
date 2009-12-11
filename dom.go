@@ -18,18 +18,16 @@ import (
   "os";
 )
 
-type _cdata struct {
-  *_node;
+const (
+  DEBUG = true;
+)
+
+func dbg(x ...) {
+  if DEBUG {
+    fmt.Println(x);
+  }
 }
 
-type _text struct {
-  *_cdata;
-  content []byte;
-}
-
-func newText(token xml.CharData) (*_text) {
-  return &_text{ &_cdata{newNode(3)}, token };
-}
 // ====================================
 
 // these are the package-level functions that are the real workhorses
