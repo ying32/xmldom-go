@@ -331,11 +331,31 @@ func TestToXml(t *testing.T) {
   }
 }
 
+func TestTextNodeType(t *testing.T) {
+  d := dom.ParseString(`<parent>mom</parent>`);
+  r := d.DocumentElement();
+  txt := r.ChildNodes().Item(0);
+  if (txt.NodeType() != 3)
+  {
+  	t.Errorf("Did not get the correct node type for a text node");
+  }
+}
+
+func TestTextNodeName(t *testing.T) {
+  d := dom.ParseString(`<parent>mom</parent>`);
+  r := d.DocumentElement();
+  txt := r.ChildNodes().Item(0);
+  if (txt.NodeName() != "#text")
+  {
+  	t.Errorf("Did not get #text for nodeName of a text node");
+  }
+}
+
 func TestTextNodeValue(t *testing.T) {
   d := dom.ParseString(`<parent>mom</parent>`);
   r := d.DocumentElement();
   txt := r.ChildNodes().Item(0);
-  if (txt.NodeType() != 3 || txt.NodeValue() != "mom")
+  if (txt.NodeValue() != "mom")
   {
   	t.Errorf("Did not get the correct node value for a text node");
   }
