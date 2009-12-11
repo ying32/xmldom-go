@@ -375,6 +375,21 @@ func TestNodeHasChildNodes(t *testing.T) {
        child2.HasChildNodes() != true ||
        text2.HasChildNodes() != false)
   {
-  	t.Errorf("Node.HasChildNodes() not implemented");
+  	t.Errorf("Node.HasChildNodes() not implemented correctly");
+  }
+}
+
+func TestNodeOwnerDocument(t *testing.T) {
+  d := dom.ParseString(`<parent><child/><child>kid</child></parent>`);
+  r := d.DocumentElement();
+  child1 := r.ChildNodes().Item(0);
+  child2 := r.ChildNodes().Item(1);
+  text2 := child2.ChildNodes().Item(0);
+  if ( r.OwnerDocument() != d || 
+       child1.OwnerDocument() != d || 
+       child2.OwnerDocument() != d ||
+       text2.OwnerDocument() != d)
+  {
+  	t.Errorf("Node.OwnerDocument() did not return the Document object");
   }
 }
