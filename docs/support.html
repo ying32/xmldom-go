@@ -16,7 +16,7 @@
 <h1>DOM Core Support in godom</h1>
 <p>This table shows the current level of <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Core</a> support in <a href="http://godom.googlecode.com/">godom</a>.  At present, this table only shows <a href="http://www.w3.org/TR/REC-DOM-Level-1/">DOM Core Level 1</a>.</p>
 <table border="1">
-<tr><th>Interface<th>Property/Method</th></tr>
+<tr><th>Interface</th><th>Property/Method</th><th>Support?</th></tr>
 
 <!--
   // DOM Core Level 2
@@ -131,112 +131,112 @@
 -->
 
 <tr><td rowspan="17" class="partial">Node</td>
-	<td class="yes">DOMString nodeName</td></tr>
-<tr><td class="yes">DOMString nodeValue</td></tr>
-<tr><td class="yes">unsigned short nodeType</td></tr>
-<tr><td class="yes">Node parentNode</td></tr>
-<tr><td class="yes">NodeList childNodes</td></tr>
-<tr><td class="no">Node firstChild</td></tr>
-<tr><td class="no">Node lastChild</td></tr>
-<tr><td class="no">Node previousSibling</td></tr>
-<tr><td class="no">Node nextSibling</td></tr>
-<tr><td class="yes">NamedNodeMap attributes</td></tr>
-<tr><td class="no">Document ownerDocument</td></tr>
-<tr><td class="no">Node insertBefore(in Node newChild, in Node refChild)</td></tr>
-<tr><td class="no">Node replaceChild(in Node newChild, in Node oldChild)</td></tr>
-<tr><td class="yes">Node removeChild(in Node oldChild</td></tr>
-<tr><td class="yes">Node appendChild(in Node newChild</td></tr>
-<tr><td class="yes">boolean hasChildNodes()</td></tr>
-<tr><td class="no">Node cloneNode(in boolean deep)</td></tr>
+	<td class="yes">DOMString nodeName</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">DOMString nodeValue</td></td><td class="yes">Supported</td></tr>
+<tr><td class="yes">unsigned short nodeType</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">Node parentNode</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">NodeList childNodes</td><td class="yes">Supported</td></tr>
+<tr><td class="no">Node firstChild</td><td class="no"></td></tr>
+<tr><td class="no">Node lastChild</td><td class="no"></td></tr>
+<tr><td class="no">Node previousSibling</td><td class="no"></td></tr>
+<tr><td class="no">Node nextSibling</td><td class="no"></td></tr>
+<tr><td class="yes">NamedNodeMap attributes</td><td class="yes">Supported</td></tr>
+<tr><td class="no">Document ownerDocument</td><td class="no"></td></tr>
+<tr><td class="no">Node insertBefore(in Node newChild, in Node refChild)</td><td class="no"></td></tr>
+<tr><td class="no">Node replaceChild(in Node newChild, in Node oldChild)</td><td class="no"></td></tr>
+<tr><td class="yes">Node removeChild(in Node oldChild</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">Node appendChild(in Node newChild</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">boolean hasChildNodes()</td><td class="yes">Supported</td></tr>
+<tr><td class="no">Node cloneNode(in boolean deep)</td><td class="no"></td></tr>
 
 <tr><td rowspan="9" class="partial">Element : Node</td>
-	<td class="yes">DOMString tagName</td></tr>
-<tr><td class="yes">DOMString getAttribute(in DOMString name)</td></tr>
-<tr><td class="yes">void setAttribute(in DOMString name, in DOMString value)</td></tr>
-<tr><td class="no">void removeAttribute(in DOMString name)</td></tr>
-<tr><td class="no">Attr getAttributeNode(in DOMString name)</td></tr>
-<tr><td class="no">Attr setAttributeNode(in Attr newAttr)</td></tr>
-<tr><td class="no">Attr removeAttributeNode(in Attr oldAttr)</td></tr>
-<tr><td class="no">NodeList getElementsByTagName(in DOMString name)</td></tr>
-<tr><td class="no">void normalize()</td></tr>
+	<td class="yes">DOMString tagName</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">DOMString getAttribute(in DOMString name)</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">void setAttribute(in DOMString name, in DOMString value)</td><td class="yes">Supported</td></tr>
+<tr><td class="no">void removeAttribute(in DOMString name)</td><td class="no"></td></tr>
+<tr><td class="no">Attr getAttributeNode(in DOMString name)</td><td class="no"></td></tr>
+<tr><td class="no">Attr setAttributeNode(in Attr newAttr)</td><td class="no"></td></tr>
+<tr><td class="no">Attr removeAttributeNode(in Attr oldAttr)</td><td class="no"></td></tr>
+<tr><td class="no">NodeList getElementsByTagName(in DOMString name)</td><td class="no"></td></tr>
+<tr><td class="no">void normalize()</td><td class="no"></td></tr>
 
 <tr><td rowspan="12" class="partial">Document : Node</td>
-	<td class="no">DocumentType doctype</td></tr>
-<tr><td class="no">DOMImplementation implementation</td></tr>
-<tr><td class="yes">Element documentElement</td></tr>
-<tr><td class="yes">Element createElement(in DOMString tagName)</td></tr>
-<tr><td class="no">DocumentFragment createDocumentFragment()</td></tr>
-<tr><td class="no">createTextNode(in DOMString data)</td></tr>
-<tr><td class="no">createComment(in DOMString data)</td></tr>
-<tr><td class="no">createCDATASection(in DOMString data)</td></tr>
-<tr><td class="no">createProcessingInstruction(in DOMString target, in DOMString data)</td></tr>
-<tr><td class="no">Attr createAttribute(in DOMString name)</td></tr>
-<tr><td class="no">EntityReference createEntityByReference(in DOMString name)</td></tr>
-<tr><td class="no">NodeList getElementsByTagName(in DOMString tagName)</td></tr>
+	<td class="no">DocumentType doctype</td><td class="no"></td></tr>
+<tr><td class="no">DOMImplementation implementation</td><td class="no"></td></tr>
+<tr><td class="yes">Element documentElement</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">Element createElement(in DOMString tagName)</td><td class="yes">Supported</td></tr>
+<tr><td class="no">DocumentFragment createDocumentFragment()</td><td class="no"></td></tr>
+<tr><td class="no">createTextNode(in DOMString data)</td><td class="no"></td></tr>
+<tr><td class="no">createComment(in DOMString data)</td><td class="no"></td></tr>
+<tr><td class="no">createCDATASection(in DOMString data)</td><td class="no"></td></tr>
+<tr><td class="no">createProcessingInstruction(in DOMString target, in DOMString data)</td><td class="no"></td></tr>
+<tr><td class="no">Attr createAttribute(in DOMString name)</td><td class="no"></td></tr>
+<tr><td class="no">EntityReference createEntityByReference(in DOMString name)</td><td class="no"></td></tr>
+<tr><td class="no">NodeList getElementsByTagName(in DOMString tagName)</td><td class="no"></td></tr>
 
 <tr><td rowspan="2" class="yes">NodeList</td>
-	<td class="yes">Node item(in unsigned long index)</td></tr>
-<tr><td class="yes">unsigned long length</td></tr>
+	<td class="yes">Node item(in unsigned long index)</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">unsigned long length</td><td class="yes">Supported</td></tr>
 
 <tr><td rowspan="5" class="partial">NamedNodeMap</td>
-	<td class="no">Node getNamedItem(in DOMString name)</td></tr>
-<tr><td class="no">Node setNamedItem(in Node arg)</td></tr>
-<tr><td class="no">Node removeNamedItem(in DOMString name)</td></tr>
-<tr><td class="yes">Node item(in unsigned long index)</td></tr>
-<tr><td class="yes">unsigned long length</td></tr>
+	<td class="no">Node getNamedItem(in DOMString name)</td><td class="no"></td></tr>
+<tr><td class="no">Node setNamedItem(in Node arg)</td><td class="no"></td></tr>
+<tr><td class="no">Node removeNamedItem(in DOMString name)</td><td class="no"></td></tr>
+<tr><td class="yes">Node item(in unsigned long index)</td><td class="yes">Supported</td></tr>
+<tr><td class="yes">unsigned long length</td><td class="yes">Supported</td></tr>
 
 <tr><td rowspan="7" class="partial">CharacterData : Node</td>
-	<td class="no">DOMString data</td></tr>
-<tr><td class="no">unsigned long length</td></tr>
-<tr><td class="no">DOMString substringData(in unsigned long offset, in unsigned long count)</td></tr>
-<tr><td class="no">void appendData(in DOMString arg)</td></tr>
-<tr><td class="no">void insertData(in unsigned long offset, in DOMString arg)</td></tr>
-<tr><td class="no">void deleteData(in unsigned long offset, in unsigned long count)</td></tr>
-<tr><td class="no">void replaceData(in unsigned long offset, in unsigned long count, in DOMString arg)</td></tr>
+	<td class="no">DOMString data</td><td class="no"></td></tr>
+<tr><td class="no">unsigned long length</td><td class="no"></td></tr>
+<tr><td class="no">DOMString substringData(in unsigned long offset, in unsigned long count)</td><td class="no"></td></tr>
+<tr><td class="no">void appendData(in DOMString arg)</td><td class="no"></td></tr>
+<tr><td class="no">void insertData(in unsigned long offset, in DOMString arg)</td><td class="no"></td></tr>
+<tr><td class="no">void deleteData(in unsigned long offset, in unsigned long count)</td><td class="no"></td></tr>
+<tr><td class="no">void replaceData(in unsigned long offset, in unsigned long count, in DOMString arg)</td><td class="no"></td></tr>
 
 <tr><td rowspan="1" class="partial">Text : Character Data</td>
-	<td class="no">Text splitText(in unsigned long offset)</td></tr>
+	<td class="no">Text splitText(in unsigned long offset)</td><td class="no"></td></tr>
 
 <tr><td rowspan="3" class="partial">Attr : Node</td>
-	<td class="no">DOMString name</td></tr>
-<tr><td class="no">boolean specified</td></tr>
-<tr><td class="no">DOMString value</td></tr>
+	<td class="no">DOMString name</td><td class="no"></td></tr>
+<tr><td class="no">boolean specified</td><td class="no"></td></tr>
+<tr><td class="no">DOMString value</td><td class="no"></td></tr>
 
 <tr><td rowspan="1" class="no">Comment : CharacterData</td>
-	<td class="no">(empty)</td></tr>
+	<td class="no">(empty)</td><td class="no"></td></tr>
 
 <tr><td rowspan="1" class="no">CDATASection : Text</td>
-	<td class="no">(empty)</td></tr>
+	<td class="no">(empty)</td><td class="no"></td></tr>
 
 <tr><td rowspan="1" class="no">DOMException</td>
-	<td class="no">unsigned short code</td></tr>
+	<td class="no">unsigned short code</td><td class="no"></td></tr>
 
 <tr><td rowspan="1" class="no">DOMImplementation</td>
-	<td class="no">boolean hasFeature(in DOMString feature, in DOMString version)</td></tr>
+	<td class="no">boolean hasFeature(in DOMString feature, in DOMString version)</td><td class="no"></td></tr>
 
 <tr><td rowspan="1" class="no">DocumentFragment</td>
-	<td class="no">(empty)</td></tr>
+	<td class="no">(empty)</td><td class="no"></td></tr>
 
 <tr><td rowspan="3" class="no">DocumentType : Node</td>
-	<td class="no">DOMString name</td></tr>
-<tr><td class="no">NamedNodeMap entities</td></tr>
-<tr><td class="no">NamedNodeMap notations</td></tr>
+	<td class="no">DOMString name</td><td class="no"></td></tr>
+<tr><td class="no">NamedNodeMap entities</td><td class="no"></td></tr>
+<tr><td class="no">NamedNodeMap notations</td><td class="no"></td></tr>
 
 <tr><td rowspan="2" class="no">Notation : Node</td>
-	<td class="no">DOMString publicId</td></tr>
-<tr><td class="no">DOMString systemId</td></tr>
+	<td class="no">DOMString publicId</td><td class="no"></td></tr>
+<tr><td class="no">DOMString systemId</td><td class="no"></td></tr>
 
 <tr><td rowspan="3" class="no">Entity : Node</td>
-	<td class="no">DOMString publicId</td></tr>
-<tr><td class="no">DOMString systemId</td></tr>
-<tr><td class="no">DOMString notationName</td></tr>
+	<td class="no">DOMString publicId</td><td class="no"></td></tr>
+<tr><td class="no">DOMString systemId</td><td class="no"></td></tr>
+<tr><td class="no">DOMString notationName</td><td class="no"></td></tr>
 
 <tr><td rowspan="1" class="no">EntityReference : Node</td>
-	<td class="no">(empty)</td></tr>
+	<td class="no">(empty)</td><td class="no"></td></tr>
 
 <tr><td rowspan="2" class="no">ProcessingInstruction : Node</td>
-	<td class="no">DOMString target</td></tr>
-<tr><td class="no">DOMString data</td></tr>
+	<td class="no">DOMString target</td><td class="no"></td></tr>
+<tr><td class="no">DOMString data</td><td class="no"></td></tr>
 
 </table>
 </body>
