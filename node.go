@@ -55,6 +55,13 @@ func (n *_node) RemoveChild(c Node) Node { return removeChild(n,c); }
 func (n *_node) ChildNodes() NodeList { return newChildNodelist(n); }
 func (n *_node) ParentNode() Node { return n.p; }
 func (n *_node) Attributes() NamedNodeMap { return NamedNodeMap(nil); }
+func (n *_node) HasChildNodes() (b bool) {
+  b = false;
+  if n.c.Len() > 0 {
+    b = true;
+  }
+  return;
+}
 
 func newNode(_t int) (n *_node) {
   n = new(_node);
