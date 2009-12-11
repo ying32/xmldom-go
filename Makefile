@@ -7,6 +7,7 @@ GOFILES=\
 	attr.go \
 	document.go \
 	element.go \
+	text.go \
 	nodelists.go \
 	namednodemap.go \
 	dom.go
