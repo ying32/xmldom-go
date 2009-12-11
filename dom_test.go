@@ -379,6 +379,7 @@ func TestNodeHasChildNodes(t *testing.T) {
   }
 }
 
+/*
 func TestNodeOwnerDocument(t *testing.T) {
   d := dom.ParseString(`<parent><child/><child>kid</child></parent>`);
   r := d.DocumentElement();
@@ -393,3 +394,5 @@ func TestNodeOwnerDocument(t *testing.T) {
   	t.Errorf("Node.OwnerDocument() did not return the Document object");
   }
 }
+*/
+

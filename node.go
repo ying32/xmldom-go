@@ -62,6 +62,7 @@ func (n *_node) HasChildNodes() (b bool) {
   }
   return;
 }
+//func (n *_node) OwnerDocument() (d Document) { return Document(nil); }
 
 func newNode(_t int) (n *_node) {
   n = new(_node);

@@ -24,7 +24,7 @@ type Node interface {
   ChildNodes() NodeList;
   Attributes() NamedNodeMap;
   HasChildNodes() bool;
-  OwnerDocument() Document;
+//  OwnerDocument() Document;
 
   // internal interface methods needed for implementations (not part of the DOM)
   setParent(Node);
