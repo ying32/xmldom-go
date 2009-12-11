@@ -4,6 +4,7 @@
 	<title>DOM Core Support in godom</title>
 	<style type="text/css">
 	table * { font-size: small; }
+	table a { color: white; font-weight: bold; }
 	.no { background-color: red; color: white; }
 	.yes { background-color: green; color: white; }
 	.partial { background-color: orange; color: white; }
@@ -71,9 +72,9 @@
 
 -->
 
-<tr><td rowspan="17" class="partial">Node</td>
-	<td class="yes">DOMString nodeName</td><td class="yes">Supported</td></tr><tr>
-	<td class="yes">DOMString nodeValue</td></td><td class="yes">Supported</td></tr><tr>
+<tr id="Node"><td rowspan="17" class="partial"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247">Node</a></td>
+	<td class="yes">DOMString <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-F68D095">nodeName</a></td><td class="yes">Supported</td></tr><tr>
+	<td class="yes">DOMString <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-F68D080">nodeValue</a></td></td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">unsigned short nodeType</td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">Node parentNode</td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">NodeList childNodes</td><td class="yes">Supported</td></tr><tr>
@@ -91,7 +92,7 @@
 	<td class="no">Node cloneNode(in boolean deep)</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr><td rowspan="9" class="partial">Element : Node</td>
+<tr id="Element"><td rowspan="9" class="partial"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614">Element</a> : <a href="#Node">Node</a></td>
 	<td class="yes">DOMString tagName</td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">DOMString getAttribute(in DOMString name)</td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">void setAttribute(in DOMString name, in DOMString value)</td><td class="yes">Supported</td></tr><tr>
@@ -103,7 +104,7 @@
 	<td class="no">void normalize()</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr><td rowspan="12" class="partial">Document : Node</td>
+<tr id="Document"><td rowspan="12" class="partial"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document">Document</a> : <a href="#Node">Node</a></td>
 	<td class="no">DocumentType doctype</td><td class="no"></td></tr><tr>
 	<td class="no">DOMImplementation implementation</td><td class="no"></td></tr><tr>
 	<td class="yes">Element documentElement</td><td class="yes">Supported</td></tr><tr>
@@ -131,7 +132,7 @@
 	<td class="yes">unsigned long length</td><td class="yes">Supported</td></tr><tr>
 </tr>
 
-<tr><td rowspan="7" class="partial">CharacterData : Node</td>
+<tr><td rowspan="7" class="partial">CharacterData : <a href="#Node">Node</a></td>
 	<td class="no">DOMString data</td><td class="no"></td></tr><tr>
 	<td class="no">unsigned long length</td><td class="no"></td></tr><tr>
 	<td class="no">DOMString substringData(in unsigned long offset, in unsigned long count)</td><td class="no"></td></tr><tr>
@@ -145,7 +146,7 @@
 	<td class="no">Text splitText(in unsigned long offset)</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr><td rowspan="3" class="partial">Attr : Node</td>
+<tr><td rowspan="3" class="partial">Attr : <a href="#Node">Node</a></td>
 	<td class="no">DOMString name</td><td class="no"></td></tr><tr>
 	<td class="no">boolean specified</td><td class="no"></td></tr><tr>
 	<td class="no">DOMString value</td><td class="no"></td></tr><tr>
@@ -171,28 +172,28 @@
 	<td class="no">(empty)</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr><td rowspan="3" class="no">DocumentType : Node</td>
+<tr><td rowspan="3" class="no">DocumentType : <a href="#Node">Node<a></td>
 	<td class="no">DOMString name</td><td class="no"></td></tr><tr>
 	<td class="no">NamedNodeMap entities</td><td class="no"></td></tr><tr>
 	<td class="no">NamedNodeMap notations</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr><td rowspan="2" class="no">Notation : Node</td>
+<tr><td rowspan="2" class="no">Notation : <a href="#Node">Node</a></td>
 	<td class="no">DOMString publicId</td><td class="no"></td></tr><tr>
 	<td class="no">DOMString systemId</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr><td rowspan="3" class="no">Entity : Node</td>
+<tr><td rowspan="3" class="no">Entity : <a href="#Node">Node</a></td>
 	<td class="no">DOMString publicId</td><td class="no"></td></tr><tr>
 	<td class="no">DOMString systemId</td><td class="no"></td></tr><tr>
 	<td class="no">DOMString notationName</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr><td rowspan="1" class="no">EntityReference : Node</td>
+<tr><td rowspan="1" class="no">EntityReference : <a href="#Node">Node<a/></td>
 	<td class="no">(empty)</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr><td rowspan="2" class="no">ProcessingInstruction : Node</td>
+<tr><td rowspan="2" class="no">ProcessingInstruction : <a href="#Node">Node</a></td>
 	<td class="no">DOMString target</td><td class="no"></td></tr><tr>
 	<td class="no">DOMString data</td><td class="no"></td></tr><tr>
 </tr>
