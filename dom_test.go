@@ -355,8 +355,9 @@ func TestTextNodeValue(t *testing.T) {
   d := dom.ParseString(`<parent>mom</parent>`);
   r := d.DocumentElement();
   txt := r.ChildNodes().Item(0);
-  if (txt.NodeValue() != "mom")
+  nval := txt.NodeValue();
+  if ( nval != "mom")
   {
-  	t.Errorf("Did not get the correct node value for a text node");
+  	t.Errorf("Did not get the correct node value for a text node (got %#v, %#v)", ntype, nval);
   }
 }
