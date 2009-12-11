@@ -2,17 +2,132 @@
 <html>
 <head>
 	<style type="text/css">
-	* { font-size: small; }
+	table * { font-size: small; }
 	.no { background-color: red; color: white; }
 	.yes { background-color: green; color: white; }
 	.partial { background-color: orange; color: white; }
 	
 	.dom2 { display: none; }
+	.dom3 { display: none; }
 	</style>
 </head>
 <body>
+<h1>DOM Core Support in godom</h1>
+<p>This table shows the current level of <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Core</a> support in <a href="http://godom.googlecode.com/">godom</a>.  At present, this table only shows <a href="http://www.w3.org/TR/REC-DOM-Level-1/">DOM Core Level 1</a>.</p>
 <table border="1">
 <tr><th>Interface<th>Property/Method</th></tr>
+
+<!--
+  // DOM Core Level 2
+  interface DOMImplementation {
+    // Introduced in DOM Level 2:
+    DocumentType       createDocumentType(in DOMString qualifiedName, 
+                                          in DOMString publicId, 
+                                          in DOMString systemId)
+                                        raises(DOMException);
+    // Introduced in DOM Level 2:
+    Document           createDocument(in DOMString namespaceURI, 
+                                      in DOMString qualifiedName, 
+                                      in DocumentType doctype)
+                                        raises(DOMException);
+  };
+
+  interface Node {
+    // Introduced in DOM Level 2:
+    boolean            isSupported(in DOMString feature, 
+                                   in DOMString version);
+    // Introduced in DOM Level 2:
+    readonly attribute DOMString        namespaceURI;
+    // Introduced in DOM Level 2:
+             attribute DOMString        prefix;
+                                        // raises(DOMException) on setting
+
+    // Introduced in DOM Level 2:
+    readonly attribute DOMString        localName;
+    // Introduced in DOM Level 2:
+    boolean            hasAttributes();
+  };
+
+  interface NamedNodeMap {
+    // Introduced in DOM Level 2:
+    Node               getNamedItemNS(in DOMString namespaceURI, 
+                                      in DOMString localName);
+    // Introduced in DOM Level 2:
+    Node               setNamedItemNS(in Node arg)
+                                        raises(DOMException);
+    // Introduced in DOM Level 2:
+    Node               removeNamedItemNS(in DOMString namespaceURI, 
+                                         in DOMString localName)
+                                        raises(DOMException);
+  };
+
+  interface Attr : Node {
+    // Introduced in DOM Level 2:
+    readonly attribute Element          ownerElement;
+  };
+
+  interface Element : Node {
+    // Introduced in DOM Level 2:
+    DOMString          getAttributeNS(in DOMString namespaceURI, 
+                                      in DOMString localName);
+    // Introduced in DOM Level 2:
+    void               setAttributeNS(in DOMString namespaceURI, 
+                                      in DOMString qualifiedName, 
+                                      in DOMString value)
+                                        raises(DOMException);
+    // Introduced in DOM Level 2:
+    void               removeAttributeNS(in DOMString namespaceURI, 
+                                         in DOMString localName)
+                                        raises(DOMException);
+    // Introduced in DOM Level 2:
+    Attr               getAttributeNodeNS(in DOMString namespaceURI, 
+                                          in DOMString localName);
+    // Introduced in DOM Level 2:
+    Attr               setAttributeNodeNS(in Attr newAttr)
+                                        raises(DOMException);
+    // Introduced in DOM Level 2:
+    NodeList           getElementsByTagNameNS(in DOMString namespaceURI, 
+                                              in DOMString localName);
+    // Introduced in DOM Level 2:
+    boolean            hasAttribute(in DOMString name);
+    // Introduced in DOM Level 2:
+    boolean            hasAttributeNS(in DOMString namespaceURI, 
+                                      in DOMString localName);
+  };
+
+  interface DocumentType : Node {
+    // Introduced in DOM Level 2:
+    readonly attribute DOMString        publicId;
+    // Introduced in DOM Level 2:
+    readonly attribute DOMString        systemId;
+    // Introduced in DOM Level 2:
+    readonly attribute DOMString        internalSubset;
+  };
+
+  interface Document : Node {
+    // Introduced in DOM Level 2:
+    Node               importNode(in Node importedNode, 
+                                  in boolean deep)
+                                        raises(DOMException);
+    // Introduced in DOM Level 2:
+    Element            createElementNS(in DOMString namespaceURI, 
+                                       in DOMString qualifiedName)
+                                        raises(DOMException);
+    // Introduced in DOM Level 2:
+    Attr               createAttributeNS(in DOMString namespaceURI, 
+                                         in DOMString qualifiedName)
+                                        raises(DOMException);
+    // Introduced in DOM Level 2:
+    NodeList           getElementsByTagNameNS(in DOMString namespaceURI, 
+                                              in DOMString localName);
+    // Introduced in DOM Level 2:
+    Element            getElementById(in DOMString elementId);
+  };
+};
+
+#endif // _DOM_IDL_
+
+-->
 
 <tr><td rowspan="17" class="partial">Node</td>
 	<td class="yes">DOMString nodeName</td></tr>
