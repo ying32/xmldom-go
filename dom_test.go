@@ -363,3 +363,18 @@ func TestTextNodeValue(t *testing.T) {
   	t.Errorf("Did not get the correct node value for a text node (got %#v)", nval);
   }
 }
+
+func TestNodeHasChildNodes(t *testing.T) {
+  d := dom.ParseString(`<parent><child/><child>kid</child></parent>`);
+  r := d.DocumentElement();
+  child1 := r.ChildNodes().Item(0);
+  child2 := r.ChildNodes().Item(1);
+  text2 := child2.ChildNodes().Item(0);
+  if ( r.HasChildNodes() != true || 
+       child1.HasChildNodes() != false || 
+       child2.HasChildNodes() != true ||
+       text2.HasChildNodes() != false)
+  {
+  	t.Errorf("Node.HasChildNodes() not implemented");
+  }
+}
