@@ -95,7 +95,7 @@ func toXml(n Node) string {
     case 1: // Element Nodes
       s += "<" + n.NodeName();
   
-      // TODO: iterate over attributes
+      // iterate over attributes
       for i := uint(0); i < n.Attributes().Length(); i++ {
         a := n.Attributes().Item(i);
         s += " " + a.NodeName() + "=\"" + a.NodeValue() + "\"";
@@ -111,6 +111,7 @@ func toXml(n Node) string {
       s += "</" + n.NodeName() + ">";
       
     case 3: // Text Nodes
+      s += n.NodeValue();
       break;
   }
   return s;

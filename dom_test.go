@@ -319,13 +319,15 @@ func TestAttributesSetting(t *testing.T) {
 }
 
 func TestToXml(t *testing.T) {
-  d1 := dom.ParseString(`<parent attr="val"><child><grandchild></grandchild></child></parent>`);
+  d1 := dom.ParseString(`<parent attr="val">mom<foo/></parent>`);
   s := dom.ToXml(d1);
   d2 := dom.ParseString(s);
+  r2 := d2.DocumentElement();
   
-  if (d1.DocumentElement().NodeName() != d2.DocumentElement().NodeName() ||
-      d1.DocumentElement().ChildNodes().Length() != d2.DocumentElement().ChildNodes().Length() ||
-      d1.DocumentElement().GetAttribute("attr") != d2.DocumentElement().GetAttribute("attr"))
+  if (r2.NodeName() != "parent" ||
+      r2.GetAttribute("attr") != "val" ||
+      r2.ChildNodes().Length() != 2 ||
+      r2.ChildNodes().Item(0).NodeValue() != "mom")
   {
   	t.Errorf("ToXml() did not serialize the DOM to text");
   }
@@ -358,6 +360,6 @@ func TestTextNodeValue(t *testing.T) {
   nval := txt.NodeValue();
   if ( nval != "mom")
   {
-  	t.Errorf("Did not get the correct node value for a text node (got %#v, %#v)", ntype, nval);
+  	t.Errorf("Did not get the correct node value for a text node (got %#v)", nval);
   }
 }
