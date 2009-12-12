@@ -66,13 +66,12 @@ func (n *_node) HasChildNodes() (b bool) {
 // has to be package-scoped because of 
 func ownerDocument(n Node) (d Document) {
   d = nil;
-  p := n.ParentNode();
   
-  for p!=nil {
-    if p.NodeType()==9 {
-      return p.(Document);
+  for n!=nil {
+    if n.NodeType()==9 {
+      return n.(Document);
     }
-    p = n.ParentNode();
+    n = n.ParentNode();
   }
   return Document(nil);
 }
