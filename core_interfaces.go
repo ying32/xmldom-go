@@ -12,6 +12,7 @@ package dom
 
 // TODO: split this out into separate interfaces again eventually
 
+
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247
 type Node interface {
   AppendChild(Node) Node;

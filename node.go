@@ -62,7 +62,33 @@ func (n *_node) HasChildNodes() (b bool) {
   }
   return;
 }
-//func (n *_node) OwnerDocument() (d Document) { return Document(nil); }
+
+func ownerDocument(n Node) (d Document) {
+  d = nil;
+  p := n.ParentNode();
+  
+  for p!=nil {
+    if p.NodeType()==9 {
+      return p.(Document);
+    }
+    p = n.ParentNode();
+  }
+  return Document(nil);
+}
+
+//func (n *_node) OwnerDocument(n Node) (d Document) {
+  //d = nil;
+  //p := n.p;
+  //
+  //for p!=nil {
+  //  if p.NodeType()==9 {
+  //    return (*_doc)(p);
+  //  }
+  //  p = n.p;
+  //}
+//  return Document(nil);
+//}
+
 
 func newNode(_t int) (n *_node) {
   n = new(_node);
