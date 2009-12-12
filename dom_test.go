@@ -395,14 +395,13 @@ func TestAttributesNamedNodeMapLive(t *testing.T) {
 func TestNodeOwnerDocument(t *testing.T) {
   d := dom.ParseString(`<parent><child/><child>kid</child></parent>`);
   r := d.DocumentElement();
-  child1 := r.ChildNodes().Item(0);
-  child2 := r.ChildNodes().Item(1);
-  text2 := child2.ChildNodes().Item(0);
-  if ( r.OwnerDocument() != d || 
-       child1.OwnerDocument() != d || 
-       child2.OwnerDocument() != d ||
-       text2.OwnerDocument() != d)
-  {
+  child1 := r.ChildNodes().Item(0).(dom.Element);
+  child2 := r.ChildNodes().Item(1).(dom.Element);
+  text2 := child2.ChildNodes().Item(0).(dom.Text);
+  if r.OwnerDocument() != d || 
+     child1.OwnerDocument() != d || 
+     child2.OwnerDocument() != d ||
+     text2.OwnerDocument() != d {
   	t.Errorf("Node.OwnerDocument() did not return the Document object");
   }
 }

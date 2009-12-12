@@ -25,7 +25,6 @@ type Node interface {
   ChildNodes() NodeList;
   Attributes() NamedNodeMap;
   HasChildNodes() bool;
-//  OwnerDocument() Document;
 
   // internal interface methods needed for implementations (not part of the DOM)
   setParent(Node);
@@ -36,18 +35,18 @@ type Node interface {
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
 type Element interface {
   Node;
-  OwnerDocument() Document;
   TagName() string;
   GetAttribute(name string) string;
   SetAttribute(name string, value string);
+  OwnerDocument() Document;
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
 type Document interface {
   Node;
   DocumentElement() Element;
-  OwnerDocument() Document;
   CreateElement(tagName string) Element;
+  OwnerDocument() Document;
 }
 
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306
@@ -58,6 +57,7 @@ type CharacterData interface {
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
 type Text interface {
   CharacterData;
+  OwnerDocument() Document;
 }
 
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
