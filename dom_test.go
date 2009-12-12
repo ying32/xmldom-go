@@ -379,7 +379,21 @@ func TestNodeHasChildNodes(t *testing.T) {
   }
 }
 
-/*
+func TestNodeListLive(t *testing.T) {
+  d := dom.ParseString(`<parent></parent>`);
+  r := d.DocumentElement();
+  n0 := r.ChildNodes().Length();
+  c1 := d.CreateElement("child");
+  r.AppendChild(c1);
+  r.AppendChild(d.CreateElement("child"));
+  n2 := r.ChildNodes().Length();
+  r.RemoveChild(c1);
+  n1 := r.ChildNodes().Length();
+  if (n0 != 0 || n1 != 1 || n2 != 2) {
+    t.Errorf("NodeList via Node.ChildNodes() was not live");
+  }
+}
+
 func TestNodeOwnerDocument(t *testing.T) {
   d := dom.ParseString(`<parent><child/><child>kid</child></parent>`);
   r := d.DocumentElement();
@@ -394,5 +408,3 @@ func TestNodeOwnerDocument(t *testing.T) {
   	t.Errorf("Node.OwnerDocument() did not return the Document object");
   }
 }
-*/
-
