@@ -29,6 +29,10 @@ func (t *_text) NodeValue() (s string) {
   return string(t.content);
 }
 
+func (t *_text) OwnerDocument() Document {
+  return ownerDocument(t);
+}
+
 func newText(token xml.CharData) (*_text) {
   return &_text{ &_cdata{newNode(3)}, token.Copy() };
 }
