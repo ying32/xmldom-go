@@ -36,6 +36,7 @@ type Node interface {
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
 type Element interface {
   Node;
+  OwnerDocument() Document;
   TagName() string;
   GetAttribute(name string) string;
   SetAttribute(name string, value string);
@@ -45,6 +46,7 @@ type Element interface {
 type Document interface {
   Node;
   DocumentElement() Element;
+  OwnerDocument() Document;
   CreateElement(tagName string) Element;
 }
 
@@ -61,6 +63,7 @@ type Text interface {
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
 type Attr interface {
   Node;
+  OwnerDocument() Document;
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177

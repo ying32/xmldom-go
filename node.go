@@ -63,6 +63,7 @@ func (n *_node) HasChildNodes() (b bool) {
   return;
 }
 
+// has to be package-scoped because of 
 func ownerDocument(n Node) (d Document) {
   d = nil;
   p := n.ParentNode();
