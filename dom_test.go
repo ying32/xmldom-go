@@ -419,23 +419,21 @@ func TestDocumentGetElementById(t *testing.T) {
   }
 }
 
-/*
 func TestNodeInsertBefore(t *testing.T) {
   d := dom.ParseString(`<parent><child0/><child2/></parent>`);
   r := d.DocumentElement();
   child0 := r.ChildNodes().Item(0);
   child2 := r.ChildNodes().Item(1);
   child1 := d.CreateElement("child1");
-  alsoChild1 := r.InsertBefore(child1, child2);
+  alsoChild1 := r.InsertBefore(child1, child2).(dom.Element);
   if alsoChild1 != child1 ||
      r.ChildNodes().Length() != 3 ||
      r.ChildNodes().Item(0) != child0 ||
      child0.NodeName() != "child0" ||
-     r.ChildNodes().Item(1) != child1 ||
+     r.ChildNodes().Item(1).(dom.Element) != child1 ||
      child1.NodeName() != "child1" ||
      r.ChildNodes().Item(2) != child2 ||
      child2.NodeName() != "child2" {
   	t.Errorf("Node.InsertBefore() did not insert the new element");
   }
 }
-//*/
