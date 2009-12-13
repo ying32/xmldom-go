@@ -121,3 +121,7 @@ func (p *_node) InsertBefore(nc Node, rc Node) Node {
   }
   return nc;
 }
+
+func (p *_node) ReplaceChild(nc Node, rc Node) Node {
+  return Node(nil);
+}

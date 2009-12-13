@@ -437,3 +437,19 @@ func TestNodeInsertBefore(t *testing.T) {
   	t.Errorf("Node.InsertBefore() did not insert the new element");
   }
 }
+
+func TestNodeReplaceChild(t *testing.T) {
+  d := dom.ParseString(`<parent><child0/><child2/></parent>`);
+  r := d.DocumentElement();
+  children := r.ChildNodes();
+  child0 := r.ChildNodes().Item(0);
+  child2 := r.ChildNodes().Item(1);
+  child1 := d.CreateElement("child1");
+  alsoChild2 := r.ReplaceChild(child1, child2);
+  if children.Length() != 2 ||
+     r.ChildNodes().Item(0) != child0 ||
+     alsoChild2 != child2 ||
+     r.ChildNodes().Item(1) != child1.(dom.Node) {
+  	t.Errorf("Node.ReplaceChild() not implemented properly");
+  }
+}
