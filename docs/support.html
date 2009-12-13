@@ -15,7 +15,7 @@
 </head>
 <body>
 <h1>DOM Core Support in godom</h1>
-<p>This table shows the current level of <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Core</a> support in <a href="http://godom.googlecode.com/">godom</a>.  At present, this table only shows <a href="http://www.w3.org/TR/REC-DOM-Level-1/">DOM Core Level 1</a>.</p>
+<p>This table shows the current level of <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Core</a> support in <a href="http://godom.googlecode.com/">godom</a>.  At present, this table only shows <a href="http://www.w3.org/TR/REC-DOM-Level-1/">DOM Core Level 1</a> and one method from DOM Level 2, getElementById().</p>
 <table border="1">
 <tr><th>Interface</th><th>Property/Method</th><th>Support?</th></tr>
 
@@ -66,7 +66,6 @@
     Element createElementNS(in DOMString namespaceURI, in DOMString qualifiedName)
     Attr createAttributeNS(in DOMString namespaceURI, in DOMString qualifiedName)
     NodeList getElementsByTagNameNS(in DOMString namespaceURI, in DOMString localName);
-    Element getElementById(in DOMString elementId);
   };
 };
 
@@ -117,6 +116,7 @@
 	<td class="no">Attr createAttribute(in DOMString name)</td><td class="no"></td></tr><tr>
 	<td class="no">EntityReference createEntityByReference(in DOMString name)</td><td class="no"></td></tr><tr>
 	<td class="no">NodeList getElementsByTagName(in DOMString tagName)</td><td class="no"></td></tr><tr>
+    <td class="yes">Element <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-getElBId">getElementById</a>(in DOMString elementId)</td><td class="yes">Supported</td></tr><tr>
 </tr>
 
 <tr id="NodeList"><td rowspan="2" class="yes"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177">NodeList</a></td>
