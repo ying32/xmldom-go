@@ -22,6 +22,9 @@ func (e *_elem) RemoveChild(c Node) Node { return removeChild(e,c); }
 func (e *_elem) OwnerDocument() Document { return ownerDocument(e); }
 func (e *_elem) TagName() string { return e.NodeName(); }
 func (e *_elem) Attributes() NamedNodeMap { return newAttrNamedNodeMap(e); }
+func (e *_elem) GetElementById(id string) Element {
+  return getElementById(e,id);
+}
 func (e *_elem) GetAttribute(name string) string {
   val, ok := e.attribs[name];
   if (!ok) {

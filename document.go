@@ -33,9 +33,8 @@ func (d *_doc) setRoot(r Element) Element {
   return r;
 }
 func (d *_doc) GetElementById(id string) Element {
-  return Element(nil);
+  return getElementById(d.DocumentElement(),id);
 }
-
 func newDoc() (*_doc) {
   return &_doc{ newNode(9) };
 }
