@@ -453,3 +453,25 @@ func TestNodeReplaceChild(t *testing.T) {
   	t.Errorf("Node.ReplaceChild() not implemented properly");
   }
 }
+
+func TestElementGetElementsByTagName(t *testing.T) {
+  d := dom.ParseString(
+  `<parent id="p"><child>
+      <grandchild />
+    </child><child>
+      <grandchild />
+    </child><child/>
+  </parent>`);
+  
+  r := d.DocumentElement();
+  childless := r.ChildNodes().Item(2).(dom.Element);
+  grandchildren := r.GetElementsByTagName("grandchild");
+  no_offspring := childless.GetElementsByTagName("grandchild");
+  
+  if grandchildren.Length() != 2 { 
+    t.Errorf("Element.GetElementsByTagName() returned %d children instead of 2", grandchildren.Length()); 
+  } else if no_offspring.Length() != 0 {
+  	t.Errorf("Element.GetElementsByTagName() returned %d children instead of 0", no_offspring.Length());
+  }
+}
+

@@ -36,6 +36,10 @@ func (e *_elem) SetAttribute(attrname string, attrval string) {
   e.attribs[attrname]=attrval;
 }
 
+func (e *_elem) GetElementsByTagName(name string) NodeList {
+  return newTagNodeList(e);
+}
+
 func newElem(token xml.StartElement) (*_elem) {
   n := newNode(1);
   n.n = token.Name;

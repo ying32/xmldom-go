@@ -41,6 +41,7 @@ type Element interface {
   GetAttribute(name string) string;
   SetAttribute(name string, value string);
   OwnerDocument() Document;
+  GetElementsByTagName(name string) NodeList;
 }
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document

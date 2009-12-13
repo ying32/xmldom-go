@@ -31,3 +31,21 @@ func newChildNodelist(p *_node) (*_childNodelist) {
   nl.p = p;
   return nl;
 }
+
+type _tagNodeList struct {
+  e *_elem;
+}
+
+func (nl *_tagNodeList) Length() uint {
+  return 0;
+}
+
+func (nl *_tagNodeList) Item(index uint) Node {
+  return Node(nil);
+}
+
+func newTagNodeList(p *_elem) (*_tagNodeList) {
+  nl := new(_tagNodeList);
+  nl.e = p;
+  return nl;
+}
