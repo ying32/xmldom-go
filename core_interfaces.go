@@ -17,6 +17,7 @@ package dom
 type Node interface {
   AppendChild(Node) Node;
   RemoveChild(Node) Node;
+  InsertBefore(Node, Node) Node
   // attributes
   NodeName() string;
   NodeValue() string;

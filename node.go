@@ -95,3 +95,29 @@ func newNode(_t int) (n *_node) {
   n.T = _t;
   return;
 }
+
+
+func (p *_node) InsertBefore(nc Node, rc Node) Node {
+  if rc == nil {
+    // if refChild is null, insert newChild at the end of the list of children.
+    return appendChild(p,nc)
+  } else if rc == nc {
+    // inserting a node before itself is implementation dependent
+    return nc
+  }
+  // if newChild is already in the tree somewhere,
+  // remove it before reparenting
+  if nc.ParentNode() != nil {
+    removeChild(nc.ParentNode(), nc)
+  }
+  // find refChild & insert
+  nl := p.ChildNodes()
+  i := nl.Length()
+  for cix := uint(0); cix < i; cix++ {
+    if nl.Item(cix) == rc {
+      p.insertChildAt(nc, cix)
+      nc.setParent(p)
+    }
+  }
+  return nc;
+}
