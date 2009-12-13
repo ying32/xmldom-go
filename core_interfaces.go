@@ -47,6 +47,8 @@ type Document interface {
   DocumentElement() Element;
   CreateElement(tagName string) Element;
   OwnerDocument() Document;
+  // DOM Level 2
+  GetElementById(id string) Element;
 }
 
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306

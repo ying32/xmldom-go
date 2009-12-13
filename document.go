@@ -32,6 +32,9 @@ func (d *_doc) setRoot(r Element) Element {
   appendChild(d,r);
   return r;
 }
+func (d *_doc) GetElementById(id string) Element {
+  return Element(nil);
+}
 
 func newDoc() (*_doc) {
   return &_doc{ newNode(9) };

@@ -391,7 +391,6 @@ func TestAttributesNamedNodeMapLive(t *testing.T) {
   }
 }
 
-//*
 func TestNodeOwnerDocument(t *testing.T) {
   d := dom.ParseString(`<parent><child/><child>kid</child></parent>`);
   r := d.DocumentElement();
@@ -405,7 +404,20 @@ func TestNodeOwnerDocument(t *testing.T) {
   	t.Errorf("Node.OwnerDocument() did not return the Document object");
   }
 }
-//*/
+
+func TestDocumentGetElementById(t *testing.T) {
+  d := dom.ParseString(`<parent id="p"><child/><child id="c"/></parent>`);
+  r := d.DocumentElement();
+  child2 := r.ChildNodes().Item(1).(dom.Element);
+  p := d.GetElementById("p");
+  c := d.GetElementById("c");
+  n := d.GetElementById("nothing");
+  if p != r ||
+     c != child2 ||
+     n != nil {
+  	t.Errorf("Document.GetElementById() not implemented properly");
+  }
+}
 
 /*
 func TestNodeInsertBefore(t *testing.T) {
