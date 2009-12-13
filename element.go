@@ -23,7 +23,7 @@ func (e *_elem) OwnerDocument() Document { return ownerDocument(e); }
 func (e *_elem) TagName() string { return e.NodeName(); }
 func (e *_elem) Attributes() NamedNodeMap { return newAttrNamedNodeMap(e); }
 func (e *_elem) GetElementById(id string) Element {
-  return getElementById(e,id);
+  return getElementById(e,id).(Element);
 }
 func (e *_elem) GetAttribute(name string) string {
   val, ok := e.attribs[name];
