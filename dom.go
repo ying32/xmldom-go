@@ -51,6 +51,36 @@ func removeChild(p Node, c Node) Node {
   return c;
 }
 
+func getElementById(e Element, id string) Element {
+  if e.NodeType() == 1 {
+    // check for an id
+    av := e.GetAttribute("id");
+    if av != "" {
+      if av==id {
+        return e;
+      }
+    }
+    // if not found, check the children
+    cnodes := e.ChildNodes()
+    var ix uint
+    clen := cnodes.Length();
+    for ix = 0 ; ix < clen ; ix++ {
+    //for c := range e.c {
+      // return the first one found
+      //ce := cnodes.Item(ix).(Element).GetElementById(id);
+      cnode := cnodes.Item(ix)
+      // can't cast safely unless it's an Element for reals
+      if cnode.NodeType() == 1 { 
+        ce := getElementById(cnode.(Element),id);
+        if ce != nil {
+          return ce;
+        }
+      }
+    }
+  }
+  return nil;
+}
+
 func ParseString(s string) Document {
   r := strings.NewReader(s);
   p := xml.NewParser(r);
