@@ -475,3 +475,50 @@ func TestElementGetElementsByTagName(t *testing.T) {
   }
 }
 
+func TestNodeFirstChild(t *testing.T) {
+  d := dom.ParseString(`<parent><child0/><child1/><child2/></parent>`);
+  r := d.DocumentElement();
+  children := r.ChildNodes();
+  child0 := children.Item(0);
+  if child0.FirstChild() != nil {
+    t.Errorf("Node.firstChild did not return null on an empty node");
+  } else if r.FirstChild() != child0 {
+    t.Errorf("Node.firstChild did not return the first child");
+  }
+}
+
+func TestNodeLastChild(t *testing.T) {
+  d := dom.ParseString(`<parent><child0/><child1/><child2/></parent>`);
+  r := d.DocumentElement();
+  children := r.ChildNodes();
+  child2 := children.Item(2);
+  if child2.LastChild() != nil {
+    t.Errorf("Node.lastChild did not return null on an empty node");
+  } else if r.LastChild() != child2 {
+    t.Errorf("Node.lastChild did not return the last child");
+  }
+}
+func TestNodePreviousSibling(t *testing.T) {
+  d := dom.ParseString(`<parent><child0/><child1/><child2/></parent>`);
+  r := d.DocumentElement();
+  children := r.ChildNodes();
+  child0 := children.Item(0);
+  child1 := children.Item(1);
+  if child0.PreviousSibling() != nil {
+    t.Errorf("Node.previousSibling did not return null on the first child");
+  } else if child1.PreviousSibling() != child0 {
+    t.Errorf("Node.previousSibling did not return the previous sibling");
+  }
+}
+func TestNodeNextSibling(t *testing.T) {
+  d := dom.ParseString(`<parent><child0/><child1/><child2/></parent>`);
+  r := d.DocumentElement();
+  children := r.ChildNodes();
+  child1 := children.Item(1);
+  child2 := children.Item(2);
+  if child2.NextSibling() != nil {
+    t.Errorf("Node.nextSibling did not return null on the last child");
+  } else if child1.NextSibling() != child2 {
+    t.Errorf("Node.firstChild did not return the next sibling");
+  }
+}

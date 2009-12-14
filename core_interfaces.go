@@ -27,6 +27,10 @@ type Node interface {
   ChildNodes() NodeList;
   Attributes() NamedNodeMap;
   HasChildNodes() bool;
+  FirstChild() Node;
+  LastChild() Node;
+  PreviousSibling() Node;
+  NextSibling() Node;
 
   // internal interface methods needed for implementations (not part of the DOM)
   setParent(Node);
