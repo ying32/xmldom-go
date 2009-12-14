@@ -122,6 +122,9 @@ func (p *_node) InsertBefore(nc Node, rc Node) Node {
   return nc;
 }
 
-func (p *_node) ReplaceChild(nc Node, rc Node) Node {
-  return Node(nil);
-}
+// NOT YET IMPLEMENTED
+func (p *_node) ReplaceChild(nc Node, rc Node) Node { return Node(nil); }
+func (p *_node) FirstChild() Node { return Node(nil); }
+func (p *_node) LastChild() Node { return Node(nil); }
+func (p *_node) PreviousSibling() Node { return Node(nil); }
+func (p *_node) NextSibling() Node { return Node(nil); }
