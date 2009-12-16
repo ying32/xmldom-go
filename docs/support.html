@@ -15,7 +15,7 @@
 </head>
 <body>
 <h1>DOM Core Support in godom</h1>
-<p>This table shows the current level of <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Core</a> support in <a href="http://godom.googlecode.com/">godom</a>.  At present, this table only shows <a href="http://www.w3.org/TR/REC-DOM-Level-1/">DOM Core Level 1</a> and one method from DOM Level 2, getElementById().</p>
+<p>This table shows the current level of <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Core</a> support in <a href="http://godom.googlecode.com/">godom</a>.  At present, this table only shows <a href="http://www.w3.org/TR/REC-DOM-Level-1/">DOM Core Level 1</a> and a couple methods from DOM Level 2.</p>
 <table border="1">
 <tr><th>Interface</th><th>Property/Method</th><th>Support?</th></tr>
 
@@ -51,7 +51,6 @@
     Attr getAttributeNodeNS(in DOMString namespaceURI, in DOMString localName);
     Attr setAttributeNodeNS(in Attr newAttr)
     NodeList getElementsByTagNameNS(in DOMString namespaceURI, in DOMString localName);
-    boolean hasAttribute(in DOMString name);
     boolean hasAttributeNS(in DOMString namespaceURI, in DOMString localName);
   };
 
@@ -77,30 +76,31 @@
 	<td class="yes">unsigned short <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-111237558">nodeType</a></td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1060184317">parentNode</a></td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">NodeList <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1451460987">childNodes</a></td><td class="yes">Supported</td></tr><tr>
-	<td class="no">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-169727388">firstChild</a></td><td class="no"></td></tr><tr>
-	<td class="no">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-61AD09FB">lastChild</a></td><td class="no"></td></tr><tr>
+	<td class="yes">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-169727388">firstChild</a></td><td class="yes">Supported</td></tr><tr>
+	<td class="yes">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-61AD09FB">lastChild</a></td><td class="yes">Supported</td></tr><tr>
 	<td class="no">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-640FB3C8">previousSibling</a></td><td class="no"></td></tr><tr>
 	<td class="no">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-6AC54C2F">nextSibling</a></td><td class="no"></td></tr><tr>
 	<td class="yes">NamedNodeMap <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-84CF096">attributes</a></td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">Document <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#node-ownerDoc">ownerDocument</a></td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-952280727">insertBefore</a>(in Node newChild, in Node refChild)</td><td class="yes">Supported</td></tr><tr>
-	<td class="no">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-785887307">replaceChild</a>(in Node newChild, in Node oldChild)</td><td class="no"></td></tr><tr>
+	<td class="yes">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-785887307">replaceChild</a>(in Node newChild, in Node oldChild)</td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1734834066">removeChild</a>(in Node oldChild)</td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">Node <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-184E7107">appendChild</a>(in Node newChild)</td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">boolean <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-810594187">hasChildNodes</a>()</td><td class="yes">Supported</td></tr><tr>
 	<td class="no">Node cloneNode(in boolean deep)</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr id="Element"><td rowspan="9" class="partial"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614">Element</a> : <a href="#Node">Node</a></td>
+<tr id="Element"><td rowspan="10" class="partial"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614">Element</a> : <a href="#Node">Node</a></td>
 	<td class="yes">DOMString <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-104682815">tagName</a></td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">DOMString <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-666EE0F9">getAttribute</a>(in DOMString name)</td><td class="yes">Supported</td></tr><tr>
 	<td class="yes">void <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-F68F082">setAttribute</a>(in DOMString name, in DOMString value)</td><td class="yes">Supported</td></tr><tr>
-	<td class="no">void removeAttribute(in DOMString name)</td><td class="no"></td></tr><tr>
+	<td class="yes">void <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-6D6AC0F9">removeAttribute</a>(in DOMString name)</td><td class="yes">Supported</td></tr><tr>
 	<td class="no">Attr getAttributeNode(in DOMString name)</td><td class="no"></td></tr><tr>
 	<td class="no">Attr setAttributeNode(in Attr newAttr)</td><td class="no"></td></tr><tr>
 	<td class="no">Attr removeAttributeNode(in Attr oldAttr)</td><td class="no"></td></tr><tr>
 	<td class="no">NodeList <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1938918D">getElementsByTagName</a>(in DOMString name)</td><td class="no"></td></tr><tr>
 	<td class="no">void normalize()</td><td class="no"></td></tr><tr>
+    <td class="yes">boolean <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-ElHasAttr">hasAttribute</a>(in DOMString name);</td><td class="yes">Supported</td></tr><tr>
 </tr>
 
 <tr id="Document"><td rowspan="13" class="partial"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document">Document</a> : <a href="#Node">Node</a></td>
