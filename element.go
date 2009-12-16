@@ -37,7 +37,7 @@ func (e *_elem) SetAttribute(attrname string, attrval string) {
 }
 
 func (e *_elem) GetElementsByTagName(name string) NodeList {
-  return newTagNodeList(e);
+  return newTagNodeList(e, name);
 }
 
 func newElem(token xml.StartElement) (*_elem) {

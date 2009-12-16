@@ -54,8 +54,7 @@ func removeChild(p Node, c Node) Node {
 func getElementById(e Element, id string) Element {
   if e.NodeType() == 1 {
     // check for an id
-    av := e.GetAttribute("id");
-    if av != "" {
+    if av := e.GetAttribute("id"); av != "" {
       if av==id {
         return e;
       }
