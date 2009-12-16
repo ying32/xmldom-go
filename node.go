@@ -122,9 +122,23 @@ func (p *_node) InsertBefore(nc Node, rc Node) Node {
   return nc;
 }
 
-// NOT YET IMPLEMENTED
-func (p *_node) ReplaceChild(nc Node, rc Node) Node { return Node(nil); }
-func (p *_node) FirstChild() Node { return Node(nil); }
-func (p *_node) LastChild() Node { return Node(nil); }
+func (p *_node) ReplaceChild(nc Node, rc Node) Node {
+  p.InsertBefore(nc, rc);
+  return p.RemoveChild(rc);
+}
+func (p *_node) FirstChild() Node {
+  res := Node(nil)
+  if p.c.Len() > 0 {
+    res = p.c.At(0).(Node)
+  }
+  return res
+}
+func (p *_node) LastChild() Node {
+  res := Node(nil)
+  if p.c.Len() > 0 {
+    res = p.c.At(p.c.Len()-1).(Node)
+  }
+  return res
+}
 func (p *_node) PreviousSibling() Node { return Node(nil); }
 func (p *_node) NextSibling() Node { return Node(nil); }

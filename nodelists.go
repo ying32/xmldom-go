@@ -34,6 +34,7 @@ func newChildNodelist(p *_node) (*_childNodelist) {
 
 type _tagNodeList struct {
   e *_elem;
+  tag string
 }
 
 func (nl *_tagNodeList) Length() uint {
@@ -41,10 +42,35 @@ func (nl *_tagNodeList) Length() uint {
 }
 
 func (nl *_tagNodeList) Item(index uint) Node {
+  var count uint = 0
+  e := nl.e
+  if e.NodeType() == 1 {
+    // check for an id
+    if e.TagName() == nl.tag {
+      if index == count {
+        return e
+      }
+      count++
+    }
+    // if not found, check the children
+    cnodes := e.ChildNodes()
+    var ix uint
+    clen := cnodes.Length();
+    for ix = 0 ; ix < clen ; ix++ {
+      cnode := cnodes.Item(ix)
+      // can't cast safely unless it's an Element for reals
+      if cnode.NodeType() == 1 {
+        result := nl.Item(index - count)
+        if result != nil {
+          return result
+        }
+      }
+    }
+  }
   return Node(nil);
 }
 
-func newTagNodeList(p *_elem) (*_tagNodeList) {
+func newTagNodeList(p *_elem, t string) (*_tagNodeList) {
   nl := new(_tagNodeList);
   nl.e = p;
   return nl;

@@ -35,7 +35,7 @@ type (
     // internal interface methods needed for implementations (not part of the DOM)
     setParent(Node)
     insertChildAt(Node,uint)
-    removeChild(Node) Node
+    removeChild(Node)
   }
   
   // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
