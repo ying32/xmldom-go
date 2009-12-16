@@ -522,3 +522,25 @@ func TestNodeNextSibling(t *testing.T) {
     t.Errorf("Node.firstChild did not return the next sibling");
   }
 }
+
+func TestElementRemoveAttribute(t *testing.T) {
+  d := dom.ParseString(`<parent attr="val"/>`);
+  r := d.DocumentElement();
+  r.RemoveAttribute("attr");
+  if r.GetAttribute("attr") != "" {
+    t.Errorf("Element.RemoveAttribute() did not remove the attribute, GetAttribute() returns '%s'", r.GetAttribute("attr"));
+  }
+}
+
+func TestElementHasAttribute(t *testing.T) {
+  d := dom.ParseString(`<parent attr="val"/>`);
+  r := d.DocumentElement();
+  yes := r.HasAttribute("attr");
+  r.RemoveAttribute("attr");
+  no := r.HasAttribute("attr");
+  if yes != true {
+    t.Errorf("Element.HasAttribute() returned false when an attribute was present");
+  } else if no != false {
+    t.Errorf("Element.HasAttribute() returned true after removing an attribute");
+  }
+}

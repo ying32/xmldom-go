@@ -35,6 +35,15 @@ func (e *_elem) GetAttribute(name string) string {
 func (e *_elem) SetAttribute(attrname string, attrval string) {
   e.attribs[attrname]=attrval;
 }
+// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-6D6AC0F9
+func (e *_elem) RemoveAttribute(name string) {
+  e.attribs[name] = "",false;
+}
+// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-ElHasAttr
+func (e *_elem) HasAttribute(name string) bool {
+  _,has := e.attribs[name];
+  return has;
+}
 
 func (e *_elem) GetElementsByTagName(name string) NodeList {
   return newTagNodeList(e, name);

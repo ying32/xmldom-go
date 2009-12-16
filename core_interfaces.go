@@ -44,8 +44,10 @@ type (
     TagName() string
     GetAttribute(name string) string
     SetAttribute(name string, value string)
+    RemoveAttribute(name string);
     OwnerDocument() Document
     GetElementsByTagName(name string) NodeList
+    HasAttribute(name string) bool;
   }
   
   // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
