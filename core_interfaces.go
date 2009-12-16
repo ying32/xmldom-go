@@ -12,77 +12,78 @@ package dom
 
 // TODO: split this out into separate interfaces again eventually
 
-
-// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247
-type Node interface {
-  AppendChild(Node) Node;
-  RemoveChild(Node) Node;
-  InsertBefore(Node, Node) Node
-  ReplaceChild(Node, Node) Node
-  // attributes
-  NodeName() string;
-  NodeValue() string;
-  NodeType() int;
-  ParentNode() Node;
-  ChildNodes() NodeList;
-  Attributes() NamedNodeMap;
-  HasChildNodes() bool;
-  FirstChild() Node;
-  LastChild() Node;
-  PreviousSibling() Node;
-  NextSibling() Node;
-
-  // internal interface methods needed for implementations (not part of the DOM)
-  setParent(Node);
-  insertChildAt(Node,uint);
-  removeChild(Node);
-}
-
-// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
-type Element interface {
-  Node;
-  TagName() string;
-  GetAttribute(name string) string;
-  SetAttribute(name string, value string);
-  OwnerDocument() Document;
-  GetElementsByTagName(name string) NodeList;
-}
-
-// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
-type Document interface {
-  Node;
-  DocumentElement() Element;
-  CreateElement(tagName string) Element;
-  OwnerDocument() Document;
-  // DOM Level 2
-  GetElementById(id string) Element;
-}
-
-// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306
-type CharacterData interface {
-  Node;
-}
-
-// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
-type Text interface {
-  CharacterData;
-  OwnerDocument() Document;
-}
-
-// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
-type Attr interface {
-  Node;
-  OwnerDocument() Document;
-}
-
-// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
-type NodeList interface {
-  Length() uint;
-  Item(index uint) Node;
-}
-
-// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1780488922
-type NamedNodeMap interface {
-  Length() uint;
-  Item(index uint) Node;
-}
+type (
+  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247
+  Node interface {
+    AppendChild(Node) Node
+    RemoveChild(Node) Node
+    InsertBefore(Node, Node) Node
+    ReplaceChild(Node, Node) Node
+    // attributes
+    NodeName() string
+    NodeValue() string
+    NodeType() int
+    ParentNode() Node
+    ChildNodes() NodeList
+    Attributes() NamedNodeMap
+    HasChildNodes() bool
+    FirstChild() Node
+    LastChild() Node
+    PreviousSibling() Node
+    NextSibling() Node
+  
+    // internal interface methods needed for implementations (not part of the DOM)
+    setParent(Node)
+    insertChildAt(Node,uint)
+    removeChild(Node) Node
+  }
+  
+  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
+  Element interface {
+    Node
+    TagName() string
+    GetAttribute(name string) string
+    SetAttribute(name string, value string)
+    OwnerDocument() Document
+    GetElementsByTagName(name string) NodeList
+  }
+  
+  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
+  Document interface {
+    Node
+    DocumentElement() Element
+    CreateElement(tagName string) Element
+    OwnerDocument() Document
+    // DOM Level 2
+    GetElementById(id string) Element
+  }
+  
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306
+  CharacterData interface {
+    Node
+  }
+  
+  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
+  Text interface {
+    CharacterData
+    OwnerDocument() Document
+  }
+  
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
+  Attr interface {
+    Node
+    OwnerDocument() Document
+  }
+  
+  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
+  NodeList interface {
+    Length() uint
+    Item(index uint) Node
+  }
+  
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1780488922
+  NamedNodeMap interface {
+    Length() uint
+    Item(index uint) Node
+  }
+)
