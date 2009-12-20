@@ -487,6 +487,58 @@ func TestNodeFirstChild(t *testing.T) {
   }
 }
 
+func TestNodeFirstChildAfterInsert(t *testing.T) {
+  d := dom.ParseString(`<parent><child1/><child2/></parent>`);
+  r := d.DocumentElement();
+  children := r.ChildNodes();
+  child1 := children.Item(0);
+  if r.FirstChild() != child1 {
+    t.Errorf("Node.firstChild did not return the first child");
+  }
+  
+  child0 := d.CreateElement("child0").(dom.Node);
+  r.InsertBefore(child0, child1);
+  
+  if r.FirstChild() != child0 {
+    t.Errorf("Node.firstChild did not return the first child after inserting a new element");
+  }
+}
+
+func TestNodeLastChildAfterAppend(t *testing.T) {
+  d := dom.ParseString(`<parent><child0/><child1/></parent>`);
+  r := d.DocumentElement();
+  children := r.ChildNodes();
+  child1 := children.Item(1);
+  if r.LastChild() != child1 {
+    t.Errorf("Node.lasstChild did not return the last child");
+  }
+  
+  child2 := d.CreateElement("child2").(dom.Node);
+  r.AppendChild(child2);
+  
+  if r.LastChild() != child2 {
+    t.Errorf("Node.lastChild did not return the last child after appending a new element");
+  }
+}
+
+func TestNodeFirstChildAfterRemove(t *testing.T) {
+  d := dom.ParseString(`<parent><child1/><child2/></parent>`);
+  r := d.DocumentElement();
+  children := r.ChildNodes();
+  child1 := children.Item(0);
+  child2 := children.Item(1);
+  
+  if r.FirstChild() != child1 {
+    t.Errorf("Node.firstChild did not return the first child");
+  }
+  
+  r.RemoveChild(r.FirstChild());
+  
+  if r.FirstChild() != child2 {
+    t.Errorf("Node.firstChild did not return the first child after removing an element");
+  }
+}
+
 func TestNodeLastChild(t *testing.T) {
   d := dom.ParseString(`<parent><child0/><child1/><child2/></parent>`);
   r := d.DocumentElement();
@@ -519,7 +571,7 @@ func TestNodeNextSibling(t *testing.T) {
   if child2.NextSibling() != nil {
     t.Errorf("Node.nextSibling did not return null on the last child");
   } else if child1.NextSibling() != child2 {
-    t.Errorf("Node.firstChild did not return the next sibling");
+    t.Errorf("Node.nextSibling did not return the next sibling");
   }
 }
 
