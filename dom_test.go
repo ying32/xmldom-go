@@ -4,6 +4,7 @@ import (
   "testing";
   "xml/dom";
   "strconv";
+//  "fmt";
 )
 
 // Document.nodeName should be #document
@@ -13,6 +14,7 @@ func TestDocumentNodeName(t *testing.T) {
   if (d.NodeName() != "#document") {
     t.Errorf("Document.nodeName != #document");
   }
+//  fmt.Print(".")
 }
 
 // Document.nodeType should be 9
@@ -552,29 +554,45 @@ func TestNodeLastChild(t *testing.T) {
 }
 func TestNodePreviousSibling(t *testing.T) {
   d := dom.ParseString(`<parent><child0/><child1/><child2/></parent>`);
-  r := d.DocumentElement();
-  children := r.ChildNodes();
-  child0 := children.Item(0);
-  child1 := children.Item(1);
-  child2 := children.Item(2);
+  r := d.DocumentElement()
+  children := r.ChildNodes()
+  child0 := children.Item(0)
+  child1 := children.Item(1)
+  child2 := children.Item(2)
   if child0.PreviousSibling() != nil {
-    t.Errorf("Node.previousSibling did not return null on the first child");
+    t.Errorf("Node.previousSibling did not return null on the first child")
   } else if child1.PreviousSibling() != child0 {
-    t.Errorf("Node.previousSibling did not return the previous sibling");
+    t.Errorf("Node.previousSibling did not return the previous sibling")
   } else if child2.PreviousSibling().PreviousSibling() != child0 {
-    t.Errorf("child2.previousSibling.previousSibling did not return child0");
+    t.Errorf("child2.previousSibling.previousSibling did not return child0")
   }
 }
 func TestNodeNextSibling(t *testing.T) {
   d := dom.ParseString(`<parent><child0/><child1/><child2/></parent>`);
-  r := d.DocumentElement();
-  children := r.ChildNodes();
-  child1 := children.Item(1);
-  child2 := children.Item(2);
+  r := d.DocumentElement()
+  children := r.ChildNodes()
+  child0 := children.Item(0)
+  child1 := children.Item(1)
+  child2 := children.Item(2)
   if child2.NextSibling() != nil {
-    t.Errorf("Node.nextSibling did not return null on the last child");
+    t.Errorf("Node.nextSibling did not return null on the last child")
   } else if child1.NextSibling() != child2 {
-    t.Errorf("Node.nextSibling did not return the next sibling");
+    t.Errorf("Node.nextSibling did not return the next sibling")
+  } else if child0.NextSibling().NextSibling() != child2 {
+    t.Errorf("child0.nextSibling.nextSibling did not return child2")
+  }
+}
+
+func TestNodeNextPrevSibling(t *testing.T) {
+  d := dom.ParseString(`<parent><child0/><child1/></parent>`);
+  r := d.DocumentElement()
+  children := r.ChildNodes()
+  child0 := children.Item(0)
+  child1 := children.Item(1)
+  if child0.NextSibling().PreviousSibling() != child0 {
+    t.Errorf("Node.nextSibling.previousSibling did not return itself")
+  } else if child1.PreviousSibling().NextSibling() != child1 {
+    t.Errorf("Node.previousSibling.nextSibling did not return itself")
   }
 }
 

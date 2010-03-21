@@ -32,6 +32,10 @@ func newChildNodelist(p *_node) (*_childNodelist) {
   return nl;
 }
 
+// A _tagNodeList only stores a reference to the node and the tagname 
+// on which getElementsByTagName() was called so that the list can be 
+// live.  TODO: Do we really query every time or can we cache the results
+// somehow?
 type _tagNodeList struct {
   e *_elem;
   tag string
