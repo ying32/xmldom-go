@@ -3,7 +3,7 @@ package dom
 /*
  * NamedNodeMap implementation
  *
- * Copyright (c) 2009, Jeff Schiller
+ * Copyright (c) 2010, Jeff Schiller
  */
 
 // used to return the live attributes of a node

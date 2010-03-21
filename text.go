@@ -4,7 +4,7 @@ package dom
  * Text node implementation
  *
  * Copyright (c) 2009, Rob Russell
- * Copyright (c) 2009, Jeff Schiller
+ * Copyright (c) 2010, Jeff Schiller
  */
 
 import (
@@ -29,5 +29,8 @@ func (t *_text) OwnerDocument() Document {
 }
 
 func newText(token xml.CharData) (*_text) {
-  return &_text{ &_cdata{newNode(3)}, token.Copy() };
+  n := newNode(3);
+  t := &_text{ &_cdata{n}, token.Copy() };
+  n.self = Node(t)
+  return t
 }

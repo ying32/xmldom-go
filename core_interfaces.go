@@ -7,7 +7,7 @@ package dom
  * http://www.w3.org/TR/DOM-Level-3-Core/
  *
  * Copyright (c) 2009, Rob Russell
- * Copyright (c) 2009, Jeff Schiller
+ * Copyright (c) 2010, Jeff Schiller
  */ 
 
 // TODO: split this out into separate interfaces again eventually
