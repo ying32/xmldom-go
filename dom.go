@@ -5,7 +5,7 @@ package dom
  * http://www.w3.org/TR/DOM-Level-3-Core/
  *
  * Copyright (c) 2009, Rob Russell
- * Copyright (c) 2009, Jeff Schiller
+ * Copyright (c) 2010, Jeff Schiller
  */
  
 // FIXME: we use the empty string "" to denote a 'null' value when the data type
@@ -21,12 +21,6 @@ import (
 const (
   DEBUG = true;
 )
-
-func dbg(x ...) {
-  if DEBUG {
-    fmt.Println(x);
-  }
-}
 
 // ====================================
 
@@ -50,6 +44,20 @@ func removeChild(p Node, c Node) Node {
   c.setParent(nil);
   return c;
 }
+
+/*
+func prevSibling(n Node) Node {
+  children := n.ParentNode().ChildNodes()
+  fmt.Println(n)
+  for i := children.Length()-1; i > 0; i-- {
+    fmt.Println("  ", i, "  ", children.Item(i))
+    if children.Item(i) == n {
+      return children.Item(i-1)
+    }
+  }
+  return Node(nil)
+}
+*/
 
 func getElementById(e Element, id string) Element {
   if e.NodeType() == 1 {

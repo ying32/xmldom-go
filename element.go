@@ -4,7 +4,7 @@ package dom
  * Element implementation
  *
  * Copyright (c) 2009, Rob Russell
- * Copyright (c) 2009, Jeff Schiller
+ * Copyright (c) 2010, Jeff Schiller
  */
 
 import (
@@ -53,6 +53,7 @@ func newElem(token xml.StartElement) (*_elem) {
   n := newNode(1);
   n.n = token.Name;
   e := &_elem{n, make(map[string] string)};
+  n.self = Node(e);
   return e;
 }
 

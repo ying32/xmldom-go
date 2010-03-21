@@ -3,7 +3,7 @@ package dom
 /*
 * Attr implementation
 *
-* Copyright (c) 2009, Jeff Schiller
+* Copyright (c) 2010, Jeff Schiller
 */
 
 import "xml";
@@ -24,5 +24,7 @@ func (a *_attr) Attributes() NamedNodeMap { return NamedNodeMap(nil); }
 func newAttr(name string, val string) (*_attr) {
   node := newNode(2);
   node.n = xml.Name{"", name};
-  return &_attr { node, val };
+  a := &_attr { node, val }
+  node.self = Node(a)
+  return a;
 }

@@ -556,10 +556,13 @@ func TestNodePreviousSibling(t *testing.T) {
   children := r.ChildNodes();
   child0 := children.Item(0);
   child1 := children.Item(1);
+  child2 := children.Item(2);
   if child0.PreviousSibling() != nil {
     t.Errorf("Node.previousSibling did not return null on the first child");
   } else if child1.PreviousSibling() != child0 {
     t.Errorf("Node.previousSibling did not return the previous sibling");
+  } else if child2.PreviousSibling().PreviousSibling() != child0 {
+    t.Errorf("child2.previousSibling.previousSibling did not return child0");
   }
 }
 func TestNodeNextSibling(t *testing.T) {

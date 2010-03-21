@@ -4,7 +4,7 @@ package dom
  * NodeList implementations
  *
  * Copyright (c) 2009, Rob Russell
- * Copyright (c) 2009, Jeff Schiller
+ * Copyright (c) 2010, Jeff Schiller
  */
 
 // A _childNodelist only stores a reference to its parent node.

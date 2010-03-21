@@ -4,7 +4,7 @@ package dom
  * Document interface implementation
  *
  * Copyright (c) 2009, Rob Russell
- * Copyright (c) 2009, Jeff Schiller
+ * Copyright (c) 2010, Jeff Schiller
  */
 
 import (
@@ -36,5 +36,8 @@ func (d *_doc) GetElementById(id string) Element {
   return getElementById(d.DocumentElement(),id);
 }
 func newDoc() (*_doc) {
-  return &_doc{ newNode(9) };
+  n := newNode(9)
+  d := &_doc{ n };
+  n.self = Node(n)
+  return d
 }

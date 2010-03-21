@@ -4,7 +4,7 @@ package dom
  * Node implementation
  *
  * Copyright (c) 2009, Rob Russell
- * Copyright (c) 2009, Jeff Schiller
+ * Copyright (c) 2010, Jeff Schiller
  */
 
 // TODO: think about how to make this class a bit more generic to promote extensibility
@@ -21,6 +21,7 @@ type _node struct {
   p Node; // parent
   c vector.Vector; // children
   n xml.Name; // name
+  self Node; // this _node as a Node
 }
 
 // internal methods used so that our workhorses can do the real work
@@ -93,6 +94,7 @@ func ownerDocument(n Node) (d Document) {
 func newNode(_t int) (n *_node) {
   n = new(_node);
   n.T = _t;
+  n.self = Node(n)
   return;
 }
 
@@ -140,5 +142,21 @@ func (p *_node) LastChild() Node {
   }
   return res
 }
-func (p *_node) PreviousSibling() Node { return Node(nil); }
-func (p *_node) NextSibling() Node { return Node(nil); }
+func (n *_node) PreviousSibling() Node {
+  children := n.p.ChildNodes()
+  for i := children.Length()-1; i > 0; i-- {
+    if children.Item(i) == n.self {
+      return children.Item(i-1)
+    }
+  }
+  return Node(nil)
+}
+func (n *_node) NextSibling() Node { 
+  children := n.p.ChildNodes()
+  for i := uint(0); i < children.Length()-1; i++ {
+    if children.Item(i) == n.self {
+      return children.Item(i+1)
+    }
+  }
+  return Node(nil)
+}
