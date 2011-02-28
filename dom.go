@@ -12,10 +12,10 @@ package dom
 // according to the DOM API is expected to be a string. Perhaps return a pointer to a string?
 
 import (
-  "strings";
-  "xml";
-  "fmt";
-  "os";
+	"strings"
+	"xml"
+	"os"
+	"io"
 )
 
 const (
@@ -48,9 +48,9 @@ func removeChild(p Node, c Node) Node {
 /*
 func prevSibling(n Node) Node {
   children := n.ParentNode().ChildNodes()
-  fmt.Println(n)
+  //fmt.Println(n)
   for i := children.Length()-1; i > 0; i-- {
-    fmt.Println("  ", i, "  ", children.Item(i))
+    //fmt.Println("  ", i, "  ", children.Item(i))
     if children.Item(i) == n {
       return children.Item(i-1)
     }
@@ -88,12 +88,21 @@ func getElementById(e Element, id string) Element {
   return nil;
 }
 
-func ParseString(s string) Document {
-  r := strings.NewReader(s);
-  p := xml.NewParser(r);
-  t, err := p.Token();
-  d := newDoc();
-  e := (Node)(nil); // e is the current parent
+func ParseString(s string) (doc Document, err os.Error) {
+	doc, err = Parse( strings.NewReader(s) )
+	return
+}
+
+func Parse(r io.Reader) (doc Document, err os.Error) {
+	// Create parser and get first token
+	p := xml.NewParser(r)
+	t, err := p.Token()
+	if err!=nil {
+		return nil, err
+	}
+
+	d := newDoc();
+	e := (Node)(nil); // e is the current parent
   for t != nil {
     switch token := t.(type) {
       case xml.StartElement:
@@ -117,12 +126,16 @@ func ParseString(s string) Document {
       	// TODO: add handling for other types (text nodes, etc)
     }
     // get the next token
-    t, err = p.Token();
+    t, err = p.Token()
   }
-  if err != os.EOF {
-    fmt.Println(err.String());
-  }
-  return d;
+
+	// Make sure that reading stopped on EOF
+	if err != os.EOF {
+		return nil, err
+	}
+
+	// All is good, return the document
+	return d, nil
 }
 
 // called recursively
