@@ -42,9 +42,12 @@ func (n *_node) removeChild(c Node) {
 
 func (n *_node) NodeName() string {
   switch n.T {
-    case 1: return n.n.Local;
-    case 2: return n.n.Local;
-    case 9: return "#document";
+    case 1: return n.n.Local
+    case 2: return n.n.Local
+    case 3: return "#text"
+    case 4: return "#cdata-section"
+    case 9: return "#document"
+    case 11: return "#document fragment"
   }
   return "Node.NodeName() not implemented";
 }
