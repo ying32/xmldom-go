@@ -24,7 +24,7 @@ type _text struct {
 func (t *_text) NodeName() (s string) { return "#text"; }
 func (t *_text) NodeValue() (s string) { return string(t.content); }
 
-func (t *_text) OwnerDocument() Document {
+func (t *_text) OwnerDocument() *Document {
   return ownerDocument(t);
 }
 
