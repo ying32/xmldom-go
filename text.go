@@ -13,24 +13,27 @@ import (
 
 
 type _cdata struct {
-  *_node;
+	_node;
 }
 
 type _text struct {
-  *_cdata;
-  content []byte;
+	_cdata;
+	content []byte;
 }
 
+func (t *_text) NodeType() uint { return TEXT_NODE; }
 func (t *_text) NodeName() (s string) { return "#text"; }
 func (t *_text) NodeValue() (s string) { return string(t.content); }
+func (t *_text) PreviousSibling() Node { return previousSibling( Node(t), t.p.ChildNodes() ) }
+func (t *_text) NextSibling() Node { return nextSibling( Node(t), t.p.ChildNodes() ) }
 
 func (t *_text) OwnerDocument() *Document {
   return ownerDocument(t);
 }
 
 func newText(token xml.CharData) (*_text) {
-  n := newNode(3);
-  t := &_text{ &_cdata{n}, token.Copy() };
-  n.self = Node(t)
-  return t
+	n := new( _text )
+	n.content = token.Copy()
+	return n	
 }
+

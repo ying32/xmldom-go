@@ -12,16 +12,14 @@ package dom
 //        implement NodeName() among other things)
 
 import (
-  "container/vector";
-  "xml";
+	"container/vector"
+	"xml"
 )
 
 type _node struct {
-  T uint; // node type
-  p Node; // parent
+  p Node; 	// parent
   c vector.Vector; // children
-  n xml.Name; // name
-  self Node; // this _node as a Node
+  n xml.Name; 	// name
 }
 
 // internal methods used so that our workhorses can do the real work
@@ -40,20 +38,10 @@ func (n *_node) removeChild(c Node) {
   }
 }
 
-func (n *_node) NodeName() string {
-  switch n.T {
-    case 1: return n.n.Local
-    case 2: return n.n.Local
-    case 3: return "#text"
-    case 4: return "#cdata-section"
-    case 9: return "#document"
-    case 11: return "#document fragment"
-  }
-  return "Node.NodeName() not implemented";
-}
-func (n *_node) NodeValue() string { return "Node.NodeValue() not implemented"; }
+func (n *_node) NodeType() uint { panic("Node.NodeType() not implemented"); }
+func (n *_node) NodeName() string { panic("Node.NodeName() not implemented"); }
+func (n *_node) NodeValue() string { panic("Node.NodeValue() not implemented"); }
 func (n *_node) TagName() string { return n.NodeName(); }
-func (n *_node) NodeType() uint { return n.T; }
 func (n *_node) AppendChild(c Node) Node { return appendChild(n,c); }
 func (n *_node) RemoveChild(c Node) Node { return removeChild(n,c); }
 func (n *_node) ChildNodes() NodeList { return newChildNodelist(n); }
@@ -68,9 +56,7 @@ func (n *_node) HasChildNodes() (b bool) {
 }
 
 // has to be package-scoped because of 
-func ownerDocument(n Node) (d *Document) {
-  d = nil;
-  
+func ownerDocument(n Node) *Document {
   for n!=nil {
     if n.NodeType()==9 {
       return n.(*Document);
@@ -92,14 +78,6 @@ func ownerDocument(n Node) (d *Document) {
   //}
 //  return Document(nil);
 //}
-
-
-func newNode(_t uint) (n *_node) {
-  n = new(_node);
-  n.T = _t;
-  n.self = Node(n)
-  return;
-}
 
 
 func (p *_node) InsertBefore(nc Node, rc Node) Node {
@@ -145,21 +123,30 @@ func (p *_node) LastChild() Node {
   }
   return res
 }
+
+func previousSibling(self Node, children NodeList ) Node {
+	for i := children.Length()-1; i > 0; i-- {
+	    	if children.Item(i) == self {
+	      		return children.Item(i-1)
+	    	}
+  	}
+	return Node(nil)
+}
+
+func nextSibling( self Node, children NodeList ) Node { 
+	for i := uint(0); i < children.Length()-1; i++ {
+		if children.Item(i) == self {
+			return children.Item(i+1)
+		}
+	}
+	return Node(nil)
+}
+
 func (n *_node) PreviousSibling() Node {
-  children := n.p.ChildNodes()
-  for i := children.Length()-1; i > 0; i-- {
-    if children.Item(i) == n.self {
-      return children.Item(i-1)
-    }
-  }
-  return Node(nil)
+	return previousSibling( Node(n), n.p.ChildNodes() )
 }
-func (n *_node) NextSibling() Node { 
-  children := n.p.ChildNodes()
-  for i := uint(0); i < children.Length()-1; i++ {
-    if children.Item(i) == n.self {
-      return children.Item(i+1)
-    }
-  }
-  return Node(nil)
+
+func (n *_node) NextSibling() Node {
+	return nextSibling( Node(n), n.p.ChildNodes() )
 }
+
