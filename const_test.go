@@ -1,5 +1,13 @@
 package dom_test
 
+/*
+ * Part of the xml/dom Go package
+ *
+ * Tests some of the constants used to identify node types.
+ *
+ * Copyright (c) 2011, Robert Johnstone
+ */ 
+
 import(
 	"testing"
 	"xml/dom"
