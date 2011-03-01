@@ -17,7 +17,7 @@ import (
 )
 
 type _node struct {
-  T int; // node type
+  T uint; // node type
   p Node; // parent
   c vector.Vector; // children
   n xml.Name; // name
@@ -53,7 +53,7 @@ func (n *_node) NodeName() string {
 }
 func (n *_node) NodeValue() string { return "Node.NodeValue() not implemented"; }
 func (n *_node) TagName() string { return n.NodeName(); }
-func (n *_node) NodeType() int { return n.T; }
+func (n *_node) NodeType() uint { return n.T; }
 func (n *_node) AppendChild(c Node) Node { return appendChild(n,c); }
 func (n *_node) RemoveChild(c Node) Node { return removeChild(n,c); }
 func (n *_node) ChildNodes() NodeList { return newChildNodelist(n); }
@@ -94,7 +94,7 @@ func ownerDocument(n Node) (d *Document) {
 //}
 
 
-func newNode(_t int) (n *_node) {
+func newNode(_t uint) (n *_node) {
   n = new(_node);
   n.T = _t;
   n.self = Node(n)

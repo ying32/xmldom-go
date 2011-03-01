@@ -22,7 +22,7 @@ type (
     // attributes
     NodeName() string
     NodeValue() string
-    NodeType() int
+    NodeType() uint
     ParentNode() Node
     ChildNodes() NodeList
     Attributes() NamedNodeMap
