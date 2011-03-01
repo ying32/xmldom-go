@@ -1,10 +1,9 @@
 package dom_test
 
 import (
-  "testing";
-  "xml/dom";
-  "strconv";
-//  "fmt";
+	"testing"
+	"xml/dom"
+	"strconv"
 )
 
 // Document.nodeName should be #document
@@ -286,12 +285,16 @@ func TestAttributesOnElement(t *testing.T) {
 }
 
 func TestAttrNodeName(t *testing.T) {
-  d, _ := dom.ParseString(`<parent attr1="val" attr2="val"/>`);
-  r := d.DocumentElement();
+  d, _ := dom.ParseString(`<parent attr1="val" attr2="val"/>`)
+  r := d.DocumentElement()
+
+  if r.Attributes().Length() != 2 {
+    t.Errorf("Element.attributes().Length() did not return the proper value" )
+  }
   
-  if r.Attributes().Item(0).NodeName() == "attr1" || 
-     r.Attributes().Item(1).NodeName() == "attr2" {
-  	t.Errorf("Element.attributes().item(i).nodeName did not return the proper value");
+  if r.Attributes().Item(0).NodeName() != "attr1" || 
+     r.Attributes().Item(1).NodeName() != "attr2" {
+  	t.Errorf("Element.attributes().item(i).nodeName did not return the proper value")
   }
 }
 
@@ -299,8 +302,8 @@ func TestAttrNodeValue(t *testing.T) {
   d, _ := dom.ParseString(`<parent attr1="val1" attr2="val2"/>`);
   r := d.DocumentElement();
   
-  if r.Attributes().Item(0).NodeValue() == "val1" || 
-     r.Attributes().Item(1).NodeValue() == "val2" {
+  if r.Attributes().Item(0).NodeValue() != "val1" || 
+     r.Attributes().Item(1).NodeValue() != "val2" {
   	t.Errorf("Element.attributes().item(i).nodeValue did not return the proper value");
   }
 }
