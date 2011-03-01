@@ -39,7 +39,7 @@ func newChildNodelist(p *_node) (*_childNodelist) {
 // live.  TODO: Do we really query every time or can we cache the results
 // somehow?
 type _tagNodeList struct {
-	e *_elem;
+	e *Element;
 	tag string
 	list vector.Vector
 }
@@ -55,19 +55,19 @@ func (nl *_tagNodeList) Item(index uint) Node {
 	return Node(nil)
 }
 
-func addTagNodeList( list *vector.Vector, e *_elem, tag string ) {
+func addTagNodeList( list *vector.Vector, e *Element, tag string ) {
 	for i := 0; i < e.c.Len(); i++ {
 		test := e.c.At(i).(Node)
 		if test.NodeType()==ELEMENT_NODE {
 			if test.NodeName()==tag {
 				list.Push( test )
 			}
-			addTagNodeList( list, test.(*_elem), tag )
+			addTagNodeList( list, test.(*Element), tag )
 		}
 	}
 }
 
-func newTagNodeList(p *_elem, tag string) (*_tagNodeList) {
+func newTagNodeList(p *Element, tag string) (*_tagNodeList) {
 	nl := new(_tagNodeList)
 	nl.e = p
 	nl.tag = tag

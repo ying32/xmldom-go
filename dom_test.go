@@ -9,20 +9,27 @@ import (
 // Document.nodeName should be #document
 // see http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1841493061
 func TestDocumentNodeName(t *testing.T) {
-  d, err := dom.ParseString("<foo></foo>");
-  if err != nil {
-    t.Errorf( "Error parsing simple XML document (%v).", err )
-    if d != nil {
-      t.Errorf( "Document not nil on return." )
-    }
-    return
-  }
-  if d == nil {
-    t.Errorf( "Document is nil" )
-  }
-  if (d.NodeName() != "#document") {
-    t.Errorf("Document.nodeName != #document")
-  }
+	const str = "<foo></foo>"
+
+	d, err := dom.ParseString( str);
+	if err != nil {
+		t.Errorf( "Error parsing simple XML document (%v).", err )
+		if d != nil {
+			t.Errorf( "Document not nil on return." )
+		}
+		return
+	}
+	if d == nil {
+		t.Errorf( "Document is nil" )
+	}
+	if (d.NodeName() != "#document") {
+		t.Errorf("Document.nodeName != #document")
+	}
+	if d.ToXml() != str {
+		t.Logf( "Received %v instead of %v.", d.ToXml(), str )
+		t.Errorf( "Error rebuilding XML." )
+	}
+
 }
 
 // Document.nodeType should be 9
@@ -41,13 +48,13 @@ func TestDocumentNodeValue(t *testing.T) {
 }
 
 // Document.documentElement should return an object implementing Element
-func TestDocumentElementIsAnElement(t *testing.T) {
-  d, _ := dom.ParseString("<foo></foo>");
-  n,ok := (d.DocumentElement()).(dom.Element);
-  if (!ok || n.NodeType() != 1) {
-  	t.Errorf("Document.documentElement did not return an Element");
-  }
-}
+//func TestDocumentElementIsAnElement(t *testing.T) {
+//  d, _ := dom.ParseString("<foo></foo>");
+//  n,ok := (d.DocumentElement()).(*dom.Element);
+//  if (!ok || n.NodeType() != 1) {
+//  	t.Errorf("Document.documentElement did not return an Element");
+//  }
+//}
 
 func TestDocumentElementNodeName(t *testing.T) {
   d, _ := dom.ParseString("<foo></foo>");
@@ -58,10 +65,10 @@ func TestDocumentElementNodeName(t *testing.T) {
 }
 
 func TestDocumentElementTagName(t *testing.T) {
-  d, _ := dom.ParseString("<foo></foo>");
-  root := d.DocumentElement().(dom.Element);
+  d, _ := dom.ParseString("<foo></foo>")
+  root := d.DocumentElement()
   if (root.TagName() != "foo") {
-  	t.Errorf("Element.tagName not set correctly");
+  	t.Errorf("Element.tagName not set correctly")
   }
 }
 
@@ -132,9 +139,9 @@ func TestNodeListItemForNull(t *testing.T) {
 func TestNodeParentNode(t *testing.T) {
   d, _ := dom.ParseString(`<foo><bar><baz></baz></bar></foo>`);
   
-  root := d.DocumentElement().(dom.Node);
-  child := root.ChildNodes().Item(0);
-  grandchild := child.ChildNodes().Item(0);
+  root := d.DocumentElement()
+  child := root.ChildNodes().Item(0)
+  grandchild := child.ChildNodes().Item(0)
     
   if ( d != root.ParentNode().(*dom.Document) || 
        child.ParentNode() != root || 
@@ -147,10 +154,10 @@ func TestNodeParentNode(t *testing.T) {
 func TestNodeParentNodeOnRoot(t *testing.T) {
   d, _ := dom.ParseString(`<foo></foo>`);
   
-  root := d.DocumentElement().(dom.Node);
+  root := d.DocumentElement()
   
   if root.ParentNode().(*dom.Document) != d {
-  	t.Errorf("documentElement.ParentNode() did not return the document");
+  	t.Errorf("documentElement.ParentNode() did not return the document")
   }
 }
 
@@ -170,10 +177,10 @@ func TestNodeDocumentChildNodesLength(t *testing.T) {
 }
 
 func TestNodeDocumentChildNodeIsRoot(t *testing.T) {
-  d, _ := dom.ParseString(`<foo></foo>`);
-  root := d.DocumentElement().(dom.Node);
+  d, _ := dom.ParseString(`<foo></foo>`)
+  root := d.DocumentElement()
   if (d.ChildNodes().Item(0) != root) {
-  	t.Errorf("document.ChildNodes().Item(0) is not the documentElement");
+  	t.Errorf("document.ChildNodes().Item(0) is not the documentElement")
   }
 }
 
@@ -187,8 +194,8 @@ func TestDocumentCreateElement(t *testing.T) {
 
 func TestAppendChild(t *testing.T) {
   d, _ := dom.ParseString(`<parent></parent>`);
-  root := d.DocumentElement();
-  ne := d.CreateElement("child").(dom.Node);
+  root := d.DocumentElement()
+  ne := d.CreateElement("child")
   appended := root.AppendChild(ne);
   if appended != ne ||
      root.ChildNodes().Length() != 1 ||
@@ -202,7 +209,7 @@ func TestAppendChildParent(t *testing.T) {
   root := d.DocumentElement();
   ne := d.CreateElement("child");
   root.AppendChild(ne);
-  if ne.ParentNode() != root.(dom.Node) {
+  if ne.ParentNode() != dom.Node(root) {
   	t.Errorf("Node.appendChild() did not set the parent node");
   }
 }
@@ -323,7 +330,7 @@ func TestAttributesSetting(t *testing.T) {
 
 func TestToXml(t *testing.T) {
   d1, _ := dom.ParseString(`<parent attr="val">mom<foo/></parent>`);
-  s := dom.ToXml(d1);
+  s := d1.ToXml();
   d2, _ := dom.ParseString(s);
   r2 := d2.DocumentElement();
   
@@ -408,8 +415,8 @@ func TestAttributesNamedNodeMapLive(t *testing.T) {
 func TestNodeOwnerDocument(t *testing.T) {
   d, _ := dom.ParseString(`<parent><child/><child>kid</child></parent>`);
   r := d.DocumentElement();
-  child1 := r.ChildNodes().Item(0).(dom.Element);
-  child2 := r.ChildNodes().Item(1).(dom.Element);
+  child1 := r.ChildNodes().Item(0).(*dom.Element);
+  child2 := r.ChildNodes().Item(1).(*dom.Element);
   text2 := child2.ChildNodes().Item(0).(dom.Text);
   if r.OwnerDocument() != d || 
      child1.OwnerDocument() != d || 
@@ -422,7 +429,7 @@ func TestNodeOwnerDocument(t *testing.T) {
 func TestDocumentGetElementById(t *testing.T) {
   d, _ := dom.ParseString(`<parent id="p"><child/><child id="c"/></parent>`);
   r := d.DocumentElement();
-  child2 := r.ChildNodes().Item(1).(dom.Element);
+  child2 := r.ChildNodes().Item(1).(*dom.Element);
   p := d.GetElementById("p");
   c := d.GetElementById("c");
   n := d.GetElementById("nothing");
@@ -439,12 +446,12 @@ func TestNodeInsertBefore(t *testing.T) {
   child0 := r.ChildNodes().Item(0);
   child2 := r.ChildNodes().Item(1);
   child1 := d.CreateElement("child1");
-  alsoChild1 := r.InsertBefore(child1, child2).(dom.Element);
+  alsoChild1 := r.InsertBefore(child1, child2).(*dom.Element);
   if alsoChild1 != child1 ||
      r.ChildNodes().Length() != 3 ||
      r.ChildNodes().Item(0) != child0 ||
      child0.NodeName() != "child0" ||
-     r.ChildNodes().Item(1).(dom.Element) != child1 ||
+     r.ChildNodes().Item(1).(*dom.Element) != child1 ||
      child1.NodeName() != "child1" ||
      r.ChildNodes().Item(2) != child2 ||
      child2.NodeName() != "child2" {
@@ -463,7 +470,7 @@ func TestNodeReplaceChild(t *testing.T) {
   if children.Length() != 2 ||
      r.ChildNodes().Item(0) != child0 ||
      alsoChild2 != child2 ||
-     r.ChildNodes().Item(1) != child1.(dom.Node) {
+     r.ChildNodes().Item(1) != dom.Node(child1) {
   	t.Errorf("Node.ReplaceChild() not implemented properly");
   }
 }
@@ -478,7 +485,7 @@ func TestElementGetElementsByTagName(t *testing.T) {
   </parent>`);
   
   r := d.DocumentElement();
-  childless := r.ChildNodes().Item(2).(dom.Element);
+  childless := r.ChildNodes().Item(2).(*dom.Element);
   grandchildren := r.GetElementsByTagName("grandchild");
   no_offspring := childless.GetElementsByTagName("grandchild");
   
@@ -510,8 +517,8 @@ func TestNodeFirstChildAfterInsert(t *testing.T) {
     t.Errorf("Node.firstChild did not return the first child");
   }
   
-  child0 := d.CreateElement("child0").(dom.Node);
-  r.InsertBefore(child0, child1);
+  child0 := d.CreateElement("child0")
+  r.InsertBefore(child0, child1)
   
   if r.FirstChild() != child0 {
     t.Errorf("Node.firstChild did not return the first child after inserting a new element");
@@ -527,8 +534,8 @@ func TestNodeLastChildAfterAppend(t *testing.T) {
     t.Errorf("Node.lasstChild did not return the last child");
   }
   
-  child2 := d.CreateElement("child2").(dom.Node);
-  r.AppendChild(child2);
+  child2 := d.CreateElement("child2")
+  r.AppendChild(child2)
   
   if r.LastChild() != child2 {
     t.Errorf("Node.lastChild did not return the last child after appending a new element");
@@ -629,3 +636,29 @@ func TestElementHasAttribute(t *testing.T) {
     t.Errorf("Element.HasAttribute() returned true after removing an attribute");
   }
 }
+
+func TestCommentElementIsParsed(t *testing.T) {
+	const str = `<root><!-- comment--></root>`
+	d, err := dom.ParseString(str)
+	if err!=nil || d==nil {
+		t.Errorf( "Parsing XML containing a comment unsuccessful." )
+	}
+	if d.ToXml() != str {
+		t.Logf( "Received %v instead of %v.", d.ToXml(), str )
+		t.Errorf( "Error rebuilding XML with comment." )
+	}
+}
+
+func TestCommentElementHasText(t *testing.T) {
+	d, _ := dom.ParseString(`<root><!-- comment --></root>`)
+	r := d.DocumentElement()
+	c := r.ChildNodes()
+
+	if c.Length()!=1 {
+		t.Errorf( "Error parsing XML comment." )
+	}
+	if c.Item(0).NodeType() != dom.COMMENT_NODE || c.Item(0).NodeValue() != " comment " {
+		t.Errorf( "Error parsing XML comment." )
+	}			
+}
+
