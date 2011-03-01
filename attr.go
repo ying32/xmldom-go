@@ -17,7 +17,7 @@ func (a *_attr) NodeValue() string { return a.v; }
 func (a *_attr) AppendChild(n Node) Node { return n; }
 func (a *_attr) RemoveChild(n Node) Node { return n; }
 func (a *_attr) ParentNode() Node { return Node(nil); }
-func (a *_attr) OwnerDocument() Document { return ownerDocument(a); }
+func (a *_attr) OwnerDocument() *Document { return ownerDocument(a); }
 func (a *_attr) ChildNodes() NodeList { return NodeList(nil); }
 func (a *_attr) Attributes() NamedNodeMap { return NamedNodeMap(nil); }
 

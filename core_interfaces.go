@@ -60,19 +60,9 @@ type (
     GetAttribute(name string) string
     SetAttribute(name string, value string)
     RemoveAttribute(name string);
-    OwnerDocument() Document
+    OwnerDocument() *Document
     GetElementsByTagName(name string) NodeList
     HasAttribute(name string) bool;
-  }
-  
-  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
-  Document interface {
-    Node
-    DocumentElement() Element
-    CreateElement(tagName string) Element
-    OwnerDocument() Document
-    // DOM Level 2
-    GetElementById(id string) Element
   }
   
   // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306
@@ -83,13 +73,13 @@ type (
   // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
   Text interface {
     CharacterData
-    OwnerDocument() Document
+    OwnerDocument() *Document
   }
   
   // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
   Attr interface {
     Node
-    OwnerDocument() Document
+    OwnerDocument() *Document
   }
   
   // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177

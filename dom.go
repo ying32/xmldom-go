@@ -88,12 +88,12 @@ func getElementById(e Element, id string) Element {
   return nil;
 }
 
-func ParseString(s string) (doc Document, err os.Error) {
+func ParseString(s string) (doc *Document, err os.Error) {
 	doc, err = Parse( strings.NewReader(s) )
 	return
 }
 
-func Parse(r io.Reader) (doc Document, err os.Error) {
+func Parse(r io.Reader) (doc *Document, err os.Error) {
 	// Create parser and get first token
 	p := xml.NewParser(r)
 	t, err := p.Token()
@@ -167,6 +167,6 @@ func toXml(n Node) string {
   return s;
 }
 
-func ToXml(doc Document) string {
-  return toXml(doc.DocumentElement());
+func ToXml(doc *Document) string {
+	return toXml( doc.DocumentElement() )
 }
