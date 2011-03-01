@@ -1,5 +1,9 @@
 package dom
 
+import (
+	"container/vector"
+)
+
 /*
  * NodeList implementations
  *
@@ -11,25 +15,23 @@ package dom
 // This way the list can be live, each time Length() or Item is
 // called, fresh results are returned.
 type _childNodelist struct {
-  p *_node;
+	list *vector.Vector
 }
 
 func (nl *_childNodelist) Length() uint {
-  return uint(nl.p.c.Len());
+	return uint(nl.list.Len());
 }
+
 func (nl *_childNodelist) Item(index uint) Node {
-  n := Node(nil);
-  if index < uint(nl.p.c.Len()) {
-    // TODO: what if index == nl.p.c.Len() -1 and a node is deleted right now?
-    n = nl.p.c.At(int(index)).(Node);
-  }
-  return n;
+	if index < uint(nl.list.Len()) {
+		// TODO: what if index == nl.p.c.Len() -1 and a node is deleted right now?
+		return nl.list.At( int(index) ).(Node)
+	}
+	return Node(nil)
 }
 
 func newChildNodelist(p *_node) (*_childNodelist) {
-  nl := new(_childNodelist);
-  nl.p = p;
-  return nl;
+	return &_childNodelist{ &p.c }
 }
 
 // A _tagNodeList only stores a reference to the node and the tagname 
@@ -37,45 +39,39 @@ func newChildNodelist(p *_node) (*_childNodelist) {
 // live.  TODO: Do we really query every time or can we cache the results
 // somehow?
 type _tagNodeList struct {
-  e *_elem;
-  tag string
+	e *_elem;
+	tag string
+	list vector.Vector
 }
 
 func (nl *_tagNodeList) Length() uint {
-  return 0;
+	return uint( nl.list.Len() )
 }
 
 func (nl *_tagNodeList) Item(index uint) Node {
-  var count uint = 0
-  e := nl.e
-  if e.NodeType() == 1 {
-    // check for an id
-    if e.TagName() == nl.tag {
-      if index == count {
-        return e
-      }
-      count++
-    }
-    // if not found, check the children
-    cnodes := e.ChildNodes()
-    var ix uint
-    clen := cnodes.Length();
-    for ix = 0 ; ix < clen ; ix++ {
-      cnode := cnodes.Item(ix)
-      // can't cast safely unless it's an Element for reals
-      if cnode.NodeType() == 1 {
-        result := nl.Item(index - count)
-        if result != nil {
-          return result
-        }
-      }
-    }
-  }
-  return Node(nil);
+	if index < uint(nl.list.Len()) {
+		return nl.list.At( int(index) ).(Node)
+	}
+	return Node(nil)
 }
 
-func newTagNodeList(p *_elem, t string) (*_tagNodeList) {
-  nl := new(_tagNodeList);
-  nl.e = p;
-  return nl;
+func addTagNodeList( list *vector.Vector, e *_elem, tag string ) {
+	for i := 0; i < e.c.Len(); i++ {
+		test := e.c.At(i).(Node)
+		if test.NodeType()==ELEMENT_NODE {
+			if test.NodeName()==tag {
+				list.Push( test )
+			}
+			addTagNodeList( list, test.(*_elem), tag )
+		}
+	}
 }
+
+func newTagNodeList(p *_elem, tag string) (*_tagNodeList) {
+	nl := new(_tagNodeList)
+	nl.e = p
+	nl.tag = tag
+	addTagNodeList( &nl.list, p, tag )
+	return nl;
+}
+
