@@ -13,29 +13,17 @@ import (
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
 type Document struct {
-	*_node;
+	_node;
 }
 
 
-func (d *Document) NodeValue() string {
-	return ""
-}
-
-func (d *Document) AppendChild(c Node) Node { 
-	return appendChild(d,c)
-}
-
-func (d *Document) RemoveChild(c Node) Node { 
-	return removeChild(d,c)
-}
-
-func (d *Document) DocumentElement() Element { 
-	return d.ChildNodes().Item(0).(Element); 
-}
-
-func (d *Document) OwnerDocument() *Document { 
-	return ownerDocument(d)
-}
+func (d *Document) NodeType() uint { return DOCUMENT_NODE; }
+func (d *Document) NodeName() string { return "#document"; }
+func (d *Document) NodeValue() string { return ""; }
+func (d *Document) AppendChild(c Node) Node { return appendChild(d,c); }
+func (d *Document) RemoveChild(c Node) Node { return removeChild(d,c); }
+func (d *Document) DocumentElement() Element { return d.ChildNodes().Item(0).(Element); }
+func (d *Document) OwnerDocument() *Document { return d; }
 
 func (d *Document) CreateElement(tag string) Element {
 	return newElem(xml.StartElement { xml.Name { "", tag }, nil })
@@ -56,8 +44,7 @@ func (d *Document) GetElementById(id string) Element {
 }
 
 func newDoc() (*Document) {
-  n := newNode( DOCUMENT_NODE )
-  n.self = Node( n )
-  return &Document{ n }
+	n := new(Document)
+	return n
 }
 

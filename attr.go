@@ -9,11 +9,15 @@ package dom
 import "xml";
 
 type _attr struct {
-  *_node;
+  _node;
   v string; // value (for attr)
 }
 
+func (a *_attr) NodeType() uint { return ATTRIBUTE_NODE; }
+func (a *_attr) NodeName() string { return a.n.Local; }
 func (a *_attr) NodeValue() string { return a.v; }
+func (a *_attr) PreviousSibling() Node { return previousSibling( Node(a), a.p.ChildNodes() ) }
+func (a *_attr) NextSibling() Node { return nextSibling( Node(a), a.p.ChildNodes() ) }
 func (a *_attr) AppendChild(n Node) Node { return n; }
 func (a *_attr) RemoveChild(n Node) Node { return n; }
 func (a *_attr) ParentNode() Node { return Node(nil); }
@@ -22,9 +26,6 @@ func (a *_attr) ChildNodes() NodeList { return NodeList(nil); }
 func (a *_attr) Attributes() NamedNodeMap { return NamedNodeMap(nil); }
 
 func newAttr(name string, val string) (*_attr) {
-  node := newNode(2);
-  node.n = xml.Name{"", name};
-  a := &_attr { node, val }
-  node.self = Node(a)
-  return a;
+	a := _attr{ _node{nil, nil, xml.Name{"", name}}, val }
+	return &a;
 }

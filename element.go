@@ -12,11 +12,15 @@ import (
 )
 
 type _elem struct {
-  *_node;
+  _node;
   attribs map[string] string; // attributes of the element
 }
 
+func (e *_elem) NodeType() uint { return ELEMENT_NODE; }
+func (e *_elem) NodeName() string { return e.n.Local; }
 func (e *_elem) NodeValue() string { return ""; }
+func (e *_elem) PreviousSibling() Node { return previousSibling( Node(e), e.p.ChildNodes() ) }
+func (e *_elem) NextSibling() Node { return nextSibling( Node(e), e.p.ChildNodes() ) }
 func (e *_elem) AppendChild(c Node) Node { return appendChild(e,c); }
 func (e *_elem) RemoveChild(c Node) Node { return removeChild(e,c); }
 func (e *_elem) OwnerDocument() *Document { return ownerDocument(e); }
@@ -50,10 +54,9 @@ func (e *_elem) GetElementsByTagName(name string) NodeList {
 }
 
 func newElem(token xml.StartElement) (*_elem) {
-  n := newNode(1);
-  n.n = token.Name;
-  e := &_elem{n, make(map[string] string)};
-  n.self = Node(e);
-  return e;
+	n := new(_elem)
+	n.n = token.Name
+	n.attribs = make(map[string] string)
+	return n;
 }
 
