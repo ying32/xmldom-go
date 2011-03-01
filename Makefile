@@ -8,6 +8,7 @@ GOFILES=\
 	attr.go \
 	document.go \
 	element.go \
+	comment.go \
 	text.go \
 	nodelists.go \
 	namednodemap.go \

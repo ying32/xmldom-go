@@ -59,8 +59,9 @@ func prevSibling(n Node) Node {
 }
 */
 
-func getElementById(e Element, id string) Element {
-  if e.NodeType() == 1 {
+func getElementById(e *Element, id string) *Element {
+	// e.NodeType() == 1
+
     // check for an id
     if av := e.GetAttribute("id"); av != "" {
       if av==id {
@@ -74,18 +75,17 @@ func getElementById(e Element, id string) Element {
     for ix = 0 ; ix < clen ; ix++ {
     //for c := range e.c {
       // return the first one found
-      //ce := cnodes.Item(ix).(Element).GetElementById(id);
+      //ce := cnodes.Item(ix).(*Element).GetElementById(id);
       cnode := cnodes.Item(ix)
       // can't cast safely unless it's an Element for reals
       if cnode.NodeType() == 1 { 
-        ce := getElementById(cnode.(Element),id);
+        ce := getElementById(cnode.(*Element),id);
         if ce != nil {
           return ce;
         }
       }
     }
-  }
-  return nil;
+  return nil
 }
 
 func ParseString(s string) (doc *Document, err os.Error) {
@@ -103,31 +103,34 @@ func Parse(r io.Reader) (doc *Document, err os.Error) {
 
 	d := newDoc();
 	e := (Node)(nil); // e is the current parent
-  for t != nil {
-    switch token := t.(type) {
-      case xml.StartElement:
-        el := newElem(token);
-        for ar := range(token.Attr) {
-          el.SetAttribute(token.Attr[ar].Name.Local, token.Attr[ar].Value);
-        }
-        if e == nil {
-          // set doc root
-          // this element is a child of e, the last element we found
-          e = d.setRoot(el);
-        } else {
-          // this element is a child of e, the last element we found
-          e = e.AppendChild(el);
-        }
-      case xml.CharData:
-        e.AppendChild(newText(token));
-      case xml.EndElement:
-        e = e.ParentNode();
-      default:
-      	// TODO: add handling for other types (text nodes, etc)
-    }
-    // get the next token
-    t, err = p.Token()
-  }
+	for t != nil {
+		switch token := t.(type) {
+		case xml.StartElement:
+			el := newElem(token);
+			for ar := range(token.Attr) {
+			  el.SetAttribute(token.Attr[ar].Name.Local, token.Attr[ar].Value);
+			}
+			if e == nil {
+			  // set doc root
+			  // this element is a child of e, the last element we found
+			  e = d.setRoot(el);
+			} else {
+			  // this element is a child of e, the last element we found
+			  e = e.AppendChild(el);
+			}
+		case xml.CharData:
+			e.AppendChild(newText(token));
+		case xml.EndElement:
+			e = e.ParentNode();
+		case xml.Comment:
+			e.AppendChild( newComment(token) )
+
+		default:
+			// TODO: add handling for other types (text nodes, etc)
+		}
+	// get the next token
+	t, err = p.Token()
+	}
 
 	// Make sure that reading stopped on EOF
 	if err != os.EOF {
@@ -140,33 +143,35 @@ func Parse(r io.Reader) (doc *Document, err os.Error) {
 
 // called recursively
 func toXml(n Node) string {
-  s := "";
-  switch n.NodeType() {
-    case ELEMENT_NODE: // Element Nodes
-      s += "<" + n.NodeName();
-  
-      // iterate over attributes
-      for i := uint(0); i < n.Attributes().Length(); i++ {
-        a := n.Attributes().Item(i);
-        s += " " + a.NodeName() + "=\"" + a.NodeValue() + "\"";
-      }
-  
-      s += ">";
-  
-      // iterate over children
-      for ch := uint(0); ch < n.ChildNodes().Length(); ch++ {
-        s += toXml(n.ChildNodes().Item(ch));
-      }
-  
-      s += "</" + n.NodeName() + ">";
-      
-    case TEXT_NODE: // Text Nodes
-      s += n.NodeValue();
-      break;
-  }
-  return s;
+	s := ""
+	switch n.NodeType() {
+	case ELEMENT_NODE:
+		s += "<" + n.NodeName()
+
+		// iterate over attributes
+		for i := uint(0); i < n.Attributes().Length(); i++ {
+			a := n.Attributes().Item(i)
+			s += " " + a.NodeName() + "=\"" + a.NodeValue() + "\""
+		}
+
+		s += ">"
+
+		// iterate over children
+		for ch := uint(0); ch < n.ChildNodes().Length(); ch++ {
+			s += toXml(n.ChildNodes().Item(ch))
+		}
+
+		s += "</" + n.NodeName() + ">"
+
+	case TEXT_NODE:
+		s += n.NodeValue()
+		break
+
+	case COMMENT_NODE:
+		s += "<!--" + n.NodeValue() + "-->"
+		break
+
+	}
+	return s
 }
 
-func ToXml(doc *Document) string {
-	return toXml( doc.DocumentElement() )
-}

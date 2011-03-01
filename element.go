@@ -8,55 +8,61 @@ package dom
  */
 
 import (
-  "xml";
+	"xml"
 )
 
-type _elem struct {
-  _node;
+// DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
+type Element struct {
+  _node
   attribs map[string] string; // attributes of the element
 }
 
-func (e *_elem) NodeType() uint { return ELEMENT_NODE; }
-func (e *_elem) NodeName() string { return e.n.Local; }
-func (e *_elem) NodeValue() string { return ""; }
-func (e *_elem) PreviousSibling() Node { return previousSibling( Node(e), e.p.ChildNodes() ) }
-func (e *_elem) NextSibling() Node { return nextSibling( Node(e), e.p.ChildNodes() ) }
-func (e *_elem) AppendChild(c Node) Node { return appendChild(e,c); }
-func (e *_elem) RemoveChild(c Node) Node { return removeChild(e,c); }
-func (e *_elem) OwnerDocument() *Document { return ownerDocument(e); }
-func (e *_elem) TagName() string { return e.NodeName(); }
-func (e *_elem) Attributes() NamedNodeMap { return newAttrNamedNodeMap(e); }
-func (e *_elem) GetElementById(id string) Element {
-  return getElementById(e,id).(Element);
+func (e *Element) NodeType() uint { return ELEMENT_NODE; }
+func (n *Element) NodeName() string { return n.n.Local; }
+func (n *Element) NodeValue() string { return ""; }
+func (n *Element) PreviousSibling() Node { return previousSibling( Node(n), n.p.ChildNodes() ) }
+func (n *Element) NextSibling() Node { return nextSibling( Node(n), n.p.ChildNodes() ) }
+func (n *Element) AppendChild(c Node) Node { return appendChild(n,c); }
+func (n *Element) RemoveChild(c Node) Node { return removeChild(n,c); }
+func (n *Element) OwnerDocument() *Document { return ownerDocument(n); }
+func (n *Element) TagName() string { return n.NodeName(); }
+func (n *Element) Attributes() NamedNodeMap { return newAttrNamedNodeMap(n); }
+func (n *Element) GetElementById(id string) *Element {
+  return getElementById(n,id)
 }
-func (e *_elem) GetAttribute(name string) string {
-  val, ok := e.attribs[name];
+func (n *Element) GetAttribute(name string) string {
+  val, ok := n.attribs[name];
   if (!ok) {
     val = "";
   }
   return val;
 }
-func (e *_elem) SetAttribute(attrname string, attrval string) {
-  e.attribs[attrname]=attrval;
+func (n *Element) SetAttribute(attrname string, attrval string) {
+  n.attribs[attrname]=attrval;
 }
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-6D6AC0F9
-func (e *_elem) RemoveAttribute(name string) {
-  e.attribs[name] = "",false;
+func (n *Element) RemoveAttribute(name string) {
+  n.attribs[name] = "",false;
 }
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-ElHasAttr
-func (e *_elem) HasAttribute(name string) bool {
-  _,has := e.attribs[name];
+func (n *Element) HasAttribute(name string) bool {
+  _,has := n.attribs[name];
   return has;
 }
 
-func (e *_elem) GetElementsByTagName(name string) NodeList {
-  return newTagNodeList(e, name);
+func (n *Element) GetElementsByTagName(name string) NodeList {
+  return newTagNodeList(n, name);
 }
 
-func newElem(token xml.StartElement) (*_elem) {
-	n := new(_elem)
+func newElem(token xml.StartElement) (*Element) {
+	n := new(Element)
 	n.n = token.Name
 	n.attribs = make(map[string] string)
 	return n;
+}
+
+// Custom routines solely for golang
+func (n *Element) ToXml() string {
+	return toXml( Node(n) )
 }
 

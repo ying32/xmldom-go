@@ -38,18 +38,6 @@ type (
     removeChild(Node)
   }
   
-  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
-  Element interface {
-    Node
-    TagName() string
-    GetAttribute(name string) string
-    SetAttribute(name string, value string)
-    RemoveAttribute(name string);
-    OwnerDocument() *Document
-    GetElementsByTagName(name string) NodeList
-    HasAttribute(name string) bool;
-  }
-  
   // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306
   CharacterData interface {
     Node
