@@ -342,34 +342,6 @@ func TestToXml(t *testing.T) {
   }
 }
 
-func TestTextNodeType(t *testing.T) {
-  d, _ := dom.ParseString(`<parent>mom</parent>`);
-  r := d.DocumentElement();
-  txt := r.ChildNodes().Item(0);
-  if txt.NodeType() != 3 {
-  	t.Errorf("Did not get the correct node type for a text node");
-  }
-}
-
-func TestTextNodeName(t *testing.T) {
-  d, _ := dom.ParseString(`<parent>mom</parent>`);
-  r := d.DocumentElement();
-  txt := r.ChildNodes().Item(0);
-  if txt.NodeName() != "#text" {
-  	t.Errorf("Did not get #text for nodeName of a text node");
-  }
-}
-
-func TestTextNodeValue(t *testing.T) {
-  d, _ := dom.ParseString(`<parent>mom</parent>`);
-  r := d.DocumentElement();
-  txt := r.ChildNodes().Item(0);
-  nval := txt.NodeValue();
-  if nval != "mom" {
-  	t.Errorf("Did not get the correct node value for a text node (got %#v)", nval);
-  }
-}
-
 func TestNodeHasChildNodes(t *testing.T) {
   d, _ := dom.ParseString(`<parent><child/><child>kid</child></parent>`);
   r := d.DocumentElement();
@@ -417,7 +389,7 @@ func TestNodeOwnerDocument(t *testing.T) {
   r := d.DocumentElement();
   child1 := r.ChildNodes().Item(0).(*dom.Element);
   child2 := r.ChildNodes().Item(1).(*dom.Element);
-  text2 := child2.ChildNodes().Item(0).(dom.Text);
+  text2 := child2.ChildNodes().Item(0).(*dom.Text);
   if r.OwnerDocument() != d || 
      child1.OwnerDocument() != d || 
      child2.OwnerDocument() != d ||

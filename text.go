@@ -11,28 +11,20 @@ import (
   "xml";
 )
 
-
-type _cdata struct {
-	_node;
+type Text struct {
+	CharacterData
 }
 
-type _text struct {
-	_cdata;
-	content []byte;
-}
 
-func (t *_text) NodeType() uint { return TEXT_NODE; }
-func (t *_text) NodeName() (s string) { return "#text"; }
-func (t *_text) NodeValue() (s string) { return string(t.content); }
-func (t *_text) PreviousSibling() Node { return previousSibling( Node(t), t.p.ChildNodes() ) }
-func (t *_text) NextSibling() Node { return nextSibling( Node(t), t.p.ChildNodes() ) }
+func (n *Text) NodeType() uint { return TEXT_NODE; }
+func (n *Text) NodeName() (s string) { return "#text"; }
+func (n *Text) NodeValue() (s string) { return string(n.content); }
+func (n *Text) PreviousSibling() Node { return previousSibling( Node(n), n.p.ChildNodes() ) }
+func (n *Text) NextSibling() Node { return nextSibling( Node(n), n.p.ChildNodes() ) }
+func (n *Text) OwnerDocument() *Document { return ownerDocument(n); }
 
-func (t *_text) OwnerDocument() *Document {
-  return ownerDocument(t);
-}
-
-func newText(token xml.CharData) (*_text) {
-	n := new( _text )
+func newText(token xml.CharData) (*Text) {
+	n := new( Text )
 	n.content = token.Copy()
 	return n	
 }
