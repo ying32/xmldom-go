@@ -12,20 +12,19 @@ import (
 )
 
 
-type _comment struct {
-	_node;
-	content []byte
+type Comment struct {
+	CharacterData
 }
 
-func (n *_comment) NodeType() uint { return COMMENT_NODE; }
-func (n *_comment) NodeName() (s string) { return "#comment"; }
-func (n *_comment) NodeValue() (s string) { return string(n.content); }
-func (n *_comment) PreviousSibling() Node { return previousSibling( Node(n), n.p.ChildNodes() ) }
-func (n *_comment) NextSibling() Node { return nextSibling( Node(n), n.p.ChildNodes() ) }
-func (n *_comment) OwnerDocument() *Document { return ownerDocument(n) }
+func (n *Comment) NodeType() uint { return COMMENT_NODE; }
+func (n *Comment) NodeName() (s string) { return "#comment"; }
+func (n *Comment) NodeValue() (s string) { return string(n.content); }
+func (n *Comment) PreviousSibling() Node { return previousSibling( Node(n), n.p.ChildNodes() ) }
+func (n *Comment) NextSibling() Node { return nextSibling( Node(n), n.p.ChildNodes() ) }
+func (n *Comment) OwnerDocument() *Document { return ownerDocument(n) }
 
-func newComment(token xml.Comment) (*_comment) {
-	n := new( _comment )
+func newComment(token xml.Comment) (*Comment) {
+	n := new( Comment )
 	n.content = token.Copy()
 	return n	
 }

@@ -38,17 +38,6 @@ type (
     removeChild(Node)
   }
   
-  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306
-  CharacterData interface {
-    Node
-  }
-  
-  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
-  Text interface {
-    CharacterData
-    OwnerDocument() *Document
-  }
-  
   // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
   Attr interface {
     Node

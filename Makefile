@@ -8,6 +8,7 @@ GOFILES=\
 	attr.go \
 	document.go \
 	element.go \
+	characterdata.go \
 	comment.go \
 	text.go \
 	nodelists.go \
