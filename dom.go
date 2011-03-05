@@ -18,8 +18,20 @@ import (
 	"io"
 )
 
+var (
+	Entity  = map [string] string {
+		"cent": "\u00a2",
+		"pound": "\u00a3",
+		"yen":  "\u00a5",
+		"euro": "\u20ac",
+		"sect": "\u00a7",
+		"copy": "\u00a9",
+		"reg": "\u00ae",
+		"trade": "\u2122" }
+)
+
 const (
-  DEBUG = true;
+	DEBUG = true;
 )
 
 // ====================================
@@ -101,6 +113,9 @@ func Parse(r io.Reader) (doc *Document, err os.Error) {
 		return nil, err
 	}
 
+	// Fill in HTML entities missing from Go's XML implementation
+	p.Entity = Entity
+	
 	d := newDoc();
 	e := (Node)(nil); // e is the current parent
 	for t != nil {
