@@ -157,8 +157,9 @@ func Parse(r io.Reader) (doc *Document, err os.Error) {
 }
 
 // called recursively
-func toXml(n Node) string {
+func toXml(n Node) []byte {
 	s := ""
+	
 	switch n.NodeType() {
 	case ELEMENT_NODE:
 		s += "<" + n.NodeName()
@@ -173,20 +174,20 @@ func toXml(n Node) string {
 
 		// iterate over children
 		for ch := uint(0); ch < n.ChildNodes().Length(); ch++ {
-			s += toXml(n.ChildNodes().Item(ch))
+			s += string( toXml(n.ChildNodes().Item(ch)) )
 		}
 
 		s += "</" + n.NodeName() + ">"
 
 	case TEXT_NODE:
-		s += n.NodeValue()
+		s += string( n.(*Text).EscapedBytes() )
 		break
 
 	case COMMENT_NODE:
-		s += "<!--" + n.NodeValue() + "-->"
+		s += "<!--" + string(n.(*Comment).EscapedBytes()) + "-->"
 		break
 
 	}
-	return s
+	return []byte( s )
 }
 

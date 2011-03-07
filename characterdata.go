@@ -1,5 +1,9 @@
 package dom
 
+import (
+	"strconv"
+)
+
 /*
  * Text node implementation
  *
@@ -20,5 +24,34 @@ func (n *CharacterData) NextSibling() Node { return nextSibling( Node(n), n.p.Ch
 func (n *CharacterData) OwnerDocument() *Document { return ownerDocument(n); }
 
 
-func (n *CharacterData) SubstringData( offset uint32, count uint32 ) string { return string(n.content[offset:offset+count]); }
+func (n *CharacterData) SubstringData( offset uint32, count uint32 ) string { 
+	return string(n.content[offset:offset+count])
+}
 
+func (n *CharacterData) String() string {
+	return string( n.content )
+}
+
+func (n *CharacterData) EscapedBytes() []byte {
+	runes := []int( string( n.content ) )
+	
+	output := make( []byte, 0 )
+	
+	for _, r := range runes {
+		switch {
+		case r=='<':
+			output = append( output, []byte( "&lt;" )... )
+		case r=='>':
+			output = append( output, []byte( "&gt;" )... )
+		case r=='&':
+			output = append( output, []byte( "&amp;" )... )
+		case r<128:
+			output = append( output, byte(r) )
+		default:
+			s := "&#" + strconv.Itoa( r ) + ";"
+			output = append( output, []byte(s)... )
+		}
+	}
+	
+	return output
+}

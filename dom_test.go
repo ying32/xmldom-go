@@ -25,7 +25,7 @@ func TestDocumentNodeName(t *testing.T) {
 	if (d.NodeName() != "#document") {
 		t.Errorf("Document.nodeName != #document")
 	}
-	if d.ToXml() != str {
+	if string(d.ToXml()) != str {
 		t.Logf( "Received %v instead of %v.", d.ToXml(), str )
 		t.Errorf( "Error rebuilding XML." )
 	}
@@ -331,7 +331,7 @@ func TestAttributesSetting(t *testing.T) {
 func TestToXml(t *testing.T) {
   d1, _ := dom.ParseString(`<parent attr="val">mom<foo/></parent>`);
   s := d1.ToXml();
-  d2, _ := dom.ParseString(s);
+  d2, _ := dom.ParseString( string(s) );
   r2 := d2.DocumentElement();
   
   if r2.NodeName() != "parent" ||
@@ -615,7 +615,7 @@ func TestCommentElementIsParsed(t *testing.T) {
 	if err!=nil || d==nil {
 		t.Errorf( "Parsing XML containing a comment unsuccessful." )
 	}
-	if d.ToXml() != str {
+	if string(d.ToXml()) != str {
 		t.Logf( "Received %v instead of %v.", d.ToXml(), str )
 		t.Errorf( "Error rebuilding XML with comment." )
 	}

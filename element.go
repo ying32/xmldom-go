@@ -62,7 +62,7 @@ func newElem(token xml.StartElement) (*Element) {
 }
 
 // Custom routines solely for golang
-func (n *Element) ToXml() string {
+func (n *Element) ToXml() []byte {
 	return toXml( Node(n) )
 }
 
