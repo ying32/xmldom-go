@@ -49,7 +49,7 @@ func newDoc() (*Document) {
 }
 
 // Custom routines solely for golang
-func (doc *Document) ToXml() string {
+func (doc *Document) ToXml() []byte {
 	return toXml( doc.DocumentElement() )
 }
 
