@@ -18,18 +18,6 @@ import (
 	"io"
 )
 
-var (
-	Entity  = map [string] string {
-		"cent": "\u00a2",
-		"pound": "\u00a3",
-		"yen":  "\u00a5",
-		"euro": "\u20ac",
-		"sect": "\u00a7",
-		"copy": "\u00a9",
-		"reg": "\u00ae",
-		"trade": "\u2122" }
-)
-
 const (
 	DEBUG = true;
 )
@@ -100,22 +88,42 @@ func getElementById(e *Element, id string) *Element {
   return nil
 }
 
-func ParseString(s string) (doc *Document, err os.Error) {
-	doc, err = Parse( strings.NewReader(s) )
+func ParseString(s string, strict bool, autoClose []string, entity map[string]string) (doc *Document, err os.Error) {
+	doc, err = Parse( strings.NewReader(s), strict, autoClose, entity )
 	return
 }
 
-func Parse(r io.Reader) (doc *Document, err os.Error) {
+func ParseStringHtml(s string) (doc *Document, err os.Error) {
+	doc, err = Parse( strings.NewReader(s), false, xml.HTMLAutoClose, xml.HTMLEntity )
+	return
+}
+
+func ParseStringXml(s string) (doc *Document, err os.Error) {
+	doc, err = Parse( strings.NewReader(s), true, nil, nil )
+	return
+}
+
+func ParseHtml( r io.Reader ) (doc *Document, err os.Error) {
+	doc, err = Parse( r, false, xml.HTMLAutoClose, xml.HTMLEntity )
+	return
+}
+
+func ParseXml( r io.Reader ) (doc *Document, err os.Error) {
+	doc, err = Parse( r, true, nil, nil )
+	return
+}
+
+func Parse(r io.Reader, strict bool, autoClose []string, entity map[string]string) (doc *Document, err os.Error) {
 	// Create parser and get first token
 	p := xml.NewParser(r)
 	t, err := p.Token()
 	if err!=nil {
 		return nil, err
 	}
+	p.Strict = strict
+	p.AutoClose = autoClose
+	p.Entity = entity
 
-	// Fill in HTML entities missing from Go's XML implementation
-	p.Entity = Entity
-	
 	d := newDoc();
 	e := (Node)(nil); // e is the current parent
 	for t != nil {
