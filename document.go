@@ -40,7 +40,7 @@ func (d *Document) setRoot(r *Element) *Element {
 
 // DOM Level 2
 func (d *Document) GetElementById(id string) *Element {
-	return getElementById( d.DocumentElement(), id)
+	return d.DocumentElement().GetElementById(id)
 }
 
 func newDoc() (*Document) {
