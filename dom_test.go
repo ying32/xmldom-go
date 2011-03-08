@@ -185,10 +185,30 @@ func TestNodeDocumentChildNodeIsRoot(t *testing.T) {
 }
 
 func TestDocumentCreateElement(t *testing.T) {
-  d, _ := dom.ParseStringXml(`<foo></foo>`);
-  ne := d.CreateElement("child");
-  if (ne.NodeName() != "child") {
-  	t.Errorf("document.CreateNode('child') did not create a <child> Element");
+  d, _ := dom.ParseStringXml(`<foo></foo>`)
+  ne := d.CreateElement("child")
+  if ne.NodeType() != dom.ELEMENT_NODE {
+  	t.Errorf("document.CreateNode('child') did not create an element node")
+  }
+  if ne.NodeName() != "child" {
+  	t.Errorf("document.CreateNode('child') did not create a <child> Element")
+  }
+  if ne.OwnerDocument() != dom.Node(d) {
+	t.Errorf("document.CreateNode('child') did not create a <child> Element with a proper owner")
+  }
+}
+
+func TestDocumentCreateTextNode(t *testing.T) {
+  d, _ := dom.ParseStringXml(`<foo></foo>`)
+  ne := d.CreateTextNode("some text")
+  if ne.NodeType() != dom.TEXT_NODE {
+  	t.Errorf("document.CreateTextNode('some text') did not create a text node")
+  }
+  if ne.NodeValue() != "some text" {
+  	t.Errorf("document.CreateTextNode('some text') did not element with the correct text")
+  }
+  if ne.OwnerDocument() != dom.Node(d) {
+	t.Errorf("document.CreateTextNode('some text') did not create a node with a proper owner")
   }
 }
 
