@@ -26,7 +26,15 @@ func (d *Document) DocumentElement() *Element { return d.ChildNodes().Item(0).(*
 func (d *Document) OwnerDocument() *Document { return d; }
 
 func (d *Document) CreateElement(tag string) *Element {
-	return newElem(xml.StartElement { xml.Name { "", tag }, nil })
+	ret := newElem(xml.StartElement { xml.Name { "", tag }, nil })
+	ret.p = d
+	return ret
+}
+
+func (d *Document) CreateTextNode(text string) *Text {
+	ret := newText( xml.CharData( []byte(text) ) )
+	ret.p = d
+	return ret
 }
 
 func (d *Document) setRoot(r *Element) *Element {
