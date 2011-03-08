@@ -6,7 +6,7 @@ import (
 )
 
 func TestTextNodeType(t *testing.T) {
-  d, _ := dom.ParseString(`<parent>mom</parent>`)
+  d, _ := dom.ParseStringXml(`<parent>mom</parent>`)
   r := d.DocumentElement()
   txt := r.ChildNodes().Item(0)
   if txt.NodeType() != dom.TEXT_NODE {
@@ -18,7 +18,7 @@ func TestTextNodeType(t *testing.T) {
 }
 
 func TestTextNodeName(t *testing.T) {
-  d, _ := dom.ParseString(`<parent>mom</parent>`)
+  d, _ := dom.ParseStringXml(`<parent>mom</parent>`)
   r := d.DocumentElement()
   txt := r.ChildNodes().Item(0)
   if txt.NodeName() != "#text" {
@@ -27,7 +27,7 @@ func TestTextNodeName(t *testing.T) {
 }
 
 func TestTextNodeValue(t *testing.T) {
-  d, _ := dom.ParseString(`<parent>mom</parent>`)
+  d, _ := dom.ParseStringXml(`<parent>mom</parent>`)
   r := d.DocumentElement()
   txt := r.ChildNodes().Item(0)
   nval := txt.NodeValue()
@@ -37,7 +37,7 @@ func TestTextNodeValue(t *testing.T) {
 }
 
 func TestTextNodeSubstring(t *testing.T) {
-  d, _ := dom.ParseString(`<parent>momnonmom</parent>`)
+  d, _ := dom.ParseStringXml(`<parent>momnonmom</parent>`)
   r := d.DocumentElement()
   txt := r.ChildNodes().Item(0).(*dom.Text)
   nval := txt.SubstringData( 3, 3 )
