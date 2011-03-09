@@ -22,6 +22,14 @@ const (
 	DEBUG = true;
 )
 
+type SyntaxError struct {
+	Msg string
+}
+
+func (se *SyntaxError) String() string {
+	return se.Msg
+}
+
 // ====================================
 
 // these are the package-level functions that are the real workhorses
@@ -113,7 +121,15 @@ func Parse(r io.Reader, strict bool, autoClose []string, entity map[string]strin
 			  e = e.AppendChild(el);
 			}
 		case xml.CharData:
-			e.AppendChild(newText(token));
+			if e == nil {
+				// Have not yet seen root element
+				// Ignore white space, otherwise throw error
+				if strings.TrimSpace( string( []byte(t.(xml.CharData)) ) ) != "" {
+					return nil, &SyntaxError{ "Text not allowed outside of root element." }
+				}
+			} else {
+				e.AppendChild(newText(token))
+			}
 		case xml.EndElement:
 			e = e.ParentNode();
 		case xml.Comment:
