@@ -61,3 +61,7 @@ func (doc *Document) ToXml() []byte {
 	return toXml( doc.DocumentElement() )
 }
 
+func (doc *Document) ToText( escape bool ) []byte {
+	return toText( doc.DocumentElement(), escape )
+}
+

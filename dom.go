@@ -186,3 +186,24 @@ func toXml(n Node) []byte {
 	return []byte( s )
 }
 
+// called recursively
+func toText(n Node, escape bool) []byte {
+	switch n.NodeType() {
+	case ELEMENT_NODE:
+		// iterate over children
+		s := []byte( nil )
+		for ch := uint(0); ch < n.ChildNodes().Length(); ch++ {
+			s = append( s, toText( n.ChildNodes().Item(ch), escape )... )
+		}
+		return s
+
+	case TEXT_NODE:
+		if escape {
+			return n.(*Text).EscapedBytes()
+		}
+		return n.(*Text).content
+
+	}
+	return []byte( nil )
+}
+
