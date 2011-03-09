@@ -38,6 +38,9 @@ func TestDocumentNodeType(t *testing.T) {
   if (d.NodeType() != 9) {
     t.Errorf("Document.nodeType not equal to 9");
   }
+  if (d.NodeType() != dom.DOCUMENT_NODE) {
+    t.Errorf("Document.nodeType not equal to DOCUMENT_NODE");
+  }
 }
 
 func TestDocumentNodeValue(t *testing.T) {
@@ -653,4 +656,41 @@ func TestCommentElementHasText(t *testing.T) {
 		t.Errorf( "Error parsing XML comment." )
 	}			
 }
+
+func TestToText(t *testing.T) {
+	d, _ := dom.ParseStringXml( `<root><child>Some text <span>that</span> is marked-up.</child></root>` )
+	r := d.DocumentElement()
+	
+	if string(d.ToText(false)) != "Some text that is marked-up." {
+		t.Errorf( "Error reconstructing text of a marked-up document." )
+	}
+	if string(r.ChildNodes().Item(0).(*dom.Element).ToText(false)) != "Some text that is marked-up." {
+		t.Errorf( "Error reconstructing text of a marked-up element." )
+	}
+}
+
+func TestToTextUnescaped(t *testing.T) {
+	d, _ := dom.ParseStringXml( `<root><child>Some text <span>(&amp;)</span> is marked-up.</child></root>` )
+	r := d.DocumentElement()
+	
+	if string(d.ToText(false)) != "Some text (&) is marked-up." {
+		t.Errorf( "Error reconstructing text of a marked-up document." )
+	}
+	if string(r.ChildNodes().Item(0).(*dom.Element).ToText(false)) != "Some text (&) is marked-up." {
+		t.Errorf( "Error reconstructing text of a marked-up element." )
+	}
+}
+
+func TestToTextEscaped(t *testing.T) {
+	d, _ := dom.ParseStringXml( `<root><child>Some text <span>(&amp;)</span> is marked-up.</child></root>` )
+	r := d.DocumentElement()
+	
+	if string(d.ToText(true)) != "Some text (&amp;) is marked-up." {
+		t.Errorf( "Error reconstructing text of a marked-up document." )
+	}
+	if string(r.ChildNodes().Item(0).(*dom.Element).ToText(true)) != "Some text (&amp;) is marked-up." {
+		t.Errorf( "Error reconstructing text of a marked-up element." )
+	}
+}
+
 

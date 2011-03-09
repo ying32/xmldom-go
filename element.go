@@ -59,11 +59,6 @@ func newElem(token xml.StartElement) *Element {
 	return n
 }
 
-// Custom routines solely for golang
-func (n *Element) ToXml() []byte {
-	return toXml(Node(n))
-}
-
 func (e *Element) GetElementById(id string) *Element {
 	// check for an id
 	if av := e.GetAttribute("id"); av != "" {
@@ -91,3 +86,13 @@ func (e *Element) GetElementById(id string) *Element {
 	}
 	return nil
 }
+
+// Custom routines solely for golang
+func (n *Element) ToXml() []byte {
+	return toXml(Node(n))
+}
+
+func (n *Element) ToText( escape bool ) []byte {
+	return toText(Node(n), escape )
+}
+
