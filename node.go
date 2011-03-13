@@ -80,29 +80,32 @@ func ownerDocument(n Node) *Document {
 //}
 
 
-func (p *_node) InsertBefore(nc Node, rc Node) Node {
-  if rc == nil {
+func (p *_node) InsertBefore(newChild Node, refChild Node) Node {
+  if refChild == nil {
     // if refChild is null, insert newChild at the end of the list of children.
-    return appendChild(p,nc)
-  } else if rc == nc {
+    return appendChild(p,newChild)
+  } else if refChild == newChild {
     // inserting a node before itself is implementation dependent
-    return nc
+    return newChild
   }
   // if newChild is already in the tree somewhere,
   // remove it before reparenting
-  if nc.ParentNode() != nil {
-    removeChild(nc.ParentNode(), nc)
+  if newChild.ParentNode() != nil {
+    removeChild(newChild.ParentNode(), newChild)
   }
   // find refChild & insert
   nl := p.ChildNodes()
   i := nl.Length()
   for cix := uint(0); cix < i; cix++ {
-    if nl.Item(cix) == rc {
-      p.insertChildAt(nc, cix)
-      nc.setParent(p)
+    if nl.Item(cix) == refChild {
+      p.insertChildAt(newChild, cix)
+      newChild.setParent(p)
+      return newChild
     }
   }
-  return nc;
+
+  // Specification appears to be silent on the matter if refChild is not a child of parent
+  return nil
 }
 
 func (p *_node) ReplaceChild(nc Node, rc Node) Node {
