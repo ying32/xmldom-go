@@ -28,6 +28,10 @@ func (n *CharacterData) SubstringData( offset uint32, count uint32 ) string {
 	return string(n.content[offset:offset+count])
 }
 
+func (n *CharacterData) AppendData( data []byte ) {
+	n.content = append( n.content, data... )
+}
+
 func (n *CharacterData) String() string {
 	return string( n.content )
 }
