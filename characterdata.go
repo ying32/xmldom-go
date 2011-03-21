@@ -23,6 +23,17 @@ func (n *CharacterData) PreviousSibling() Node { return previousSibling( Node(n)
 func (n *CharacterData) NextSibling() Node { return nextSibling( Node(n), n.p.ChildNodes() ) }
 func (n *CharacterData) OwnerDocument() *Document { return ownerDocument(n); }
 
+func (n *CharacterData) Data() string {
+	return string( n.content )
+}
+
+func (n *CharacterData) SetData(s string) {
+	n.content = []byte( s )
+}
+
+func (n *CharacterData) Length() uint32 {
+	return uint32( len(n.content) )
+}
 
 func (n *CharacterData) SubstringData( offset uint32, count uint32 ) string {
 	// Code does not follow DOM specification

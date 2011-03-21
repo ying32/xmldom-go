@@ -5,6 +5,21 @@ import (
 	"xml/dom"
 )
 
+func TestCharacterDataAttributes(t *testing.T) {
+  d, _ := dom.ParseStringXml(`<parent>mom</parent>`)
+  r := d.DocumentElement()
+  txt := r.ChildNodes().Item(0).(*dom.Text)
+
+  if txt.String() != "mom" || txt.Data() != "mom" || txt.Length()!=3 {
+	t.Errorf( "Did not get the correct text for the character data" )
+  }
+  txt.SetData( "mommy" )
+  if txt.String() != "mommy" || txt.Data() != "mommy"  || txt.Length()!=5 {
+	t.Errorf( "Did not get the correct text for the character data" )
+  }
+}
+
+
 func TestCharacterDataSubstringData(t *testing.T) {
   d, _ := dom.ParseStringXml(`<parent>mom</parent>`)
   r := d.DocumentElement()
