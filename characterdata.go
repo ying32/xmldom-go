@@ -24,12 +24,60 @@ func (n *CharacterData) NextSibling() Node { return nextSibling( Node(n), n.p.Ch
 func (n *CharacterData) OwnerDocument() *Document { return ownerDocument(n); }
 
 
-func (n *CharacterData) SubstringData( offset uint32, count uint32 ) string { 
+func (n *CharacterData) SubstringData( offset uint32, count uint32 ) string {
+	// Code does not follow DOM specification
+	// Offset and count should be in code points (?)
+
+	if offset+count >= uint32(len(n.content)) {
+		// May still throw error if offset is too large
+		return string(n.content[offset:])
+	}
+
+	// return slice
 	return string(n.content[offset:offset+count])
 }
 
-func (n *CharacterData) AppendData( data []byte ) {
-	n.content = append( n.content, data... )
+func (n *CharacterData) AppendData( data string ) {
+	n.content = append( n.content, []byte(data)... )
+}
+
+func (n *CharacterData) InsertData( offset uint32, data string ) {
+	if offset==0 {
+		n.content = append( []byte(data), n.content... )
+	}
+
+	tmp := append( n.content[0:offset], []byte(data)... )
+	n.content = append( tmp, n.content[offset:]... )
+}
+
+
+func (n *CharacterData) DeleteData( offset, count uint32 ) {
+	if offset==0 {
+		if count > uint32(len(n.content)) {
+			n.content = nil
+			return
+		}
+
+		n.content = n.content[count:]
+		return
+	}
+
+	if offset+count > uint32(len(n.content)) {
+		n.content = n.content[0:offset]
+		return
+	}
+
+	n.content = append( n.content[0:offset], n.content[offset+count:]... )
+}
+
+func (n *CharacterData) ReplaceData( offset, count uint32, data string ) {
+	if offset==0 {
+		n.content = append( []byte(data), n.content[count:]... )
+		return
+	}
+
+	tmp := append( n.content[0:offset], []byte(data)... )
+	n.content = append( tmp, n.content[offset+count:]... )
 }
 
 func (n *CharacterData) String() string {

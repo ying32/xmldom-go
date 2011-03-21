@@ -46,5 +46,3 @@ func TestTextNodeSubstring(t *testing.T) {
   }
 }
 
-
-
