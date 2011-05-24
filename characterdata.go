@@ -110,7 +110,7 @@ func (n *CharacterData) EscapedBytes() []byte {
 			output = append( output, []byte( "&amp;" )... )
 		case r=='\'':
 			output = append( output, []byte( "&apos;" )... )
-		case r=='\"':
+		case r=='"':
 			output = append( output, []byte( "&quot;" )... )
 		case r<128:
 			output = append( output, byte(r) )
