@@ -30,9 +30,9 @@ func (n *_node) insertChildAt(c Node, i uint) {
   n.c.Insert(int(i), c);
 }
 func (n *_node) removeChild(c Node) {
-  for i := n.c.Len()-1 ; i >= 0 ; i-- {
-    if n.c.At(i).(Node) == c {
-      n.c.Delete(i);
+  for i := n.c.Len() ; i > 0 ; i-- {
+    if n.c.At(i-1).(Node) == c {
+      n.c.Delete(i-1);
       break;
     }
   }
