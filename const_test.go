@@ -1,4 +1,4 @@
-package dom_test
+package dom
 
 /*
  * Part of the xml/dom Go package
@@ -6,25 +6,23 @@ package dom_test
  * Tests some of the constants used to identify node types.
  *
  * Copyright (c) 2011, Robert Johnstone
- */ 
+ */
 
-import(
+import (
 	"testing"
-	"xml/dom"
 )
 
 func TestConst(t *testing.T) {
-	if dom.ELEMENT_NODE != 1 {
-		t.Errorf( "Value of ELEMENT_NODE is incorrect." )
+	if ELEMENT_NODE != 1 {
+		t.Errorf("Value of ELEMENT_NODE is incorrect.")
 	}
-	if dom.ATTRIBUTE_NODE != 2 {
-		t.Errorf( "Value of ATTRIBUTE_NODE is incorrect." )
+	if ATTRIBUTE_NODE != 2 {
+		t.Errorf("Value of ATTRIBUTE_NODE is incorrect.")
 	}
-	if dom.TEXT_NODE != 3 {
-		t.Errorf( "Value of TEXT_NODE is incorrect." )
+	if TEXT_NODE != 3 {
+		t.Errorf("Value of TEXT_NODE is incorrect.")
 	}
-	if dom.DOCUMENT_NODE != 9 {
-		t.Errorf( "Value of DOCUMENT_NODE is incorrect." )
+	if DOCUMENT_NODE != 9 {
+		t.Errorf("Value of DOCUMENT_NODE is incorrect.")
 	}
 }
-
