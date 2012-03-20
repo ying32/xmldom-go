@@ -3,12 +3,13 @@ package dom
 /*
  * Element implementation
  *
+ * Copyright (c) 2011,2012 Robert Johnstone
  * Copyright (c) 2009, Rob Russell
  * Copyright (c) 2010, Jeff Schiller
  */
 
 import (
-	"xml"
+	"encoding/xml"
 )
 
 // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
@@ -29,19 +30,20 @@ func (n *Element) TagName() string          { return n.NodeName() }
 func (n *Element) Attributes() NamedNodeMap { return newAttrNamedNodeMap(n) }
 
 func (n *Element) GetAttribute(name string) string {
-	val, ok := n.attribs[name]
-	if !ok {
-		val = ""
+	if val, ok := n.attribs[name]; ok {
+		return val
 	}
-	return val
+	return ""
 }
 func (n *Element) SetAttribute(attrname string, attrval string) {
 	n.attribs[attrname] = attrval
 }
+
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-6D6AC0F9
 func (n *Element) RemoveAttribute(name string) {
-	n.attribs[name] = "", false
+	delete(n.attribs, name)
 }
+
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-ElHasAttr
 func (n *Element) HasAttribute(name string) bool {
 	_, has := n.attribs[name]
@@ -92,7 +94,6 @@ func (n *Element) ToXml() []byte {
 	return toXml(Node(n))
 }
 
-func (n *Element) ToText( escape bool ) []byte {
-	return toText(Node(n), escape )
+func (n *Element) ToText(escape bool) []byte {
+	return toText(Node(n), escape)
 }
-
