@@ -76,18 +76,45 @@ func TestDocumentElementTagName(t *testing.T) {
 
 // Element.nodeType should be 1
 func TestElementNodeType(t *testing.T) {
-	d, _ := ParseStringXml("<foo></foo>")
-	root := d.DocumentElement()
-	if root.NodeType() != 1 {
-		t.Errorf("Element.nodeType not equal to 1")
+	test_cases := []string{"<foo></foo>", "<parent>mom</parent>", "<parent><foo></foo></parent>"}
+
+	for _, v := range test_cases {
+		d, _ := ParseStringXml(v)
+		root := d.DocumentElement()
+		if root.NodeType() != 1 {
+			t.Errorf("Element.nodeType not equal to 1")
+		}
+		if root.NodeType() != ELEMENT_NODE {
+			t.Errorf("Element.nodeType not equal to 1")
+		}
+	}
+}
+
+func TestElementNodeName(t *testing.T) {
+	test_cases := []struct{ text, expected string }{
+		{"<foo></foo>", "foo"},
+		{"<parent>mom</parent>", "parent"},
+		{"<parent><foo></foo></parent>", "parent"},
+	}
+
+	for _, v := range test_cases {
+		d, _ := ParseStringXml(v.text)
+		r := d.DocumentElement()
+		if r.NodeName() != v.expected {
+			t.Errorf("Did not get '%s' for nodeName of a root node for %s", v.expected, v.text)
+		}
 	}
 }
 
 func TestElementNodeValue(t *testing.T) {
-	d, _ := ParseStringXml("<foo></foo>")
-	root := d.DocumentElement()
-	if root.NodeValue() != "" {
-		t.Errorf("Element.nodeValue not empty")
+	test_cases := []string{"<foo></foo>", "<parent>mom</parent>", "<parent><foo></foo></parent>"}
+
+	for _, v := range test_cases {
+		d, _ := ParseStringXml(v)
+		root := d.DocumentElement()
+		if root.NodeValue() != "" {
+			t.Errorf("Element.nodeValue not empty")
+		}
 	}
 }
 
@@ -97,6 +124,9 @@ func TestElementGetAttribute(t *testing.T) {
 	if root.GetAttribute("bar") != "baz" {
 		t.Errorf("Element.getAttribute() did not return the attribute value")
 	}
+	if root.GetAttribute("baz") != "" {
+		t.Errorf("Element.getAttribute() returned the attribute value for a non-existant attribute")
+	}
 }
 
 func TestElementSetAttribute(t *testing.T) {
@@ -105,6 +135,9 @@ func TestElementSetAttribute(t *testing.T) {
 	root.SetAttribute("bar", "baz")
 	if root.GetAttribute("bar") != "baz" {
 		t.Errorf("Element.getAttribute() did not return the attribute value")
+	}
+	if root.GetAttribute("baz") != "" {
+		t.Errorf("Element.getAttribute() returned the attribute value for a non-existant attribute")
 	}
 }
 
