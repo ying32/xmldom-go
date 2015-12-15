@@ -55,7 +55,7 @@ func (n *_node) HasChildNodes() (b bool) {
 	return
 }
 
-// has to be package-scoped because of 
+// has to be package-scoped because of
 func ownerDocument(n Node) *Document {
 	for n != nil {
 		if n.NodeType() == DOCUMENT_NODE {
